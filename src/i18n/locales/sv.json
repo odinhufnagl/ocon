@@ -1,0 +1,17 @@
+{
+  "common": {
+    "brandName": "Evidensia",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "yes": "Si",
+    "no": "No"
+  },
+  "homeScreen": {
+    "appbarTitle": "Home Screen",
+    "message": "Evidensia"
+  },
+  "detailScreen": {
+    "appbarTitle": "Detail Screen",
+    "heading": "This is detail Screen"
+  }
+}
