@@ -1,71 +1,38 @@
-import { Platform } from 'react-native';
-
-const fontFamily = Platform.select({ android: 'sans-serif', ios: 'Helvetica' });
-const fontWeightRegular = 'normal';
-const fontWeightBold = 'bold';
+export const FONT_FAMILY = {
+  PoppinsBold: 'Poppins-Bold',
+  PoppinsSemiBold: 'Poppins-SemiBold',
+  PoppinsRegular: 'Poppins-Regular'
+};
 
 export default {
-  /**
-   * Use the Heading style for card titles.
-   */
-  headingText: theme => ({
-    fontFamily,
-    color: theme.headingTextColor,
-    fontSize: 20,
-    fontStyle: 'normal',
-    fontWeight: fontWeightRegular,
+  headingText: (theme) => ({
+    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    color: theme.textPrimaryColor,
+    fontSize: 30
   }),
-  headingTextBold: theme => ({
-    fontFamily,
-    color: theme.headingTextColor,
-    fontSize: 20,
-    fontStyle: 'normal',
-    fontWeight: fontWeightBold,
+  bodyText: (theme) => ({
+    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    color: theme.textPrimaryColor,
+    fontSize: 15
   }),
-  /**
-   * Use the Subheading style to denote new sections within cards.
-   */
-  subheadingText: theme => ({
-    fontFamily,
-    color: theme.subHeadingTextColor,
-    fontSize: 16,
-    fontStyle: 'normal',
-    fontWeight: fontWeightRegular,
+  smallText: (theme) => ({
+    fontFamily: FONT_FAMILY.PoppinsRegular,
+    color: theme.textLowColor,
+    fontSize: 13
   }),
-  subheadingTextBold: theme => ({
-    fontFamily,
-    color: theme.subHeadingTextColor,
-    fontSize: 16,
-    fontStyle: 'normal',
-    fontWeight: fontWeightBold,
+  primaryButtonText: (theme) => ({
+    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    color: theme.primaryButtonColor,
+    fontSize: 15
   }),
-  /**
-   * The Body text style is used widely throughout the UI.
-   * Any text that isn’t a title, heading, subheading, label
-   * would generally use the Body style.
-   */
-  bodyText: theme => ({
-    fontFamily,
-    color: theme.bodyTextColor,
-    fontSize: 14,
-    fontStyle: 'normal',
-    fontWeight: fontWeightRegular,
+  secondaryButtonText: (theme) => ({
+    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    color: theme.secondaryButtonColor,
+    fontSize: 15
   }),
-  bodyTextBold: theme => ({
-    fontFamily,
-    color: theme.bodyTextColor,
-    fontSize: 14,
-    fontStyle: 'normal',
-    fontWeight: fontWeightBold,
-  }),
-  /**
-   * Text style meant to be used only for Button component
-   */
-  buttonText: {
-    fontFamily,
-    fontSize: 16,
-    textAlign: 'center',
-    paddingTop: 2,
-    paddingBottom: 1,
-  },
+  primaryInputText: (theme) => ({
+    fontFamily: FONT_FAMILY.PoppinsRegular,
+    color: theme.primaryInputTextColor,
+    fontSize: 15
+  })
 };
