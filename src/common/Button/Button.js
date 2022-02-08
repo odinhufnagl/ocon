@@ -1,61 +1,136 @@
-import React, { useContext } from 'react';
-import { View, StyleSheet, TouchableOpacity, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
+import React from 'react';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  ViewPropTypes
+} from 'react-native';
+import { DIMENS } from '../../constants';
+import useTheme from '../../hooks/useTheme';
 import Text from '../Text/Text';
-import { ThemeContext } from '../../theme';
-import { SPACING, DIMENS, TYPOGRAPHY } from '../../constants';
 
 const Button = ({
-  /**
-   * text to be shown in button
-   */
   title,
-  /**
-   * Callback to be called, when button is clicked
-   */
   onPress,
-  /**
-   * custom style for button
-   */
   style,
+  disabled,
+  variant,
+  loading,
+  size,
+  id,
+  shadow,
+  ...props
 }) => {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
+  const getViewStyle = () => {
+    switch (variant) {
+      case 'secondary':
+        return styles.secondaryButton(theme);
+      default:
+        return styles.primaryButton(theme);
+    }
+  };
+
+  const getTextType = () => {
+    switch (variant) {
+      case 'secondary':
+        return 'secondaryButton';
+
+      default:
+        return 'primaryButton';
+    }
+  };
+
+  const getSize = () => {
+    switch (size) {
+      case 'small':
+        return styles.sizeSmall;
+      case 'medium':
+        return styles.sizeMedium;
+    }
+  };
 
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={[styles.button(theme), style]}>
-        <Text style={styles.title(theme)}>{title}</Text>
-      </View>
+    <TouchableOpacity
+      activeOpacity={disabled ? 1 : 0.7}
+      onPress={disabled ? () => {} : onPress}
+      disabled={loading ?? disabled}
+      key={id}
+      style={[
+        styles.defaultStyle(shadow),
+        getViewStyle(),
+        getSize(),
+        disabled || loading ? styles.disabledButton(theme) : {},
+        style
+      ]}
+      {...props}
+    >
+      {loading ? (
+        <ActivityIndicator color="black" />
+      ) : (
+        <Text
+          type={getTextType()}
+          style={[
+            style?.color ? { color: style.color } : {},
+            disabled ? styles.disabledButtonText(theme) : {}
+          ]}
+        >
+          {title}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };
-
 const styles = StyleSheet.create({
-  button: theme => ({
-    flexDirection: 'row',
-    padding: SPACING.small,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: theme.primaryColor,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.primaryDarkColor,
+  defaultStyle: (shadow) => ({
     borderRadius: DIMENS.common.borderRadius,
+    ...DIMENS.common.centering,
+    width: '100%',
+    ...(shadow && {
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 10.22,
+      elevation: 3
+    }),
+    height: 60
   }),
-  title: (theme) => ({
-    ...TYPOGRAPHY.buttonText,
-    color: theme.white,
+  primaryButton: (theme) => ({
+    backgroundColor: theme.white
   }),
+  secondaryButton: (theme) => ({
+    borderColor: theme.borderColor,
+    borderWidth: 3,
+    borderRadius: 20
+  }),
+  disabledButton: (theme) => ({
+    backgroundColor: theme.disabledColor
+  }),
+
+  disabledButtonText: (theme) => ({
+    color: theme.buttonDisabledTextColor
+  })
 });
 
 Button.propTypes = {
+  id: PropTypes.string,
+  underlined: PropTypes.bool,
   title: PropTypes.string.isRequired,
+  color: PropTypes.string,
   onPress: PropTypes.func,
   style: ViewPropTypes.style,
+  disabled: PropTypes.bool,
+  variant: PropTypes.oneOf(['secondary', 'third', 'fourth', 'error']),
+  size: PropTypes.oneOf(['small', 'medium']),
+  loading: PropTypes.bool,
+  shadow: PropTypes.bool
 };
-
 Button.defaultProps = {
-  onPress: () => {},
-  style: {},
+  shadow: true
 };
 
 export default Button;

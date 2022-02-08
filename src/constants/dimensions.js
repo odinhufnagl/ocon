@@ -3,8 +3,11 @@ export default {
    * Constants related to App
    */
   common: {
-    borderRadius: 2,
-    appbarIconSize: 23,
+    borderRadius: 20,
+    centering: {
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
   },
   /**
    * Constants related to HomeScreen
@@ -13,5 +16,5 @@ export default {
   /**
    * Constants related to DetailScreen
    */
-  detailScreen: {},
+  detailScreen: {}
 };

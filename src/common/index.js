@@ -1,9 +1,6 @@
-import Text from './Text/Text';
 import Button from './Button/Button';
-import HeaderButtons from './HeaderButtons/HeaderButtons';
+import Input from './Input/Input';
+import Spacer from './Spacer/Spacer';
+import Text from './Text/Text';
 
-export {
-  Text,
-  Button,
-  HeaderButtons,
-};
+export { Text, Button, Spacer, Input };
