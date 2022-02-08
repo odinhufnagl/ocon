@@ -1,11 +1,12 @@
-import React, {useContext} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {ThemeContext} from '../theme';
+import React, { useContext } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useAuthContext } from '../providers/AuthProvider';
+import { ThemeContext } from '../theme';
 import AuthNavigator from './navigators/AuthNavigator';
 
 const RootNavigator = () => {
-  const currentUser = true;
-  const {theme} = useContext(ThemeContext);
+  const { currentUser } = useAuthContext();
+  const { theme } = useContext(ThemeContext);
 
   return (
     <View style={styles.root(theme)}>
@@ -15,10 +16,10 @@ const RootNavigator = () => {
 };
 
 const styles = StyleSheet.create({
-  root: theme => ({
+  root: (theme) => ({
     backgroundColor: 'blue',
-    flex: 1,
-  }),
+    flex: 1
+  })
 });
 
 export default RootNavigator;
