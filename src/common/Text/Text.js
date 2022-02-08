@@ -1,44 +1,19 @@
-import React, { useContext } from 'react';
-import { Text as RNText, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { StyleSheet, Text as RNText } from 'react-native';
 import { TYPOGRAPHY } from '../../constants';
-import { ThemeContext } from '../../theme';
+import useTheme from '../../hooks/useTheme';
 
 // Possible value for prop "type" for Text
 // add other if required
 const HEADING = 'heading';
-const SUB_HEADING = 'subheading';
 const BODY = 'body';
+const SMALL = 'small';
+const PRIMARY_BUTTON = 'primaryButton';
+const SECONDARY_BUTTON = 'secondaryButton';
 
-const Text = ({
-  /**
-   * @type prop helps style Text with pre default styling define in
-   * typography.js. Possible value of type can be:
-   * 1. 'heading'
-   * 2. 'subheading'
-   * 3. 'body'
-   *
-   * default value: 'body'
-   */
-  type,
-  /**
-   * @bold prop is a boolean, if enabled will use bold version of the
-   * type mentioned.
-   *
-   * default value: false
-   */
-  bold,
-  /**
-   * @style prop will overwrite the predefined styling for Text defined by
-   * @type prop
-   */
-  style,
-  /**
-   * Other Text props
-   */
-  ...props
-}) => {
-  const { theme } = useContext(ThemeContext);
+const Text = ({ type, bold, style, ...props }) => {
+  const { theme } = useTheme();
   return (
     <RNText
       style={StyleSheet.flatten([getTextStyle(type, bold, theme), style])}
@@ -46,15 +21,24 @@ const Text = ({
     />
   );
 };
-
 const getTextStyle = (type, bold, theme) => {
   let style = '';
+
   switch (type) {
     case HEADING:
       style = 'headingText';
       break;
-    case SUB_HEADING:
-      style = 'subheadingText';
+    case BODY:
+      style = 'bodyText';
+      break;
+    case SMALL:
+      style = 'smallText';
+      break;
+    case PRIMARY_BUTTON:
+      style = 'primaryButtonText';
+      break;
+    case SECONDARY_BUTTON:
+      style = 'secondaryButtonText';
       break;
     default:
       style = 'bodyText';
@@ -62,21 +46,26 @@ const getTextStyle = (type, bold, theme) => {
   if (bold) {
     style += 'Bold';
   }
+
   return TYPOGRAPHY[style](theme);
 };
 
-const styles = StyleSheet.create({});
-
 Text.propTypes = {
-  type: PropTypes.oneOf([HEADING, SUB_HEADING, BODY]),
+  type: PropTypes.oneOf([
+    HEADING,
+    BODY,
+    SMALL,
+    PRIMARY_BUTTON,
+    SECONDARY_BUTTON
+  ]),
   bold: PropTypes.bool,
-  style: PropTypes.object,
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 
 Text.defaultProps = {
   type: BODY,
   bold: false,
-  style: {},
+  style: {}
 };
 
 export default Text;
