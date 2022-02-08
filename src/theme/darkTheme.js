@@ -22,5 +22,6 @@ export default {
   inputPlaceholderColor: 'rgba(255, 255, 255, 0.38)',
   primaryInputTextColor: 'rgba(255, 255, 255, 0.87)',
   inputBorderColor: 'rgba(255, 255, 255, 0.6)',
-  inputHasTextBorderColor: 'rgba(255, 255, 255, 0.87)'
+  inputHasTextBorderColor: 'rgba(255, 255, 255, 0.87)',
+  buttonDisabledTextColor: '#959595'
 };
