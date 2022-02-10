@@ -1,14 +1,13 @@
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import {AuthStack} from '../constants/stacks/AuthStack';
+import { AuthStack } from '../constants/stacks/AuthStack';
 
 const Stack = createStackNavigator();
 
 const AuthNavigator = () => {
-  console.log('authstack', AuthStack);
   return (
     <Stack.Navigator>
-      {AuthStack.map(screen => (
+      {AuthStack.map((screen) => (
         <Stack.Screen
           key={screen.name}
           name={screen.name}
