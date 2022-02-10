@@ -1,3 +1,3 @@
+import ProfileScreen from './ProfileScreen/ProfileScreen';
 import WelcomeScreen from './WelcomeScreen/WelcomeScreen';
-
-export default {WelcomeScreen};
+export { WelcomeScreen, ProfileScreen };

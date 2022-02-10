@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { useAuthContext } from '../providers/AuthProvider';
 import { ThemeContext } from '../theme';
 import AuthNavigator from './navigators/AuthNavigator';
+import HomeNavigator from './navigators/HomeNavigator';
 
 const RootNavigator = () => {
   const { currentUser } = useAuthContext();
@@ -10,7 +11,7 @@ const RootNavigator = () => {
 
   return (
     <View style={styles.root(theme)}>
-      <AuthNavigator></AuthNavigator>
+      {currentUser ? <HomeNavigator /> : <AuthNavigator />}
     </View>
   );
 };

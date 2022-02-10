@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }) => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator color="black" />
+        <ActivityIndicator color="white" />
       </View>
     );
   }
