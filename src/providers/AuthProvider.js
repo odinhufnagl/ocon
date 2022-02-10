@@ -1,6 +1,8 @@
 import { firebase } from '@react-native-firebase/auth';
 import React, { useContext, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { EMPTY } from '../api/graphql/constants';
+import { createUser, getUser } from '../api/graphql/requests';
 
 export const ONBOARDING_DATA = Object.freeze({
   SSN: 'ssn',
@@ -18,10 +20,30 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
+  //prevents bug where multiple onAuthStateChanged
+  //are run at the same time
+  let lastUid;
+
   useEffect(() => {
     const unsubsribe = firebase.auth().onAuthStateChanged(async (user) => {
-      if (user) {
-        setCurrentUser(user);
+      if (user && !currentUser && lastUid !== user.uid) {
+        lastUid = user.uid;
+        let userFromDB = await getUser(user.uid);
+        if (!userFromDB) {
+          return;
+        }
+        if (userFromDB === EMPTY) {
+          userFromDB = await createUser({
+            email: user.email,
+            id: user.uid,
+            appState: 1
+          });
+          if (!userFromDB) {
+            return;
+          }
+        }
+        setCurrentUser(userFromDB);
+        lastUid = null;
       }
       setLoading(false);
     });
@@ -30,6 +52,7 @@ export const AuthProvider = ({ children }) => {
 
   const logOut = async () => {
     await firebase.auth().signOut();
+    setCurrentUser();
   };
 
   const logIn = async (email, password) => {
@@ -61,7 +84,7 @@ export const AuthProvider = ({ children }) => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator color="black" />
+        <ActivityIndicator color="white" />
       </View>
     );
   }
