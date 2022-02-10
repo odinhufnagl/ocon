@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { EMPTY } from '../api/graphql/constants';
 import { createUser, getUser } from '../api/graphql/requests';
+import { defaultTheme } from '../theme';
 
 export const ONBOARDING_DATA = Object.freeze({
   SSN: 'ssn',
@@ -95,7 +96,7 @@ export const AuthProvider = ({ children }) => {
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
-    backgroundColor: '#e1e1e1',
+    backgroundColor: defaultTheme.backgroundColor,
     justifyContent: 'center',
     alignItems: 'center'
   }
