@@ -8,7 +8,7 @@ export default {
   primaryColor: '#00d3d6',
   disabledColor: '#E3E6E8',
   successColor: '#52c41a',
-  errorColor: '#ff190c',
+  errorColor: '#DD4951',
   fullEmphasisColor: 'rgba(255, 255, 255, 1.0)',
   highEmphasisColor: 'rgba(255, 255, 255, 0.87)',
   mediumEmphasisColor: 'rgba(255, 255, 255, 0.6)',
