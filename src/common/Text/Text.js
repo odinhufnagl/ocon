@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { StyleSheet, Text as RNText } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Animated, StyleSheet, Text as RNText } from 'react-native';
 import { TYPOGRAPHY } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 
@@ -12,9 +12,40 @@ const SMALL = 'small';
 const PRIMARY_BUTTON = 'primaryButton';
 const SECONDARY_BUTTON = 'secondaryButton';
 
-const Text = ({ type, bold, style, ...props }) => {
+const Text = ({
+  type,
+  bold,
+  style,
+  animate,
+  animateTime,
+  animateOnFinish,
+  ...props
+}) => {
+  const animation = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    animate && startAnimation();
+  }, []);
+
+  const startAnimation = () => {
+    Animated.timing(animation, {
+      toValue: 1,
+      duration: animateTime,
+      useNativeDriver: true
+    }).start(() => animateOnFinish());
+  };
+
   const { theme } = useTheme();
-  return (
+
+  return animate ? (
+    <Animated.Text
+      style={StyleSheet.flatten([
+        getTextStyle(type, bold, theme),
+        style,
+        { opacity: animation }
+      ])}
+      {...props}
+    ></Animated.Text>
+  ) : (
     <RNText
       style={StyleSheet.flatten([getTextStyle(type, bold, theme), style])}
       {...props}

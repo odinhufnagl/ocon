@@ -1,8 +1,11 @@
 import { firebase } from '@react-native-firebase/auth';
 import React, { useContext, useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { EMPTY } from '../api/graphql/constants';
 import { createUser, getUser } from '../api/graphql/requests';
+import { Text } from '../common';
+import { DIMENS } from '../constants';
+import { translate } from '../i18n';
 import { defaultTheme } from '../theme';
 
 export const ONBOARDING_DATA = Object.freeze({
@@ -20,6 +23,7 @@ export const useAuthContext = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [animationDone, setAnimationDone] = useState(false);
 
   //prevents bug where multiple onAuthStateChanged
   //are run at the same time
@@ -27,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubsribe = firebase.auth().onAuthStateChanged(async (user) => {
-      if (user && !currentUser && lastUid !== user.uid) {
+      if (user && lastUid !== user.uid) {
         lastUid = user.uid;
         let userFromDB = await getUser(user.uid);
         if (!userFromDB) {
@@ -46,6 +50,9 @@ export const AuthProvider = ({ children }) => {
         setCurrentUser(userFromDB);
         lastUid = null;
       }
+      if (!user) {
+        setCurrentUser(EMPTY);
+      }
       setLoading(false);
     });
     return unsubsribe;
@@ -53,12 +60,14 @@ export const AuthProvider = ({ children }) => {
 
   const logOut = async () => {
     await firebase.auth().signOut();
-    setCurrentUser();
   };
 
   const logIn = async (email, password) => {
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
+      const res = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email.trim(), password);
+      console.log('res', res);
       return true;
     } catch (e) {
       console.log(e);
@@ -82,10 +91,17 @@ export const AuthProvider = ({ children }) => {
     logOut
   };
 
-  if (loading) {
+  if (loading || !currentUser || !animationDone) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator color="white" />
+        <Text
+          type="heading"
+          animate
+          animateTime={500}
+          animateOnFinish={() => setAnimationDone(true)}
+        >
+          {translate('common.appName')}
+        </Text>
       </View>
     );
   }
@@ -97,7 +113,6 @@ const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
     backgroundColor: defaultTheme.backgroundColor,
-    justifyContent: 'center',
-    alignItems: 'center'
+    ...DIMENS.common.centering
   }
 });
