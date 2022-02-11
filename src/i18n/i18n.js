@@ -1,8 +1,8 @@
 /**
  * i18n stands for internationalization
  */
-import * as RNLocalize from 'react-native-localize';
 import i18n from 'i18n-js';
+import * as RNLocalize from 'react-native-localize';
 
 const en = require('./locales/en');
 
@@ -11,7 +11,7 @@ i18n.fallbacks = true;
 
 // Define the supported translation
 i18n.translations = {
-  en,
+  en
 };
 
 const fallback = { languageTag: 'en', isRTL: false };
@@ -21,3 +21,5 @@ const { languageTag } =
   fallback;
 
 i18n.locale = languageTag;
+
+export default i18n;

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, TextInput, View, ViewPropTypes } from 'react-native';
 import { DIMENS, SPACING, TYPOGRAPHY } from '../../constants';
 import useTheme from '../../hooks/useTheme';
@@ -7,19 +7,15 @@ import useTheme from '../../hooks/useTheme';
 const Input = ({ style, multiline, value, ...props }) => {
   const { theme } = useTheme();
 
-  const [isFocused, setIsFocused] = useState(false);
-
   return (
     <View
       style={[
-        styles.defaultContainer(theme, value.length > 0 || isFocused),
+        styles.defaultContainer(theme),
         multiline && { height: 130 },
         style
       ]}
     >
       <TextInput
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
         placeholderTextColor={theme.inputPlaceholderColor}
         style={[styles.input, TYPOGRAPHY.primaryInputText(theme), style]}
         multiline={multiline}
@@ -32,13 +28,11 @@ const Input = ({ style, multiline, value, ...props }) => {
 };
 
 const styles = StyleSheet.create({
-  defaultContainer: (theme, hasText) => ({
+  defaultContainer: (theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: hasText
-      ? theme.inputHasTextBorderColor
-      : theme.inputBorderColor,
+    borderColor: theme.inputBorderColor,
     height: 60,
     borderRadius: DIMENS.common.borderRadius
   }),

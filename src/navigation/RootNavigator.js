@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { EMPTY } from '../api/graphql/constants';
 import { useAuthContext } from '../providers/AuthProvider';
 import { ThemeContext } from '../theme';
 import AuthNavigator from './navigators/AuthNavigator';
@@ -11,14 +12,14 @@ const RootNavigator = () => {
 
   return (
     <View style={styles.root(theme)}>
-      {currentUser ? <HomeNavigator /> : <AuthNavigator />}
+      {currentUser === EMPTY ? <AuthNavigator /> : <HomeNavigator />}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   root: (theme) => ({
-    backgroundColor: 'blue',
+    backgroundColor: theme.backgroundColor,
     flex: 1
   })
 });
