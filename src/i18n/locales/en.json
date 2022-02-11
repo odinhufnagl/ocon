@@ -1,21 +1,28 @@
 {
   "common": {
-    "brandName": "Evidensia",
-    "ok": "OK",
-    "cancel": "Cancel",
-    "yes": "Yes",
-    "no": "No",
-    "drawerButton": "Drawer Button"
+    "appName": "CaptureIt"
   },
-  "homeScreen": {
-    "appbarTitle": "Home Screen",
-    "message": "Evidensia",
-    "darkMode": "Dark Mode",
-    "detailButton": "Detail Screen",
-    "apiCallStatus": "Api call status"
+  "snackbar": {
+    "loginError": "Login was not succesful",
+    "signUpError": "Signup was not succesful"
   },
-  "detailScreen": {
-    "appbarTitle": "Detail Screen",
-    "heading": "This is detail Screen"
+  "welcomeScreen": {
+    "header": "CaptureIt",
+    "button1": "Log in",
+    "button2": "Create account"
+  },
+  "loginScreen": {
+    "header": "Log in",
+    "input1Placeholder": "Email",
+    "input2Placeholder": "Password",
+    "button": "Log in",
+    "forgotPassword": "Forgot password?"
+  },
+  "signUpScreen": {
+    "header": "Create account",
+    "input1Placeholder": "Email",
+    "input2Placeholder": "Password",
+    "input3Placeholder": "Confirm password",
+    "button": "Create account"
   }
 }
