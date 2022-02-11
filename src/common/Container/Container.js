@@ -13,7 +13,7 @@ const Container = ({ children, style }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 16,
+    marginHorizontal: SPACING.medium,
     paddingBottom: SPACING.extraLarge
   }
 });
