@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 import { icons } from '../../../assets/index';
 import DIMENS from '../../constants/dimensions';
 import { ButtonSize } from '../../constants/enums';
-
+import useTheme from '../../hooks/useTheme';
 const { icon } = DIMENS;
 
 const getIconSize = (size) => {
@@ -25,7 +25,8 @@ const getIconSize = (size) => {
 };
 
 const Icon = (props) => {
-  const { variant, fill, size, style } = props;
+  const { theme } = useTheme();
+  const { variant, fill = theme.black, size, style } = props;
   const iconSize = getIconSize(size);
 
   const IconView = icons[variant] ? icons[variant] : null;

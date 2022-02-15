@@ -9,3 +9,11 @@ export const createUserMutation = (obj) => {
   }
 `;
 };
+
+export const createPostMutation = (obj) => {
+  const input = objectToGraphql(obj);
+  return gql`
+  mutation {
+    insert_posts(objects: ${input}) {returning {id}}
+  }`;
+};

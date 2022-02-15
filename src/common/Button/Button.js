@@ -27,6 +27,7 @@ const Button = ({
     switch (variant) {
       case 'secondary':
         return styles.secondaryButton(theme);
+
       default:
         return styles.primaryButton(theme);
     }
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 20
   }),
+
   disabledButton: (theme) => ({
     backgroundColor: theme.disabledColor
   }),

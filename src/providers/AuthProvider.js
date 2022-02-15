@@ -1,12 +1,8 @@
 import { firebase } from '@react-native-firebase/auth';
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
 import { EMPTY } from '../api/graphql/constants';
 import { createUser, getUser } from '../api/graphql/requests';
-import { Text } from '../common';
-import { DIMENS } from '../constants';
-import { translate } from '../i18n';
-import { defaultTheme } from '../theme';
+import { LoadingHeaderContainer } from '../components';
 
 export const ONBOARDING_DATA = Object.freeze({
   SSN: 'ssn',
@@ -34,6 +30,7 @@ export const AuthProvider = ({ children }) => {
       if (user && lastUid !== user.uid) {
         lastUid = user.uid;
         let userFromDB = await getUser(user.uid);
+
         if (!userFromDB) {
           return;
         }
@@ -47,6 +44,7 @@ export const AuthProvider = ({ children }) => {
             return;
           }
         }
+
         setCurrentUser(userFromDB);
         lastUid = null;
       }
@@ -76,7 +74,9 @@ export const AuthProvider = ({ children }) => {
 
   const signUp = async (email, password) => {
     try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
+      await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email.trim(), password);
       return true;
     } catch (e) {
       console.log(e);
@@ -93,26 +93,13 @@ export const AuthProvider = ({ children }) => {
 
   if (loading || !currentUser || !animationDone) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text
-          type="heading"
-          animate
-          animateTime={500}
-          animateOnFinish={() => setAnimationDone(true)}
-        >
-          {translate('common.appName')}
-        </Text>
-      </View>
+      <LoadingHeaderContainer
+        animate
+        animateTime={500}
+        animateOnFinish={() => setAnimationDone(true)}
+      />
     );
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    backgroundColor: defaultTheme.backgroundColor,
-    ...DIMENS.common.centering
-  }
-});
