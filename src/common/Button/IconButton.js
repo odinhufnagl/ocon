@@ -2,16 +2,27 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, ViewPropTypes } from 'react-native';
 import { Icon } from '..';
-import { DIMENS, SPACING } from '../../constants';
+import { DIMENS } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 
-const IconButton = ({ onPress, style, icon, iconSize, color, variant }) => {
+const IconButton = ({
+  onPress,
+  style,
+  icon,
+  iconSize,
+  color,
+  variant,
+  disabled
+}) => {
   const { theme } = useTheme();
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={disabled ? () => {} : onPress}
       style={[
-        variant === 'flatten' ? {} : styles.iconButtonContainer(theme),
+        variant === 'flatten'
+          ? styles.iconButtonFlattenContainer
+          : styles.iconButtonContainer(theme, variant === 'transparent'),
+
         style
       ]}
     >
@@ -21,22 +32,26 @@ const IconButton = ({ onPress, style, icon, iconSize, color, variant }) => {
 };
 
 const styles = StyleSheet.create({
-  iconButtonContainer: (theme) => ({
-    padding: SPACING.small,
+  iconButtonContainer: (theme, isTransparent) => ({
     ...DIMENS.common.centering,
-    backgroundColor: theme.white,
+    backgroundColor: isTransparent ? 'rgba(0, 0,0, 0.22)' : theme.white,
     borderRadius: 38 / 2,
     width: 38,
     height: 38,
-    shadowColor: '#000',
-    shadowOffset: {
+    shadowColor: !isTransparent && '#000',
+    shadowOffset: !isTransparent && {
       width: 0,
       height: 2
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 10.22,
-    elevation: 3
-  })
+    shadowOpacity: !isTransparent && 0.1,
+    shadowRadius: !isTransparent && 10.22,
+    elevation: isTransparent ? 0 : 3
+  }),
+  iconButtonFlattenContainer: {
+    width: 38,
+    height: 38,
+    ...DIMENS.common.centering
+  }
 });
 
 IconButton.propTypes = {
