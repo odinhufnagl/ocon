@@ -1,5 +1,5 @@
 import DIMENS from './dimensions';
 import SPACING from './spacing';
 import TYPOGRAPHY from './typography';
-
-export { DIMENS, SPACING, TYPOGRAPHY };
+const CAMERA_TIMER = '600';
+export { DIMENS, SPACING, TYPOGRAPHY, CAMERA_TIMER };

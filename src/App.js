@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { useColorScheme } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import RootNavigator from './navigation';
 import { AuthProvider } from './providers/AuthProvider';
 import { darkTheme, ThemeProvider } from './theme';
@@ -11,7 +12,9 @@ const App = () => {
     <ThemeProvider theme={darkTheme}>
       <AuthProvider>
         <NavigationContainer>
-          <RootNavigator></RootNavigator>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <RootNavigator></RootNavigator>
+          </GestureHandlerRootView>
         </NavigationContainer>
       </AuthProvider>
     </ThemeProvider>

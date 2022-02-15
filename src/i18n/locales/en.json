@@ -4,7 +4,9 @@
   },
   "snackbar": {
     "loginError": "Login was not succesful",
-    "signUpError": "Signup was not succesful"
+    "signUpError": "Signup was not succesful",
+    "error": "Something went wrong",
+    "imagePosted": "Your image was successfully posted!"
   },
   "welcomeScreen": {
     "header": "CaptureIt",
@@ -24,5 +26,12 @@
     "input2Placeholder": "Password",
     "input3Placeholder": "Confirm password",
     "button": "Create account"
+  },
+  "cameraScreen": {
+    "postButton": "Post"
+  },
+  "camera": {
+    "noCameraFound": "Hittade ingen kamera",
+    "notAuthenticated": "Du måste tillåta att vi använder kameran. Gå till dina inställningar"
   }
 }
