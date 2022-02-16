@@ -39,7 +39,7 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.centeredContainer}>
         <Text type="heading">{translate(translateKey + 'header')}</Text>
         <Text type="body">{translate(translateKey + 'subheader')}</Text>
-        <Spacer spacing="medium" />
+        <Spacer spacing="extraLarge" />
         <Input
           value={email}
           title={translate(translateKey + 'input1Placeholder')}

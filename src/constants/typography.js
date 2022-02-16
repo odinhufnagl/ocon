@@ -37,7 +37,7 @@ export default {
   }),
   secondaryButtonText: (theme) => ({
     fontFamily: FONT_FAMILY.PoppinsSemiBold,
-    color: theme.secondaryButtonColor,
+    color: theme.white,
     fontSize: 15
   }),
   primaryInputText: (theme) => ({
