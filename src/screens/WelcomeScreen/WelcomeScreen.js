@@ -28,17 +28,21 @@ const WelcomeScreen = ({ navigation }) => {
             <Text type="heading">{translate(translateKey + 'header')}</Text>
           </View>
           <View style={styles.bottomContainer}>
-            <Button
-              title={translate(translateKey + 'button1')}
-              onPress={() => navigation.navigate(LOGIN_SCREEN)}
-            />
-            <Spacer spacing="large" />
-            <Button
-              title={translate(translateKey + 'button2')}
-              variant="secondary"
-              onPress={() => navigation.navigate(SIGN_UP_SCREEN)}
-              shadow={false}
-            />
+            <View style={styles.buttonContainer}>
+              <Button
+                title={translate(translateKey + 'button2')}
+                variant="secondary"
+                onPress={() => navigation.navigate(SIGN_UP_SCREEN)}
+                shadow={false}
+              />
+            </View>
+            <Spacer spacing="large" orientation="horizontal" />
+            <View style={styles.buttonContainer}>
+              <Button
+                title={translate(translateKey + 'button1')}
+                onPress={() => navigation.navigate(LOGIN_SCREEN)}
+              />
+            </View>
           </View>
         </Container>
       </ImageBackground>
@@ -61,14 +65,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: '25%'
+    height: '40%'
   },
   contentContainer: {
     justifyContent: 'space-between',
     alignItems: 'center'
   },
   bottomContainer: {
-    width: '100%'
+    width: '100%',
+    flexDirection: 'row'
+  },
+  buttonContainer: {
+    flex: 1
   }
 });
 export default WelcomeScreen;

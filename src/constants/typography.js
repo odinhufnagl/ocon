@@ -11,6 +11,11 @@ export default {
     fontSize: 30
   }),
   bodyText: (theme) => ({
+    fontFamily: FONT_FAMILY.PoppinsRegular,
+    color: theme.textMediumColor,
+    fontSize: 15
+  }),
+  bodyTextBold: (theme) => ({
     fontFamily: FONT_FAMILY.PoppinsSemiBold,
     color: theme.textPrimaryColor,
     fontSize: 15
@@ -20,19 +25,34 @@ export default {
     color: theme.textLowColor,
     fontSize: 13
   }),
+  smallTextBold: (theme) => ({
+    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    color: theme.textLowColor,
+    fontSize: 13
+  }),
   primaryButtonText: (theme) => ({
     fontFamily: FONT_FAMILY.PoppinsSemiBold,
-    color: theme.primaryButtonColor,
+    color: theme.white,
     fontSize: 15
   }),
   secondaryButtonText: (theme) => ({
     fontFamily: FONT_FAMILY.PoppinsSemiBold,
-    color: theme.secondaryButtonColor,
+    color: theme.white,
     fontSize: 15
   }),
   primaryInputText: (theme) => ({
-    fontFamily: FONT_FAMILY.PoppinsRegular,
+    fontFamily: FONT_FAMILY.PoppinsSemiBold,
     color: theme.primaryInputTextColor,
     fontSize: 15
+  }),
+  headerText: (theme) => ({
+    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    color: theme.primaryInputTextColor,
+    fontSize: 23
+  }),
+  largeHeaderText: (theme) => ({
+    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    color: theme.textPrimaryColor,
+    fontSize: 50
   })
 };

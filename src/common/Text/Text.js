@@ -4,13 +4,13 @@ import { Animated, StyleSheet, Text as RNText } from 'react-native';
 import { TYPOGRAPHY } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 
-// Possible value for prop "type" for Text
-// add other if required
 const HEADING = 'heading';
 const BODY = 'body';
 const SMALL = 'small';
 const PRIMARY_BUTTON = 'primaryButton';
 const SECONDARY_BUTTON = 'secondaryButton';
+const HEADER = 'header';
+const LARGE_HEADER = 'largeHeader';
 
 const Text = ({
   type,
@@ -71,6 +71,12 @@ const getTextStyle = (type, bold, theme) => {
     case SECONDARY_BUTTON:
       style = 'secondaryButtonText';
       break;
+    case HEADER:
+      style = 'headerText';
+      break;
+    case LARGE_HEADER:
+      style = 'largeHeaderText';
+      break;
     default:
       style = 'bodyText';
   }
@@ -87,7 +93,8 @@ Text.propTypes = {
     BODY,
     SMALL,
     PRIMARY_BUTTON,
-    SECONDARY_BUTTON
+    SECONDARY_BUTTON,
+    HEADER
   ]),
   bold: PropTypes.bool,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array])

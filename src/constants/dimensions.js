@@ -1,6 +1,7 @@
 export default {
   common: {
-    borderRadius: 20,
+    borderRadiusLarge: 40,
+    borderRadiusMedium: 12,
     centering: {
       justifyContent: 'center',
       alignItems: 'center'
