@@ -31,14 +31,18 @@ const LoginScreen = ({ navigation }) => {
     <Container style={styles.container}>
       <IconButton
         icon="back"
+        variant="secondary"
+        iconSize="medium"
         onPress={() => navigation.goBack()}
         style={styles.backIcon}
       />
       <View style={styles.centeredContainer}>
         <Text type="heading">{translate(translateKey + 'header')}</Text>
+        <Text type="body">{translate(translateKey + 'subheader')}</Text>
         <Spacer spacing="medium" />
         <Input
           value={email}
+          title={translate(translateKey + 'input1Placeholder')}
           onChangeText={setEmail}
           placeholder={translate(translateKey + 'input1Placeholder')}
           autoCapitalize="none"
@@ -47,19 +51,24 @@ const LoginScreen = ({ navigation }) => {
         <Input
           value={password}
           onChangeText={setPassword}
+          title={translate(translateKey + 'input2Placeholder')}
           placeholder={translate(translateKey + 'input2Placeholder')}
           secureTextEntry={true}
           autoCapitalize="none"
         />
-        <Spacer spacing="large" />
-        <Button
-          title={translate(translateKey + 'button')}
-          onPress={handleLogin}
-          loading={loading}
-          disabled={!email.length || !password.length}
-        />
+        <Spacer spacing="extraLarge" />
+        <View style={styles.buttonContainer}>
+          <Button
+            title={translate(translateKey + 'button')}
+            onPress={handleLogin}
+            loading={loading}
+            disabled={!email.length || !password.length}
+          />
+        </View>
         <Spacer spacing="medium" />
-        <Text type="small">{translate(translateKey + 'forgotPassword')}</Text>
+        <View style={styles.forgotPasswordContainer}>
+          <Text type="small">{translate(translateKey + 'forgotPassword')}</Text>
+        </View>
       </View>
     </Container>
   );
@@ -77,6 +86,13 @@ const styles = StyleSheet.create({
   },
   centeredContainer: {
     width: '100%'
+  },
+  buttonContainer: {
+    width: 127,
+    alignSelf: 'center'
+  },
+  forgotPasswordContainer: {
+    alignSelf: 'center'
   }
 });
 

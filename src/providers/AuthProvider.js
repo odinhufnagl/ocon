@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
       const res = await firebase
         .auth()
         .signInWithEmailAndPassword(email.trim(), password);
-      console.log('res', res);
+
       return true;
     } catch (e) {
       console.log(e);

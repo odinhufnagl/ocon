@@ -1,6 +1,6 @@
+import React from 'react';
 import { View } from 'react-native';
 import { Text } from '../../common';
-
 const YesterdayScreen = () => {
   return (
     <View>
