@@ -11,21 +11,23 @@
   "welcomeScreen": {
     "header": "CaptureIt",
     "button1": "Log in",
-    "button2": "Create account"
+    "button2": "Sign up"
   },
   "loginScreen": {
     "header": "Log in",
+    "subheader": "Please sign in to continue",
     "input1Placeholder": "Email",
     "input2Placeholder": "Password",
     "button": "Log in",
     "forgotPassword": "Forgot password?"
   },
   "signUpScreen": {
-    "header": "Create account",
+    "header": "Sign up",
+    "subheader": "Please sign up to get started",
     "input1Placeholder": "Email",
     "input2Placeholder": "Password",
     "input3Placeholder": "Confirm password",
-    "button": "Create account"
+    "button": "Sign up"
   },
   "cameraScreen": {
     "postButton": "Post"
@@ -33,5 +35,9 @@
   "camera": {
     "noCameraFound": "Hittade ingen kamera",
     "notAuthenticated": "Du måste tillåta att vi använder kameran. Gå till dina inställningar"
+  },
+  "headers": {
+    "yesterdayScreen": "Yesterday",
+    "profileScreen": "Profile"
   }
 }

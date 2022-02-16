@@ -162,7 +162,7 @@ export const CameraScreen = ({ navigation, route }) => {
 
   const onTimeIsUp = () => {
     //TODO: navigate to screen where it says like "time is up!"
-    navigation.navigate(PROFILE_SCREEN);
+    navigation.replace(PROFILE_SCREEN);
   };
 
   const startTimer = () => {
@@ -188,7 +188,7 @@ export const CameraScreen = ({ navigation, route }) => {
       latestNotification.currentUsersPosts.length > 0;
     if (userHasAlreadyPosted) {
       //navigate to screen saying "you have already posted an image today"
-      navigation.navigate(PROFILE_SCREEN);
+      navigation.replace(PROFILE_SCREEN);
       return;
     }
     const secondsSinceTimestamp = getSecondsSinceTimestamp(
