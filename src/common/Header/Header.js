@@ -5,7 +5,7 @@ import { IconButton, Spacer, Text } from '../';
 import { SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 
-const Header = ({ leftItems, rightItems, header, style }) => {
+const Header = ({ leftItems, rightItems, header, style, headerTextStyle }) => {
   const { theme } = useTheme();
   const renderAllItems = (directionOfItems) =>
     directionOfItems?.map((item) => {
@@ -17,6 +17,7 @@ const Header = ({ leftItems, rightItems, header, style }) => {
               key={item.icon}
               clickable={false}
               style={[
+                styles.iconButton,
                 item.buttonStyle,
                 directionOfItems === leftItems
                   ? styles.iconButtonsLeft
@@ -27,12 +28,28 @@ const Header = ({ leftItems, rightItems, header, style }) => {
           </>
         );
       }
+      if (item.title) {
+        return (
+          <>
+            <Text {...item}>{item.title}</Text>
+          </>
+        );
+      }
     });
 
   return (
     <View style={[styles.container(theme), style]}>
-      <View style={styles.leftContainer}>{renderAllItems(leftItems)}</View>
-      {header && <Text type="heading">{header}</Text>}
+      <View style={styles.centerContainer}>
+        <View style={styles.leftContainer}>{renderAllItems(leftItems)}</View>
+        {header && (
+          <>
+            <Spacer spacing="medium" orientation="horizontal" />
+            <Text type="header" style={[styles.header, headerTextStyle]}>
+              {header}
+            </Text>
+          </>
+        )}
+      </View>
       <View style={styles.rightContainer}>{renderAllItems(rightItems)}</View>
     </View>
   );
@@ -71,24 +88,28 @@ Header.propTypes = {
 const styles = StyleSheet.create({
   container: (theme) => ({
     marginTop: Platform.OS === 'ios' ? SPACING.extraLarge + 20 : 0,
-    paddingHorizontal: '5%',
-
+    paddingHorizontal: SPACING.medium,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingVertical: SPACING.large
+    width: '100%'
   }),
   centerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: '-10%'
+    flex: 1
   },
   rightContainer: {
     flexDirection: 'row',
     alignItems: 'center'
   },
+  header: {
+    position: 'relative',
+    top: 2
+  },
   iconButtonsLeft: {},
-  iconButtonsRight: {}
+  iconButtonsRight: {},
+  iconButton: {
+    marginVertical: SPACING.medium
+  }
 });
 
 export default Header;

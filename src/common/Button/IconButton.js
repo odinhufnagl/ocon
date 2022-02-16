@@ -5,26 +5,42 @@ import { Icon } from '..';
 import { DIMENS } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 
+const STYLES = {
+  FLATTEN: 'flatten',
+  TRANSPARENT: 'transparent',
+  SECONDARY: 'secondary',
+  PRIMARY: 'primary'
+};
+
+const getStyles = (variant) => {
+  switch (variant) {
+    case STYLES.FLATTEN:
+      return styles.iconButtonFlattenContainer;
+    case STYLES.TRANSPARENT:
+      return styles.iconButtonTransparentContainer;
+    case STYLES.SECONDARY:
+      return styles.iconButtonSecondaryContainer;
+    case STYLES.PRIMARY:
+      return styles.iconButtonContainer;
+    default:
+      return styles.iconButtonContainer;
+  }
+};
+
 const IconButton = ({
   onPress,
   style,
   icon,
   iconSize,
-  color,
   variant,
+  color = variant == STYLES.SECONDARY ? 'white' : 'black',
   disabled
 }) => {
   const { theme } = useTheme();
   return (
     <TouchableOpacity
       onPress={disabled ? () => {} : onPress}
-      style={[
-        variant === 'flatten'
-          ? styles.iconButtonFlattenContainer
-          : styles.iconButtonContainer(theme, variant === 'transparent'),
-
-        style
-      ]}
+      style={[getStyles(variant)(theme), style]}
     >
       <Icon variant={icon} size={iconSize} fill={color} />
     </TouchableOpacity>
@@ -32,26 +48,40 @@ const IconButton = ({
 };
 
 const styles = StyleSheet.create({
-  iconButtonContainer: (theme, isTransparent) => ({
+  iconButtonContainer: (theme) => ({
     ...DIMENS.common.centering,
-    backgroundColor: isTransparent ? 'rgba(0, 0,0, 0.22)' : theme.white,
+    backgroundColor: theme.white,
     borderRadius: 38 / 2,
     width: 38,
     height: 38,
-    shadowColor: !isTransparent && '#000',
-    shadowOffset: !isTransparent && {
+    shadowColor: '#000',
+    shadowOffset: {
       width: 0,
       height: 2
     },
-    shadowOpacity: !isTransparent && 0.1,
-    shadowRadius: !isTransparent && 10.22,
-    elevation: isTransparent ? 0 : 3
+    shadowOpacity: 0.1,
+    shadowRadius: 10.22,
+    elevation: 3
   }),
-  iconButtonFlattenContainer: {
+  iconButtonFlattenContainer: (theme) => ({
     width: 38,
     height: 38,
     ...DIMENS.common.centering
-  }
+  }),
+  iconButtonTransparentContainer: (theme) => ({
+    ...DIMENS.common.centering,
+    backgroundColor: 'rgba(0, 0,0, 0.22)',
+    borderRadius: 38 / 2,
+    width: 38,
+    height: 38
+  }),
+  iconButtonSecondaryContainer: (theme) => ({
+    ...DIMENS.common.centering,
+    backgroundColor: theme.dp3,
+    borderRadius: 38 / 2,
+    width: 38,
+    height: 38
+  })
 });
 
 IconButton.propTypes = {

@@ -58,17 +58,11 @@ const Button = ({
       onPress={disabled ? () => {} : onPress}
       disabled={loading ?? disabled}
       key={id}
-      style={[
-        styles.defaultStyle(shadow),
-        getViewStyle(),
-        getSize(),
-        disabled || loading ? styles.disabledButton(theme) : {},
-        style
-      ]}
+      style={[styles.defaultStyle(shadow), getViewStyle(), getSize(), style]}
       {...props}
     >
       {loading ? (
-        <ActivityIndicator color="black" />
+        <ActivityIndicator color="white" />
       ) : (
         <Text
           type={getTextType()}
@@ -98,19 +92,16 @@ const styles = StyleSheet.create({
       shadowRadius: 10.22,
       elevation: 3
     }),
-    height: 60
+    height: 40
   }),
   primaryButton: (theme) => ({
-    backgroundColor: theme.white
+    backgroundColor: theme.primaryButtonColor,
+    borderRadius: DIMENS.common.borderRadiusLarge
   }),
   secondaryButton: (theme) => ({
     borderColor: theme.borderColor,
     borderWidth: 3,
     borderRadius: 20
-  }),
-
-  disabledButton: (theme) => ({
-    backgroundColor: theme.disabledColor
   }),
 
   disabledButtonText: (theme) => ({

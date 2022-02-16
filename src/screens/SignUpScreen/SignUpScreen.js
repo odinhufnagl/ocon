@@ -32,16 +32,20 @@ const SignUpScreen = ({ navigation }) => {
   return (
     <Container style={styles.container}>
       <IconButton
+        variant="secondary"
+        iconSize="medium"
         icon="back"
         onPress={() => navigation.goBack()}
         style={styles.backIcon}
       />
       <View style={styles.centeredContainer}>
         <Text type="heading">{translate(translateKey + 'header')}</Text>
+        <Text type="body">{translate(translateKey + 'subheader')}</Text>
         <Spacer spacing="medium" />
         <Input
           value={email}
           onChangeText={setEmail}
+          title={translate(translateKey + 'input1Placeholder')}
           placeholder={translate(translateKey + 'input1Placeholder')}
           autoCapitalize="none"
         />
@@ -49,6 +53,7 @@ const SignUpScreen = ({ navigation }) => {
         <Input
           value={password}
           onChangeText={setPassword}
+          title={translate(translateKey + 'input2Placeholder')}
           placeholder={translate(translateKey + 'input2Placeholder')}
           secureTextEntry={true}
           autoCapitalize="none"
@@ -57,19 +62,22 @@ const SignUpScreen = ({ navigation }) => {
         <Input
           value={confirmPassword}
           onChangeText={setConfirmPassword}
+          title={translate(translateKey + 'input3Placeholder')}
           placeholder={translate(translateKey + 'input3Placeholder')}
           secureTextEntry={true}
           autoCapitalize="none"
         />
-        <Spacer spacing="large" />
-        <Button
-          title={translate(translateKey + 'button')}
-          onPress={handleSignUp}
-          loading={loading}
-          disabled={
-            !email.length || !password.length || password !== confirmPassword
-          }
-        />
+        <Spacer spacing="extraLarge" />
+        <View style={styles.buttonContainer}>
+          <Button
+            title={translate(translateKey + 'button')}
+            onPress={handleSignUp}
+            loading={loading}
+            disabled={
+              !email.length || !password.length || password !== confirmPassword
+            }
+          />
+        </View>
       </View>
     </Container>
   );
@@ -87,6 +95,10 @@ const styles = StyleSheet.create({
   },
   centeredContainer: {
     width: '100%'
+  },
+  buttonContainer: {
+    width: 127,
+    alignSelf: 'center'
   }
 });
 

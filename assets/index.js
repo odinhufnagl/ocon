@@ -4,8 +4,10 @@ import ExploreIconSvg from './icons/explore/ExploreIconSVG';
 import FlashOffIconSvg from './icons/flash/FlashOffSVG';
 import FlashOnIconSvg from './icons/flash/FlashOnSVG';
 import FlipCameraIconSvg from './icons/flipCamera/FlipCameraIconSVG';
+import HeartIconSVG from './icons/heart/HeartIconSVG';
 import HomeIconSvg from './icons/home/HomeIconSVG';
 import ProfileIconSVG from './icons/profile/ProfileIconSVG';
+import SettingsIconSVG from './icons/settings/SettingsIconSVG';
 
 export const icons = {
   back: BackIconSVG,
@@ -15,5 +17,7 @@ export const icons = {
   flashOff: FlashOffIconSvg,
   home: HomeIconSvg,
   explore: ExploreIconSvg,
-  profile: ProfileIconSVG
+  profile: ProfileIconSVG,
+  settings: SettingsIconSVG,
+  heart: HeartIconSVG
 };
