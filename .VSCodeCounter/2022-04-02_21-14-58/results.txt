@@ -1,0 +1,160 @@
+Date : 2022-04-02 21:14:58
+Directory : /Volumes/Macintosh HD – data/ownProjects/captureit/src
+Total : 85 files,  3706 codes, 207 comments, 378 blanks, all 4291 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JavaScript |         83 |      3,640 |        207 |        376 |      4,223 |
+| JSON       |          2 |         66 |          0 |          2 |         68 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                               | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                  |         85 |      3,706 |        207 |        378 |      4,291 |
+| api                                                                                                                |          8 |        274 |          0 |         38 |        312 |
+| api/firebase                                                                                                       |          1 |         20 |          0 |          3 |         23 |
+| api/graphql                                                                                                        |          7 |        254 |          0 |         35 |        289 |
+| common                                                                                                             |         12 |        762 |          0 |         68 |        830 |
+| common/Button                                                                                                      |          2 |        256 |          0 |         14 |        270 |
+| common/ConditionalWrapper                                                                                          |          1 |          3 |          0 |          2 |          5 |
+| common/Container                                                                                                   |          1 |         22 |          0 |          5 |         27 |
+| common/Header                                                                                                      |          1 |        137 |          0 |          8 |        145 |
+| common/Icon                                                                                                        |          1 |         50 |          0 |          7 |         57 |
+| common/Input                                                                                                       |          1 |         66 |          0 |          9 |         75 |
+| common/Modal                                                                                                       |          1 |         41 |          0 |          3 |         44 |
+| common/Slider                                                                                                      |          1 |         34 |          0 |          2 |         36 |
+| common/Spacer                                                                                                      |          1 |         26 |          0 |          5 |         31 |
+| common/Text                                                                                                        |          1 |        103 |          0 |         12 |        115 |
+| components                                                                                                         |         13 |        679 |          0 |         63 |        742 |
+| components/Camera                                                                                                  |          1 |         62 |          0 |          8 |         70 |
+| components/CameraButton                                                                                            |          1 |         43 |          0 |          3 |         46 |
+| components/Carousel                                                                                                |          1 |         32 |          0 |          2 |         34 |
+| components/ImageMiddle                                                                                             |          1 |         25 |          0 |          3 |         28 |
+| components/LoadingContainer                                                                                        |          1 |         20 |          0 |          4 |         24 |
+| components/LoadingHeaderContainer                                                                                  |          1 |         29 |          0 |          4 |         33 |
+| components/Post                                                                                                    |          1 |        130 |          0 |         11 |        141 |
+| components/PostBottomContainer                                                                                     |          1 |        123 |          0 |          6 |        129 |
+| components/PostCard                                                                                                |          1 |         83 |          0 |          7 |         90 |
+| components/PostCardsCarousel                                                                                       |          1 |         18 |          0 |          3 |         21 |
+| components/PostsHeader                                                                                             |          1 |         31 |          0 |          3 |         34 |
+| components/PostsList                                                                                               |          1 |         57 |          0 |          8 |         65 |
+| constants                                                                                                          |          8 |        139 |          9 |         12 |        160 |
+| hooks                                                                                                              |          1 |          4 |          0 |          3 |          7 |
+| i18n                                                                                                               |          5 |         85 |         10 |         13 |        108 |
+| i18n/locales                                                                                                       |          2 |         66 |          0 |          2 |         68 |
+| navigation                                                                                                         |         13 |        335 |          1 |         44 |        380 |
+| navigation/constants                                                                                               |          6 |        138 |          0 |         14 |        152 |
+| navigation/constants/stacks                                                                                        |          5 |        122 |          0 |         12 |        134 |
+| navigation/navigators                                                                                              |          5 |        171 |          1 |         24 |        196 |
+| providers                                                                                                          |          1 |         88 |          2 |         16 |        106 |
+| screens                                                                                                            |         12 |      1,135 |        118 |         84 |      1,337 |
+| screens/CameraScreen                                                                                               |          1 |        405 |          4 |         29 |        438 |
+| screens/HomeScreen                                                                                                 |          1 |         66 |          0 |          6 |         72 |
+| screens/InfoScreen                                                                                                 |          1 |          6 |          0 |          2 |          8 |
+| screens/LoginScreen                                                                                                |          1 |         97 |          0 |          5 |        102 |
+| screens/NotificationScreen                                                                                         |          1 |          6 |          0 |          3 |          9 |
+| screens/PostsScreen                                                                                                |          1 |         47 |          0 |          5 |         52 |
+| screens/ProfileScreen                                                                                              |          1 |        130 |         45 |          9 |        184 |
+| screens/SettingsScreen                                                                                             |          1 |         37 |          0 |          6 |         43 |
+| screens/SignUpScreen                                                                                               |          1 |        102 |          0 |          5 |        107 |
+| screens/WelcomeScreen                                                                                              |          1 |         81 |          0 |          3 |         84 |
+| screens/YesterdayScreen                                                                                            |          1 |        134 |         69 |         10 |        213 |
+| theme                                                                                                              |          7 |        114 |         67 |         20 |        201 |
+| utils                                                                                                              |          4 |         69 |          0 |         14 |         83 |
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                           | language   | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/App.js                                                      | JavaScript |         22 |          0 |          3 |         25 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/api/firebase/index.js                                       | JavaScript |         20 |          0 |          3 |         23 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/api/graphql/client.js                                       | JavaScript |         22 |          0 |          4 |         26 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/api/graphql/constants.js                                    | JavaScript |          1 |          0 |          1 |          2 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/api/graphql/helpers.js                                      | JavaScript |          5 |          0 |          1 |          6 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/api/graphql/mutations.js                                    | JavaScript |         25 |          0 |          4 |         29 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/api/graphql/queries.js                                      | JavaScript |         54 |          0 |          6 |         60 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/api/graphql/requests.js                                     | JavaScript |        105 |          0 |         10 |        115 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/api/graphql/responeParsers.js                               | JavaScript |         42 |          0 |          9 |         51 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/common/Button/Button.js                                     | JavaScript |        128 |          0 |          8 |        136 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/common/Button/IconButton.js                                 | JavaScript |        128 |          0 |          6 |        134 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/common/ConditionalWrapper/ConditionalWrapper.js             | JavaScript |          3 |          0 |          2 |          5 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/common/Container/Container.js                               | JavaScript |         22 |          0 |          5 |         27 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/common/Header/Header.js                                     | JavaScript |        137 |          0 |          8 |        145 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/common/Icon/Icon.js                                         | JavaScript |         50 |          0 |          7 |         57 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/common/Input/Input.js                                       | JavaScript |         66 |          0 |          9 |         75 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/common/Modal/Modal.js                                       | JavaScript |         41 |          0 |          3 |         44 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/common/Slider/Slider.js                                     | JavaScript |         34 |          0 |          2 |         36 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/common/Spacer/Spacer.js                                     | JavaScript |         26 |          0 |          5 |         31 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/common/Text/Text.js                                         | JavaScript |        103 |          0 |         12 |        115 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/common/index.js                                             | JavaScript |         24 |          0 |          1 |         25 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/components/Camera/Camera.js                                 | JavaScript |         62 |          0 |          8 |         70 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/components/CameraButton/CameraButton.js                     | JavaScript |         43 |          0 |          3 |         46 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/components/Carousel/Carousel.js                             | JavaScript |         32 |          0 |          2 |         34 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/components/ImageMiddle/ImageMiddle.js                       | JavaScript |         25 |          0 |          3 |         28 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/components/LoadingContainer/LoadingContainer.js             | JavaScript |         20 |          0 |          4 |         24 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/components/LoadingHeaderContainer/LoadingHeaderContainer.js | JavaScript |         29 |          0 |          4 |         33 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/components/Post/Post.js                                     | JavaScript |        130 |          0 |         11 |        141 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/components/PostBottomContainer/PostBottomContainer.js       | JavaScript |        123 |          0 |          6 |        129 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/components/PostCard/PostCard.js                             | JavaScript |         83 |          0 |          7 |         90 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/components/PostCardsCarousel/PostCardsCarousel.js           | JavaScript |         18 |          0 |          3 |         21 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/components/PostsHeader/PostsHeader.js                       | JavaScript |         31 |          0 |          3 |         34 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/components/PostsList/PostsList.js                           | JavaScript |         57 |          0 |          8 |         65 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/components/index.js                                         | JavaScript |         26 |          0 |          1 |         27 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/constants/countries.js                                      | JavaScript |          4 |          0 |          1 |          5 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/constants/countryCodes.js                                   | JavaScript |          4 |          0 |          2 |          6 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/constants/dimensions.js                                     | JavaScript |         20 |          0 |          1 |         21 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/constants/enums.js                                          | JavaScript |          7 |          0 |          1 |          8 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/constants/images.js                                         | JavaScript |          6 |          0 |          2 |          8 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/constants/index.js                                          | JavaScript |         28 |          0 |          1 |         29 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/constants/spacing.js                                        | JavaScript |          8 |          9 |          2 |         19 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/constants/typography.js                                     | JavaScript |         62 |          0 |          2 |         64 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/hooks/useTheme.js                                           | JavaScript |          4 |          0 |          3 |          7 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/i18n/i18n.js                                                | JavaScript |         13 |          5 |          8 |         26 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/i18n/index.js                                               | JavaScript |          2 |          0 |          2 |          4 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/i18n/locales/en.json                                        | JSON       |         49 |          0 |          1 |         50 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/i18n/locales/sv.json                                        | JSON       |         17 |          0 |          1 |         18 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/i18n/translate.js                                           | JavaScript |          4 |          5 |          1 |         10 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/navigation/RootNavigator.js                                 | JavaScript |         23 |          0 |          4 |         27 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/navigation/constants/routes.js                              | JavaScript |         16 |          0 |          2 |         18 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/navigation/constants/stacks/AuthStack.js                    | JavaScript |         33 |          0 |          3 |         36 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/navigation/constants/stacks/HomeStack.js                    | JavaScript |         46 |          0 |          3 |         49 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/navigation/constants/stacks/IntroStack.js                   | JavaScript |          3 |          0 |          2 |          5 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/navigation/constants/stacks/ProfileStack.js                 | JavaScript |         31 |          0 |          2 |         33 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/navigation/constants/stacks/YesterdayStack.js               | JavaScript |          9 |          0 |          2 |         11 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/navigation/index.js                                         | JavaScript |          3 |          0 |          2 |          5 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/navigation/navigators/AuthNavigator.js                      | JavaScript |         27 |          0 |          4 |         31 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/navigation/navigators/HomeNavigator.js                      | JavaScript |         65 |          1 |          8 |         74 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/navigation/navigators/IntroNavigator.js                     | JavaScript |         26 |          0 |          4 |         30 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/navigation/navigators/ProfileNavigator.js                   | JavaScript |         26 |          0 |          4 |         30 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/navigation/navigators/YesterdayNavigator.js                 | JavaScript |         27 |          0 |          4 |         31 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/providers/AuthProvider.js                                   | JavaScript |         88 |          2 |         16 |        106 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/screens/CameraScreen/CameraScreen.js                        | JavaScript |        405 |          4 |         29 |        438 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/screens/HomeScreen/HomeScreen.js                            | JavaScript |         66 |          0 |          6 |         72 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/screens/InfoScreen/InfoScreen.js                            | JavaScript |          6 |          0 |          2 |          8 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/screens/LoginScreen/LoginScreen.js                          | JavaScript |         97 |          0 |          5 |        102 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/screens/NotificationScreen/NotificationScreen.js            | JavaScript |          6 |          0 |          3 |          9 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/screens/PostsScreen/PostsScreen.js                          | JavaScript |         47 |          0 |          5 |         52 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/screens/ProfileScreen/ProfileScreen.js                      | JavaScript |        130 |         45 |          9 |        184 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/screens/SettingsScreen/SettingsScreen.js                    | JavaScript |         37 |          0 |          6 |         43 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/screens/SignUpScreen/SignUpScreen.js                        | JavaScript |        102 |          0 |          5 |        107 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/screens/WelcomeScreen/WelcomeScreen.js                      | JavaScript |         81 |          0 |          3 |         84 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/screens/YesterdayScreen/YesterdayScreen.js                  | JavaScript |        134 |         69 |         10 |        213 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/screens/index.js                                            | JavaScript |         24 |          0 |          1 |         25 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/theme/ThemeContext.js                                       | JavaScript |          3 |          0 |          3 |          6 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/theme/ThemeProvider.js                                      | JavaScript |         40 |          0 |          6 |         46 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/theme/darkTheme.js                                          | JavaScript |         26 |          6 |          6 |         38 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/theme/defaultTheme.js                                       | JavaScript |          5 |          0 |          1 |          6 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/theme/index.js                                              | JavaScript |          6 |          0 |          1 |          7 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/theme/lightTheme.js                                         | JavaScript |         24 |         61 |          1 |         86 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/theme/theme.js                                              | JavaScript |         10 |          0 |          2 |         12 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/utils/countries.js                                          | JavaScript |          0 |          0 |          1 |          1 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/utils/date.js                                               | JavaScript |         46 |          0 |          9 |         55 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/utils/index.js                                              | JavaScript |          2 |          0 |          1 |          3 |
+| /Volumes/Macintosh HD – data/ownProjects/captureit/src/utils/showSnackbar.js                                       | JavaScript |         21 |          0 |          3 |         24 |
+| Total                                                                                                              |            |      3,706 |        207 |        378 |      4,291 |
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

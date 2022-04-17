@@ -17,3 +17,12 @@ export const createPostMutation = (obj) => {
     insert_posts(objects: ${input}) {returning {id}}
   }`;
 };
+
+export const createReactionMutation = (obj) => {
+  const input = objectToGraphql(obj);
+  return gql`
+  mutation {
+    insert_reactions(objects: ${input}) {returning {id}}
+  }
+  `;
+};

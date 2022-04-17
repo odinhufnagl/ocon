@@ -12,6 +12,8 @@ target 'captureit' do
     :hermes_enabled => false
   )
 
+  pod 'RNLocalize', :path => '../node_modules/react-native-localize'
+
   target 'captureitTests' do
     inherit! :complete
     # Pods for testing

@@ -49,6 +49,7 @@ const HomeNavigator = () => {
       initialRouteName={initialRouteName}
       screenOptions={{
         header: () => {},
+        headerMode: 'float',
         cardStyle: { backgroundColor: theme.backgroundColor }
       }}
     >

@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     width: '100%',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   buttonContainer: {
     flex: 1

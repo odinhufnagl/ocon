@@ -22,7 +22,7 @@ import {
 import { CAMERA_TIMER, DIMENS, SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 import { translate } from '../../i18n';
-import { PROFILE_SCREEN } from '../../navigation';
+import { PROFILE_STACK } from '../../navigation';
 import { useAuthContext } from '../../providers/AuthProvider';
 import {
   convertSecondsToMinAndSecs,
@@ -144,7 +144,6 @@ export const CameraScreen = ({ navigation, route }) => {
   const [latestNotificationId, setLatestNotificationId] = useState(
     route?.params?.latestNotification?.id
   );
-  const [visibleModalLeave, setVisibleModalLeave] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -211,7 +210,6 @@ export const CameraScreen = ({ navigation, route }) => {
   };
 
   const handleTakePhoto = async () => {
-    setVisibleModalLeave(true);
     const image = await cameraRef.current.takePhoto({
       flash: isFlash ? 'on' : 'off',
       qualityPrioritazion: QUALITY_PRIORITAZION
@@ -270,7 +268,7 @@ export const CameraScreen = ({ navigation, route }) => {
     }
 
     showSnackbar(translate('snackbar.imagePosted'), 'success');
-    navigation.navigate(PROFILE_SCREEN);
+    navigation.replace(PROFILE_STACK);
     setLoadingPostPhoto(false);
   };
 
@@ -332,9 +330,9 @@ export const CameraScreen = ({ navigation, route }) => {
           <>
             <Button
               title={translate(translateKey + 'postButton')}
-              variant="right"
               onPress={handlePostPhoto}
               loading={loadingPostPhoto}
+              style={styles.postButton}
             />
             <Spacer spacing="medium" />
           </>
@@ -390,7 +388,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     width: 300,
     height: 270,
-    borderRadius: DIMENS.common.borderRadius,
+    borderRadius: DIMENS.common.borderRadiusMedium,
     elevation: 20
   },
   bottomContainer: {
@@ -429,6 +427,10 @@ const styles = StyleSheet.create({
   cameraButtonsContainer: {
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  postButton: {
+    width: '50%',
+    alignSelf: 'flex-end'
   }
 });
 
