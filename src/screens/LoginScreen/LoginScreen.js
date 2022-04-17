@@ -12,6 +12,7 @@ import { DIMENS, SPACING } from '../../constants';
 import { translate } from '../../i18n';
 import { useAuthContext } from '../../providers/AuthProvider';
 import { showSnackbar } from '../../utils';
+
 const LoginScreen = ({ navigation }) => {
   const translateKey = 'loginScreen.';
   const { logIn } = useAuthContext();
@@ -57,6 +58,7 @@ const LoginScreen = ({ navigation }) => {
           autoCapitalize="none"
         />
         <Spacer spacing="extraLarge" />
+        <Spacer spacing="medium" />
         <View style={styles.buttonContainer}>
           <Button
             title={translate(translateKey + 'button')}

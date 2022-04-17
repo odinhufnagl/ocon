@@ -5,19 +5,11 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native';
-import { Button, Text } from '..';
+import { DIMENS } from '../../constants';
+import useTheme from '../../hooks/useTheme';
 
-const getContent = (variant, header, button1, button2) => {
-  return (
-    <View style={{ width: '80%', backgroundColor: 'blue' }}>
-      <Text style={{ color: 'black' }}>{header}</Text>
-      <Button title={button1.title} onPress={button1.onPress} />
-      <Button title={button2.title} onPress={button2.onPress} />
-    </View>
-  );
-};
-
-const Modal = ({ variant, header, button1, button2, visible, setVisible }) => {
+const Modal = ({ visible, setVisible, children }) => {
+  const { theme } = useTheme();
   return (
     <RNModal
       visible={visible}
@@ -26,9 +18,9 @@ const Modal = ({ variant, header, button1, button2, visible, setVisible }) => {
       transparent={true}
     >
       <TouchableWithoutFeedback onPress={() => setVisible(false)}>
-        <View style={styles.container}>
+        <View style={styles.container(theme)}>
           <TouchableWithoutFeedback>
-            {getContent(variant, header, button1, button2)}
+            <View style={styles.innerContainer(theme)}>{children}</View>
           </TouchableWithoutFeedback>
         </View>
       </TouchableWithoutFeedback>
@@ -37,10 +29,15 @@ const Modal = ({ variant, header, button1, button2, visible, setVisible }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container: (theme) => ({
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)'
+  }),
+  innerContainer: (theme) => ({
+    backgroundColor: theme.backgroundColor,
+    borderRadius: DIMENS.common.borderRadiusMedium
+  })
 });
 export default Modal;

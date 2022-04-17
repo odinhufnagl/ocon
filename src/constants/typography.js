@@ -22,12 +22,12 @@ export default {
   }),
   smallText: (theme) => ({
     fontFamily: FONT_FAMILY.PoppinsRegular,
-    color: theme.textLowColor,
+    color: theme.textMediumColor,
     fontSize: 13
   }),
   smallTextBold: (theme) => ({
     fontFamily: FONT_FAMILY.PoppinsSemiBold,
-    color: theme.textLowColor,
+    color: theme.textMediumColor,
     fontSize: 13
   }),
   primaryButtonText: (theme) => ({
@@ -40,6 +40,11 @@ export default {
     color: theme.white,
     fontSize: 15
   }),
+  thirdButtonText: (theme) => ({
+    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    color: theme.white,
+    fontSize: 11
+  }),
   primaryInputText: (theme) => ({
     fontFamily: FONT_FAMILY.PoppinsSemiBold,
     color: theme.primaryInputTextColor,
@@ -47,11 +52,11 @@ export default {
   }),
   headerText: (theme) => ({
     fontFamily: FONT_FAMILY.PoppinsSemiBold,
-    color: theme.primaryInputTextColor,
+    color: theme.white,
     fontSize: 23
   }),
   largeHeaderText: (theme) => ({
-    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    fontFamily: FONT_FAMILY.PoppinsRegular,
     color: theme.textPrimaryColor,
     fontSize: 50
   })

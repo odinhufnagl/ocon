@@ -68,6 +68,7 @@ const SignUpScreen = ({ navigation }) => {
           autoCapitalize="none"
         />
         <Spacer spacing="extraLarge" />
+        <Spacer spacing="medium" />
         <View style={styles.buttonContainer}>
           <Button
             title={translate(translateKey + 'button')}

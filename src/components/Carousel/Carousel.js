@@ -11,7 +11,7 @@ const Carousel = (
     sliderWidth = windowWidth,
     inactiveSlideOpacity = 0.5,
     inactiveSlideScale = 0.6,
-    onSnapToItem,
+    onSnapToItem = () => {},
     firstItem
   },
   ...props
