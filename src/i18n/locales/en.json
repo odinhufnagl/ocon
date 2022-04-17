@@ -6,7 +6,8 @@
     "loginError": "Login was not succesful",
     "signUpError": "Signup was not succesful",
     "error": "Something went wrong",
-    "imagePosted": "Your image was successfully posted!"
+    "imagePosted": "Your image was successfully posted!",
+    "maxReactions": "You only have 10 reactions per post"
   },
   "welcomeScreen": {
     "header": "CaptureIt",
@@ -38,6 +39,11 @@
   },
   "headers": {
     "yesterdayScreen": "Yesterday",
-    "profileScreen": "Profile"
+    "profileScreen": "Profile",
+    "settingsScreen": "Settings"
+  },
+  "settingsScreen": {
+    "logOut": "Log out",
+    "deleteAccount": "Delete account"
   }
 }

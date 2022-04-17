@@ -9,6 +9,7 @@ const BODY = 'body';
 const SMALL = 'small';
 const PRIMARY_BUTTON = 'primaryButton';
 const SECONDARY_BUTTON = 'secondaryButton';
+const THIRD_BUTTON = 'thirdButton';
 const HEADER = 'header';
 const LARGE_HEADER = 'largeHeader';
 
@@ -17,8 +18,9 @@ const Text = ({
   bold,
   style,
   animate,
-  animateTime,
-  animateOnFinish,
+  animateTime = 500,
+
+  animateOnFinish = () => {},
   ...props
 }) => {
   const animation = useRef(new Animated.Value(0)).current;
@@ -70,6 +72,9 @@ const getTextStyle = (type, bold, theme) => {
       break;
     case SECONDARY_BUTTON:
       style = 'secondaryButtonText';
+      break;
+    case THIRD_BUTTON:
+      style = 'thirdButtonText';
       break;
     case HEADER:
       style = 'headerText';

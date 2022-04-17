@@ -9,7 +9,9 @@ const CameraButton = ({ onPress, text, style }) => {
   return (
     <View style={[styles.container(theme), style]}>
       <TouchableOpacity style={styles.button(theme)} onPress={onPress}>
-        <Text style={styles.timer(theme)}>{text}</Text>
+        <Text style={styles.timer(theme)} bold>
+          {text}
+        </Text>
       </TouchableOpacity>
     </View>
   );
