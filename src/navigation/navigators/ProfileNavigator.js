@@ -11,7 +11,6 @@ const ProfileNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         header: () => {},
-        headerMode: 'float',
         cardStyle: { backgroundColor: theme.backgroundColor }
       }}
     >
@@ -20,6 +19,7 @@ const ProfileNavigator = () => {
           key={screen.name}
           name={screen.name}
           component={screen.component}
+          options={screen.options}
         />
       ))}
     </Stack.Navigator>

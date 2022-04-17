@@ -1,4 +1,5 @@
 import BackIconSVG from './icons/arrow/BackIconSVG';
+import ChevronDownIconSVG from './icons/chevron/ChevronDownIconSVG';
 import CloseIconSvg from './icons/close/CloseIconSVG';
 import ExploreIconSvg from './icons/explore/ExploreIconSVG';
 import FlashOffIconSvg from './icons/flash/FlashOffSVG';
@@ -8,7 +9,6 @@ import HeartIconSVG from './icons/heart/HeartIconSVG';
 import HomeIconSvg from './icons/home/HomeIconSVG';
 import ProfileIconSVG from './icons/profile/ProfileIconSVG';
 import SettingsIconSVG from './icons/settings/SettingsIconSVG';
-
 export const icons = {
   back: BackIconSVG,
   close: CloseIconSvg,
@@ -19,5 +19,6 @@ export const icons = {
   explore: ExploreIconSvg,
   profile: ProfileIconSVG,
   settings: SettingsIconSVG,
-  heart: HeartIconSVG
+  heart: HeartIconSVG,
+  chevronDown: ChevronDownIconSVG
 };

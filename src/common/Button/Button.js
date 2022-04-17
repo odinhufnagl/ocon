@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ViewPropTypes
 } from 'react-native';
-import { DIMENS } from '../../constants';
+import { DIMENS, SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 import Text from '../Text/Text';
 
@@ -27,9 +27,10 @@ const Button = ({
     switch (variant) {
       case 'secondary':
         return styles.secondaryButton(theme);
-
+      case 'third':
+        return styles.thirdButton(theme);
       default:
-        return styles.primaryButton(theme);
+        return styles.primaryButton(theme, shadow);
     }
   };
 
@@ -37,7 +38,8 @@ const Button = ({
     switch (variant) {
       case 'secondary':
         return 'secondaryButton';
-
+      case 'third':
+        return 'thirdButton';
       default:
         return 'primaryButton';
     }
@@ -58,7 +60,7 @@ const Button = ({
       onPress={disabled ? () => {} : onPress}
       disabled={loading ?? disabled}
       key={id}
-      style={[styles.defaultStyle(shadow), getViewStyle(), getSize(), style]}
+      style={[styles.defaultStyle(), getViewStyle(), getSize(), style]}
       {...props}
     >
       {loading ? (
@@ -78,10 +80,15 @@ const Button = ({
   );
 };
 const styles = StyleSheet.create({
-  defaultStyle: (shadow) => ({
+  defaultStyle: () => ({
     borderRadius: DIMENS.common.borderRadius,
     ...DIMENS.common.centering,
     width: '100%',
+    paddingVertical: SPACING.small
+  }),
+  primaryButton: (theme, shadow) => ({
+    backgroundColor: theme.primaryButtonColor,
+    borderRadius: DIMENS.common.borderRadiusLarge,
     ...(shadow && {
       shadowColor: '#000',
       shadowOffset: {
@@ -91,17 +98,16 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.1,
       shadowRadius: 10.22,
       elevation: 3
-    }),
-    height: 40
-  }),
-  primaryButton: (theme) => ({
-    backgroundColor: theme.primaryButtonColor,
-    borderRadius: DIMENS.common.borderRadiusLarge
+    })
   }),
   secondaryButton: (theme) => ({
     borderColor: theme.borderColor,
     borderWidth: 3,
-    borderRadius: 20
+    borderRadius: DIMENS.common.borderRadiusLarge
+  }),
+  thirdButton: (theme) => ({
+    backgroundColor: theme.dp3,
+    borderRadius: DIMENS.common.borderRadiusLarge
   }),
 
   disabledButtonText: (theme) => ({

@@ -1,30 +1,38 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Platform, StyleSheet, View, ViewPropTypes } from 'react-native';
-import { IconButton, Spacer, Text } from '../';
+import LinearGradient from 'react-native-linear-gradient';
+import { ConditionalWrapper, IconButton, Spacer, Text } from '../';
 import { SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 
-const Header = ({ leftItems, rightItems, header, style, headerTextStyle }) => {
+const Header = ({
+  leftItems,
+  rightItems,
+  header,
+  style,
+  headerTextStyle,
+  showGradient
+}) => {
   const { theme } = useTheme();
   const renderAllItems = (directionOfItems) =>
-    directionOfItems?.map((item) => {
+    directionOfItems?.map((item, index) => {
       if (item.icon) {
         return (
           <>
-            <Spacer orientation="horizontal" />
+            {directionOfItems === rightItems && index !== 0 && (
+              <Spacer orientation="horizontal" spacing="medium" />
+            )}
             <IconButton
               key={item.icon}
               clickable={false}
-              style={[
-                styles.iconButton,
-                item.buttonStyle,
-                directionOfItems === leftItems
-                  ? styles.iconButtonsLeft
-                  : styles.iconButtonsRight
-              ]}
+              style={[styles.iconButton, item.buttonStyle]}
               {...item}
             />
+            {directionOfItems === leftItems &&
+              index !== directionOfItems.length - 1 && (
+                <Spacer orientation="horizontal" spacing="medium" />
+              )}
           </>
         );
       }
@@ -38,20 +46,37 @@ const Header = ({ leftItems, rightItems, header, style, headerTextStyle }) => {
     });
 
   return (
-    <View style={[styles.container(theme), style]}>
-      <View style={styles.centerContainer}>
-        <View style={styles.leftContainer}>{renderAllItems(leftItems)}</View>
-        {header && (
-          <>
-            <Spacer spacing="medium" orientation="horizontal" />
-            <Text type="header" style={[styles.header, headerTextStyle]}>
-              {header}
-            </Text>
-          </>
+    <ConditionalWrapper
+      condition={showGradient}
+      wrapper={(children) => (
+        <LinearGradient
+          style={[styles.container(theme), style]}
+          colors={['#000', '#00000000']}
+        >
+          {children}
+        </LinearGradient>
+      )}
+    >
+      <ConditionalWrapper
+        condition={!showGradient}
+        wrapper={(children) => (
+          <View style={[styles.container(theme), style]}>{children}</View>
         )}
-      </View>
-      <View style={styles.rightContainer}>{renderAllItems(rightItems)}</View>
-    </View>
+      >
+        <View style={styles.centerContainer}>
+          <View style={styles.leftContainer}>{renderAllItems(leftItems)}</View>
+          {header && (
+            <>
+              <Spacer spacing="medium" orientation="horizontal" />
+              <Text type="header" style={[styles.header, headerTextStyle]}>
+                {header}
+              </Text>
+            </>
+          )}
+        </View>
+        <View style={styles.rightContainer}>{renderAllItems(rightItems)}</View>
+      </ConditionalWrapper>
+    </ConditionalWrapper>
   );
 };
 
@@ -101,12 +126,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  leftContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   header: {
     position: 'relative',
     top: 2
   },
-  iconButtonsLeft: {},
-  iconButtonsRight: {},
+
   iconButton: {
     marginVertical: SPACING.medium
   }

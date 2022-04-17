@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { objectToGraphql } from './helpers';
 
 export const userQuery = gql`
   query user($id: String!) {
@@ -6,6 +7,16 @@ export const userQuery = gql`
       id
       email
       appState
+      postsCount: posts_aggregate {
+        aggregate {
+          count
+        }
+      }
+      reactionsCount: reactions_aggregate {
+        aggregate {
+          count
+        }
+      }
     }
   }
 `;
@@ -31,3 +42,28 @@ export const latestNotificationQuery = gql`
     }
   }
 `;
+
+export const postsQuery = (where, orderBy, currentUserId) => {
+  const whereInput = objectToGraphql(where || {});
+  const orderByInput = orderBy || '{ createdAt: desc }';
+
+  return gql`
+  query posts {
+    posts(where: ${whereInput}, order_by:${orderByInput}) {
+      createdAt,
+      id,
+      image,
+      postType {position, colorTop, colorBottom},
+      city,
+      country,
+      reactions {
+        reactionType {name}
+      },
+      currentUsersTotalReactionsCount:reactions_aggregate(where:{userId:{_eq:${currentUserId}}}) {
+        aggregate {count}
+      },
+      
+    }
+  }
+`;
+};
