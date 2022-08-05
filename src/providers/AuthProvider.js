@@ -1,7 +1,9 @@
-import { firebase } from '@react-native-firebase/auth';
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/auth';
+import '@react-native-firebase/messaging';
 import React, { useContext, useEffect, useState } from 'react';
 import { EMPTY } from '../api/graphql/constants';
-import { createUser, getUser } from '../api/graphql/requests';
+import { createUser, getUser, updateUser } from '../api/graphql/requests';
 import { LoadingHeaderContainer } from '../components';
 
 export const ONBOARDING_DATA = Object.freeze({
@@ -37,14 +39,16 @@ export const AuthProvider = ({ children }) => {
         if (userFromDB === EMPTY) {
           userFromDB = await createUser({
             email: user.email,
-            id: user.uid,
-            appState: 1
+            id: user.uid
           });
           if (!userFromDB) {
             return;
           }
         }
-
+        const fcmToken = await firebase.messaging().getToken();
+        if (userFromDB.notificationToken !== fcmToken) {
+          updateUser(user.uid, { notificationToken: fcmToken });
+        }
         setCurrentUser(userFromDB);
         lastUid = null;
       }
@@ -72,6 +76,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const forgotPassword = async (email) => {
+    try {
+      console.log('hello world');
+      await firebase.auth().sendPasswordResetEmail(email.trim());
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const signUp = async (email, password) => {
     try {
       await firebase
@@ -83,19 +97,30 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateCurrentUser = async () => {
+    const res = await getUser(currentUser.id);
+    if (!res) {
+      return;
+    }
+    setCurrentUser(res);
+    return true;
+  };
+
   const value = {
     currentUser,
     setCurrentUser,
     logIn,
     signUp,
-    logOut
+    logOut,
+    updateCurrentUser,
+    forgotPassword
   };
 
   if (loading || !currentUser || !animationDone) {
     return (
       <LoadingHeaderContainer
         animate
-        animateTime={500}
+        animateTime={1000}
         animateOnFinish={() => setAnimationDone(true)}
       />
     );

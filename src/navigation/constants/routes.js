@@ -9,7 +9,8 @@ export const NOTIFICATION_SCREEN = 'NotificationScreen';
 export const INFO_SCREEN = 'InfoScreen';
 export const POSTS_SCREEN = 'PostsScreen';
 export const SETTINGS_SCREEN = 'SettingsScreen';
-
+export const LIKED_POSTS_SCREEN = 'LikedPostsScreen';
+export const AVATAR_SCREEN = 'AvatarScreen';
 export const HOME_STACK = 'HomeStack';
 export const AUTH_STACK = 'AuthStack';
 export const INTRO_STACK = 'IntroStack';

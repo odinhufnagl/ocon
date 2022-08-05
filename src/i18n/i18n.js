@@ -4,7 +4,7 @@
 import i18n from 'i18n-js';
 import * as RNLocalize from 'react-native-localize';
 
-const en = require('./locales/en');
+const en = require('./locales/en.json');
 
 // Should the app fallback to English if user locale doesn't exists
 i18n.fallbacks = true;

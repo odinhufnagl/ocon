@@ -4,6 +4,8 @@ import DIMENS from './dimensions';
 import IMAGES from './images';
 import SPACING from './spacing';
 import TYPOGRAPHY from './typography';
+import PAGINATION from './pagination';
+import PERMISSIONS from './permissions';
 const CAMERA_TIMER = '600';
 const MAX_REACIONS = 10;
 const EMOJI_NAMES = {
@@ -24,5 +26,7 @@ export {
   IMAGES,
   COUNTRIES,
   COUNTRY_CODES,
-  REACTION_TYPE_IDS
+  REACTION_TYPE_IDS,
+  PAGINATION,
+  PERMISSIONS
 };

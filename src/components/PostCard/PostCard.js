@@ -3,7 +3,8 @@ import {
   ImageBackground,
   StyleSheet,
   TouchableWithoutFeedback,
-  View
+  View,
+  Image
 } from 'react-native';
 import { PostBottomContainer } from '..';
 import { DIMENS } from '../../constants';
@@ -45,7 +46,12 @@ const PostCard = ({ post, type, style, onPress = () => {} }) => {
           style
         ]}
       >
-        <ImageBackground source={{ uri: image }} style={styles.imageBackground}>
+        <Image
+          source={{ uri: image }}
+          style={styles.imageBackground}
+          resizeMethod="resize"
+        />
+        {/* <ImageBackground source={{ uri: image }} style={styles.imageBackground}>
           {
             <PostBottomContainer
               textLeftType="header"
@@ -56,7 +62,7 @@ const PostCard = ({ post, type, style, onPress = () => {} }) => {
               showGradient={type === POST_CARD_TYPES.LARGE}
             />
           }
-        </ImageBackground>
+        </ImageBackground>*/}
       </View>
     </TouchableWithoutFeedback>
   );

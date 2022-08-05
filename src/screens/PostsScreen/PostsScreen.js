@@ -18,6 +18,7 @@ const PostsScreen = ({ navigation, route }) => {
   return (
     <View>
       <Header
+        showGradient
         style={styles.header}
         leftItems={[
           {
@@ -43,8 +44,7 @@ const PostsScreen = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   header: {
-    position: 'absolute',
-    zIndex: 100
+    position: 'absolute'
   }
 });
 

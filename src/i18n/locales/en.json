@@ -7,12 +7,14 @@
     "signUpError": "Signup was not succesful",
     "error": "Something went wrong",
     "imagePosted": "Your image was successfully posted!",
-    "maxReactions": "You only have 10 reactions per post"
+    "maxReactions": "You only have 10 reactions per post",
+    "imageDownloaded": "Image downloaded",
+    "checkEmailInbox": "Check your email inbox"
   },
   "welcomeScreen": {
     "header": "CaptureIt",
-    "button1": "Log in",
-    "button2": "Sign up"
+    "signUp": "Sign Up",
+    "logIn": "Already have an account? Login"
   },
   "loginScreen": {
     "header": "Log in",
@@ -45,5 +47,14 @@
   "settingsScreen": {
     "logOut": "Log out",
     "deleteAccount": "Delete account"
+  },
+  "postsList": {
+    "emptyText": "No images available"
+  },
+  "profileScreen": {
+    "emptyImageList": "No posts yet"
+  },
+  "avatarScreen": {
+    "header": "Choose your avatar"
   }
 }

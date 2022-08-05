@@ -52,10 +52,7 @@ const IconButton = ({
     >
       {image && (
         <>
-          <Image
-            source={IMAGES[image] || image}
-            style={[styles.image, imageStyle]}
-          />
+          <Image source={image} style={[styles.image, imageStyle]} />
           <Spacer orientation="horizontal" spacing="small" />
         </>
       )}
@@ -95,8 +92,8 @@ const styles = StyleSheet.create({
   }),
   iconButtonTransparentContainer: (theme, existsMultipleItems) => ({
     ...DIMENS.common.centering,
-    backgroundColor: 'rgba(0, 0,0, 0.22)',
-    borderRadius: 38 / 2,
+    backgroundColor: 'rgba(0, 0, 0, 0.22)',
+    borderRadius: 100,
     width: existsMultipleItems ? 'auto' : 38,
     alignItems: 'center',
     flexDirection: 'row',
@@ -107,7 +104,7 @@ const styles = StyleSheet.create({
   iconButtonSecondaryContainer: (theme, existsMultipleItems) => ({
     ...DIMENS.common.centering,
     backgroundColor: theme.dp3,
-    borderRadius: 38 / 2,
+    borderRadius: 100,
     width: existsMultipleItems ? 'auto' : 38,
     alignItems: 'center',
     flexDirection: 'row',
