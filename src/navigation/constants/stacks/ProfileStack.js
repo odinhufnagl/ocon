@@ -1,8 +1,18 @@
 import React from 'react';
 import { Header } from '../../../common';
 import { translate } from '../../../i18n';
-import { PostsScreen, ProfileScreen, SettingsScreen } from '../../../screens';
-import { POSTS_SCREEN, PROFILE_SCREEN, SETTINGS_SCREEN } from '../routes';
+import {
+  LikedPostsScreen,
+  PostsScreen,
+  ProfileScreen,
+  SettingsScreen
+} from '../../../screens';
+import {
+  LIKED_POSTS_SCREEN,
+  POSTS_SCREEN,
+  PROFILE_SCREEN,
+  SETTINGS_SCREEN
+} from '../routes';
 
 export const ProfileStack = [
   {
@@ -28,5 +38,6 @@ export const ProfileStack = [
       )
     })
   },
+  { name: LIKED_POSTS_SCREEN, component: LikedPostsScreen },
   { name: POSTS_SCREEN, component: PostsScreen }
 ];

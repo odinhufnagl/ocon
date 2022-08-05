@@ -9,6 +9,11 @@ import HeartIconSVG from './icons/heart/HeartIconSVG';
 import HomeIconSvg from './icons/home/HomeIconSVG';
 import ProfileIconSVG from './icons/profile/ProfileIconSVG';
 import SettingsIconSVG from './icons/settings/SettingsIconSVG';
+import ImageIconSvg from './icons/image/ImageIconSVG';
+import ChevronRightIconSVG from './icons/chevron/ChevronRightIconSVG';
+import LogOutIconSvg from './icons/logOut/LogOut';
+import SendIconSVG from './icons/send/SendIconSVG';
+import DownloadIconSvg from './icons/download/DownloadIconSVG';
 export const icons = {
   back: BackIconSVG,
   close: CloseIconSvg,
@@ -20,5 +25,10 @@ export const icons = {
   profile: ProfileIconSVG,
   settings: SettingsIconSVG,
   heart: HeartIconSVG,
-  chevronDown: ChevronDownIconSVG
+  chevronDown: ChevronDownIconSVG,
+  image: ImageIconSvg,
+  chevronRight: ChevronRightIconSVG,
+  logOut: LogOutIconSvg,
+  send: SendIconSVG,
+  download: DownloadIconSvg
 };

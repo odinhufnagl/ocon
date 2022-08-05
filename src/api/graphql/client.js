@@ -2,9 +2,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import ApolloClient from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 
-const GRAPHQL_ENDPOINT = 'https://capture-it.hasura.app/v1/graphql';
-const HASURA_SECRET =
-  '0ZzSVj7ATIv4co9LKCMDMv5gjiUwdpupXe9dF88Sr3k88mndDcQ72hgp9GjavSDG';
+const GRAPHQL_ENDPOINT = 'https://capture-it-app.herokuapp.com/v1/graphql';
+const HASURA_SECRET = 'D6S00puJzU';
 const link = new HttpLink({
   uri: GRAPHQL_ENDPOINT,
   headers: {

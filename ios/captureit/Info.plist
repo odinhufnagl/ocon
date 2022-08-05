@@ -35,8 +35,33 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Captureit would like to have access to your camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string>Captureit would like to have your location</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Captureit would like to add photos to your photo library</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Captureit would like to have access to your photo library</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Poppins-Bold.ttf</string>
+		<string>Poppins-Regular.ttf</string>
+		<string>Poppins-SemiBold.ttf</string>
+		<string> Inter-Regular.ttf </string>
+		<string> Inter-Medium.ttf</string>
+		<string> Inter-SemiBold.ttf</string>
+		<string> Inter-Bold.ttf</string>
+		<string> Montserrat-Regular.ttf </string>
+		<string> Montserrat-Medium.ttf</string>
+		<string> Montserrat-SemiBold.ttf</string>
+		<string> Montserrat-Bold.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -46,16 +71,8 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Poppins-Bold.ttf</string>
-		<string>Poppins-Regular.ttf</string>
-		<string>Poppins-SemiBold.ttf</string>
-	</array>
 </dict>
 </plist>
