@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: theme.inputBackgroundColor,
-    height: 55,
+    height: 50,
     borderRadius: DIMENS.common.borderRadiusMedium
   }),
   input: {

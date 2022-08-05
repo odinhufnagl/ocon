@@ -6,7 +6,10 @@ export const userQuery = gql`
     users(where: { id: { _eq: $id } }) {
       id
       email
-      appState
+      avatar {
+        id
+        image
+      }
       postsCount: posts_aggregate {
         aggregate {
           count
@@ -17,6 +20,7 @@ export const userQuery = gql`
           count
         }
       }
+      notificationToken
     }
   }
 `;
@@ -43,19 +47,90 @@ export const latestNotificationQuery = gql`
   }
 `;
 
-export const postsQuery = (where, orderBy, currentUserId) => {
+export const yesterdaysNotificationQuery = gql`
+  query yesterdaysNotification {
+    notifications(order_by: { createdAt: desc }, limit: 2) {
+      id
+      createdAt
+    }
+  }
+`;
+
+export const latestPostsWithoutCurrentUserQuery = gql`
+  query latestPosts($currentUserId: String!, $limit: Int, $offset: Int) {
+    notifications(order_by: { createdAt: desc }, limit: 1) {
+      id
+      posts: posts(
+        where: { userId: { _neq: $currentUserId } }
+        limit: $limit
+        offset: $offset
+      ) {
+        createdAt
+        id
+        image
+        postType {
+          position
+        }
+        location
+        country {
+          name
+        }
+        reactions {
+          reactionType {
+            name
+          }
+        }
+        createdBy {
+          email
+          avatar {
+            id
+            image
+          }
+          id
+          postsCount: posts_aggregate {
+            aggregate {
+              count
+            }
+          }
+        }
+        currentUsersTotalReactionsCount: reactions_aggregate(
+          where: { userId: { _eq: $currentUserId } }
+        ) {
+          aggregate {
+            count
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const postsQuery = (where, orderBy, currentUserId, limit, offset) => {
   const whereInput = objectToGraphql(where || {});
   const orderByInput = orderBy || '{ createdAt: desc }';
 
   return gql`
   query posts {
-    posts(where: ${whereInput}, order_by:${orderByInput}) {
+    posts(where: ${whereInput}, order_by:${orderByInput}, limit:${limit}, offset: ${offset} ) {
       createdAt,
       id,
       image,
-      postType {position, colorTop, colorBottom},
-      city,
-      country,
+      postType {position},
+    location,
+    createdBy{
+      id
+      email
+      postsCount: posts_aggregate {
+        aggregate {
+          count
+        }
+      }
+      avatar {
+        id
+        image
+      }
+    }
+    countryCode
       reactions {
         reactionType {name}
       },
@@ -67,3 +142,21 @@ export const postsQuery = (where, orderBy, currentUserId) => {
   }
 `;
 };
+
+export const countriesQuery = () => gql`
+  query {
+    countries {
+      name
+      code
+    }
+  }
+`;
+
+export const avatarsQuery = gql`
+  query {
+    avatars {
+      id
+      image
+    }
+  }
+`;

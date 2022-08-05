@@ -1,6 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Platform, StyleSheet, View, ViewPropTypes } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Touchable,
+  View,
+  ViewPropTypes
+} from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import { ConditionalWrapper, IconButton, Spacer, Text } from '../';
 import { SPACING } from '../../constants';
@@ -12,7 +19,8 @@ const Header = ({
   header,
   style,
   headerTextStyle,
-  showGradient
+  showGradient,
+  headerOnClick
 }) => {
   const { theme } = useTheme();
   const renderAllItems = (directionOfItems) =>
@@ -46,37 +54,31 @@ const Header = ({
     });
 
   return (
-    <ConditionalWrapper
-      condition={showGradient}
-      wrapper={(children) => (
+    <>
+      {showGradient && (
         <LinearGradient
-          style={[styles.container(theme), style]}
-          colors={['#000', '#00000000']}
-        >
-          {children}
-        </LinearGradient>
+          style={styles.gradient}
+          colors={['rgba(0, 0, 0, 0.4)', '#00000000']}
+        />
       )}
-    >
-      <ConditionalWrapper
-        condition={!showGradient}
-        wrapper={(children) => (
-          <View style={[styles.container(theme), style]}>{children}</View>
-        )}
-      >
+
+      <View style={[styles.container(theme), style]}>
         <View style={styles.centerContainer}>
           <View style={styles.leftContainer}>{renderAllItems(leftItems)}</View>
           {header && (
             <>
               <Spacer spacing="medium" orientation="horizontal" />
-              <Text type="header" style={[styles.header, headerTextStyle]}>
-                {header}
-              </Text>
+              <TouchableWithoutFeedback onPress={headerOnClick}>
+                <Text type="header" style={[styles.header, headerTextStyle]}>
+                  {header}
+                </Text>
+              </TouchableWithoutFeedback>
             </>
           )}
         </View>
         <View style={styles.rightContainer}>{renderAllItems(rightItems)}</View>
-      </ConditionalWrapper>
-    </ConditionalWrapper>
+      </View>
+    </>
   );
 };
 
@@ -115,8 +117,16 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? SPACING.extraLarge + 20 : 0,
     paddingHorizontal: SPACING.medium,
     flexDirection: 'row',
-    width: '100%'
+    width: '100%',
+    zIndex: 1000
   }),
+  gradient: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    height: 300,
+    zIndex: 101
+  },
   centerContainer: {
     flexDirection: 'row',
     alignItems: 'center',

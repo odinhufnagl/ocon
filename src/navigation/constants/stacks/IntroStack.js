@@ -1,4 +1,7 @@
-import { InfoScreen } from '../../../screens';
-import { INFO_SCREEN } from '../routes';
+import { AvatarScreen, InfoScreen } from '../../../screens';
+import { AVATAR_SCREEN, INFO_SCREEN } from '../routes';
 
-export const IntroStack = [{ name: INFO_SCREEN, component: InfoScreen }];
+export const IntroStack = [
+  { name: AVATAR_SCREEN, component: AvatarScreen },
+  { name: INFO_SCREEN, component: InfoScreen }
+];

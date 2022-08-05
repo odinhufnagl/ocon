@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
+
 import {
   Button,
   Container,
@@ -15,7 +16,7 @@ import { showSnackbar } from '../../utils';
 
 const LoginScreen = ({ navigation }) => {
   const translateKey = 'loginScreen.';
-  const { logIn } = useAuthContext();
+  const { logIn, forgotPassword } = useAuthContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,6 +27,16 @@ const LoginScreen = ({ navigation }) => {
     if (!res) {
       showSnackbar(translate('snackbar.loginError'), 'error');
       setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    const res = await forgotPassword(email);
+    if (!res) {
+      showSnackbar(translate('snackbar.error'), 'error');
+      return;
+    } else {
+      showSnackbar(translate('snackbar.checkEmailInbox'), 'success');
     }
   };
   return (
@@ -69,7 +80,11 @@ const LoginScreen = ({ navigation }) => {
         </View>
         <Spacer spacing="medium" />
         <View style={styles.forgotPasswordContainer}>
-          <Text type="small">{translate(translateKey + 'forgotPassword')}</Text>
+          <TouchableOpacity onPress={handleForgotPassword}>
+            <Text type="small">
+              {translate(translateKey + 'forgotPassword')}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Container>
