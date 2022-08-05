@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Container, Spacer } from '../../common';
+import { Button, Container } from '../../common';
+import useTheme from '../../hooks/useTheme';
 import { translate } from '../../i18n';
 import { useAuthContext } from '../../providers/AuthProvider';
 
@@ -11,21 +12,14 @@ const SettingsScreen = () => {
     logOut();
   };
 
-  const handleDeleteAccount = () => {};
-
   const translateKey = 'settingsScreen.';
   return (
     <Container style={styles.container}>
       <Button
         title={translate(translateKey + 'logOut')}
-        variant="secondary"
+        style={{ backgroundColor: theme.dp3 }}
+        shadow={false}
         onPress={handleLogout}
-      />
-      <Spacer spacing="large" />
-      <Button
-        title={translate(translateKey + 'deleteAccount')}
-        variant="secondary"
-        onPress={handleDeleteAccount}
       />
     </Container>
   );
@@ -33,10 +27,9 @@ const SettingsScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    width: '50%',
-    alignSelf: 'center'
+    width: '90%'
   }
 });
 export default SettingsScreen;

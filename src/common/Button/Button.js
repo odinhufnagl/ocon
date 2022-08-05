@@ -4,10 +4,13 @@ import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
+  View,
   ViewPropTypes
 } from 'react-native';
 import { DIMENS, SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
+import Icon from '../Icon/Icon';
+import Spacer from '../Spacer/Spacer';
 import Text from '../Text/Text';
 
 const Button = ({
@@ -20,6 +23,9 @@ const Button = ({
   size,
   id,
   shadow,
+  icon,
+  iconFill = 'white',
+  iconSize = 'medium',
   ...props
 }) => {
   const { theme } = useTheme();
@@ -30,7 +36,7 @@ const Button = ({
       case 'third':
         return styles.thirdButton(theme);
       default:
-        return styles.primaryButton(theme, shadow);
+        return styles.primaryButton(theme);
     }
   };
 
@@ -60,35 +66,39 @@ const Button = ({
       onPress={disabled ? () => {} : onPress}
       disabled={loading ?? disabled}
       key={id}
-      style={[styles.defaultStyle(), getViewStyle(), getSize(), style]}
+      style={[styles.defaultStyle(shadow), getViewStyle(), getSize(), style]}
       {...props}
     >
       {loading ? (
         <ActivityIndicator color="white" />
       ) : (
-        <Text
-          type={getTextType()}
-          style={[
-            style?.color ? { color: style.color } : {},
-            disabled ? styles.disabledButtonText(theme) : {}
-          ]}
-        >
-          {title}
-        </Text>
+        <View style={styles.contentContainer}>
+          <Text
+            type={getTextType()}
+            style={[
+              style?.color ? { color: style.color } : {},
+              disabled ? styles.disabledButtonText(theme) : {}
+            ]}
+          >
+            {title}
+          </Text>
+          {icon && (
+            <>
+              <Spacer orientation="horizontal" spacing="medium" />
+              <Icon variant={icon} fill={iconFill} size={iconSize} />
+            </>
+          )}
+        </View>
       )}
     </TouchableOpacity>
   );
 };
 const styles = StyleSheet.create({
-  defaultStyle: () => ({
+  defaultStyle: (shadow) => ({
     borderRadius: DIMENS.common.borderRadius,
     ...DIMENS.common.centering,
     width: '100%',
-    paddingVertical: SPACING.small
-  }),
-  primaryButton: (theme, shadow) => ({
-    backgroundColor: theme.primaryButtonColor,
-    borderRadius: DIMENS.common.borderRadiusLarge,
+    paddingVertical: SPACING.small,
     ...(shadow && {
       shadowColor: '#000',
       shadowOffset: {
@@ -100,10 +110,16 @@ const styles = StyleSheet.create({
       elevation: 3
     })
   }),
+  primaryButton: (theme) => ({
+    backgroundColor: theme.primaryButtonColor,
+    borderRadius: DIMENS.common.borderRadiusMedium
+  }),
   secondaryButton: (theme) => ({
     borderColor: theme.borderColor,
-    borderWidth: 3,
-    borderRadius: DIMENS.common.borderRadiusLarge
+    backgroundColor: theme.backgroundColor,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderRadius: DIMENS.common.borderRadiusMedium
   }),
   thirdButton: (theme) => ({
     backgroundColor: theme.dp3,
@@ -112,7 +128,11 @@ const styles = StyleSheet.create({
 
   disabledButtonText: (theme) => ({
     color: theme.buttonDisabledTextColor
-  })
+  }),
+  contentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  }
 });
 
 Button.propTypes = {

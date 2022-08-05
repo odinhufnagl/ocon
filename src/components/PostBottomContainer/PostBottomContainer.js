@@ -1,10 +1,21 @@
-import React from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import {
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  TouchableWithoutFeedback,
+  ActivityIndicator
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { SvgUri } from 'react-native-svg';
 import happy from '../../../assets/images/happyEmoji/happyEmoji.png';
 import heartEyes from '../../../assets/images/heartEyesEmoji/heartEyesEmoji.png';
-import { ConditionalWrapper, Spacer, Text } from '../../common';
+import { ConditionalWrapper, IconButton, Spacer, Text } from '../../common';
 import { EMOJI_NAMES, SPACING } from '../../constants';
+
+import { useTheme } from '../../hooks';
+import { saveImageToCameraRoll } from '../../utils';
 
 const getEmojiImageSource = (emojiName) => {
   switch (emojiName) {
@@ -21,20 +32,24 @@ const PostBottomContainer = ({
   emojis,
   textLeft,
   showGradient,
-  textLeftStyle,
-  textLeftType = 'header',
+  textLeftStyle = { color: 'white' },
+  textLeftType = 'body',
   style,
   textLeftUpper,
   textLeftUpperStyle,
-  textLeftUpperType = 'largeHeader'
+  textLeftUpperType = 'largeHeader',
+  avatarImage,
+  onAvatarPress,
+  onDownloadPress
 }) => {
+  const { theme } = useTheme();
   return (
     <ConditionalWrapper
       condition={showGradient}
       wrapper={(children) => (
         <LinearGradient
           style={[styles.container, style]}
-          colors={['#00000000', '#000']}
+          colors={['#00000000', 'rgba(0, 0, 0, 0.2)']}
         >
           {children}
         </LinearGradient>
@@ -44,46 +59,47 @@ const PostBottomContainer = ({
         condition={!showGradient}
         wrapper={(children) => <View style={styles.container}>{children}</View>}
       >
-        {textLeftUpper ? (
-          <Text
-            type={textLeftUpperType}
-            style={[styles.textLeftUpper, textLeftUpperStyle]}
-          >
-            {textLeftUpper}
-          </Text>
-        ) : (
-          <Spacer spacing="large" />
-        )}
         <View style={styles.bottomContainer}>
-          <Text type={textLeftType} style={textLeftStyle}>
-            {textLeft}
-          </Text>
+          <View style={styles.leftContainer}>
+            <Text type={textLeftType} style={textLeftStyle} bold>
+              {textLeft}
+            </Text>
+          </View>
 
           <View style={styles.rightContainer}>
+            <TouchableOpacity
+              onPress={onAvatarPress}
+              style={styles.avatar(theme)}
+            >
+              <SvgUri uri={avatarImage} width={65} height={65} />
+            </TouchableOpacity>
+            <Spacer spacing={25} />
+            <IconButton
+              icon="download"
+              variant="transparent"
+              style={styles.downloadButton(theme)}
+              onPress={onDownloadPress}
+            />
+            <Spacer spacing={20} />
             {emojis &&
               emojis?.map(({ count, onPress, name, style }, index) => (
-                <View key={name} style={styles.emojiContainer}>
-                  {onPress ? (
-                    <TouchableOpacity onPress={() => onPress(name)}>
+                <>
+                  {index !== 0 && <Spacer spacing="tiny" />}
+                  <View key={name} style={styles.emojiContainer}>
+                    <TouchableOpacity
+                      onPress={() => onPress(name)}
+                      style={styles.emojiButton(theme)}
+                    >
                       <Image
                         source={getEmojiImageSource(name)}
                         style={[styles.emoji, style]}
                       />
                     </TouchableOpacity>
-                  ) : (
-                    <Image
-                      source={getEmojiImageSource(name)}
-                      style={[styles.emoji, style]}
-                    />
-                  )}
-                  <Spacer orientation="horizontal" spacing="tiny" />
-                  <Text type="body" bold>
-                    {count}
-                  </Text>
-                  {index !== emojis?.length - 1 && (
-                    <Spacer orientation="horizontal" spacing="medium" />
-                  )}
-                </View>
+                    <Text type="body" bold>
+                      {count}
+                    </Text>
+                  </View>
+                </>
               ))}
           </View>
         </View>
@@ -96,7 +112,9 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     paddingHorizontal: SPACING.medium,
-    paddingBottom: SPACING.small
+    paddingBottom: SPACING.large,
+
+    justifyContent: 'flex-end'
   },
   bottomContainer: {
     width: '100%',
@@ -109,20 +127,54 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   rightContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center'
+  },
+  leftContainer: {
+    alignSelf: 'flex-end',
+    width: '65%'
   },
   emoji: {
     width: 30,
-    height: 30,
-    position: 'relative',
-    bottom: 2
+    height: 30
   },
-  emojiContainer: { flexDirection: 'row', alignItems: 'center' },
+  emojiButton: (theme) => ({
+    borderRadius: 100,
+    backgroundColor: 'rgba(0, 0, 0, 0.22)',
+    padding: SPACING.small
+  }),
+  emojiContainer: {
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
   textLeftUpper: {
     position: 'relative',
     top: 8
-  }
+  },
+  avatar: (theme) => ({
+    position: 'relative',
+    borderRadius: 10000,
+
+    backgroundColor: theme.backgroundColor,
+    borderColor: 'white',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }),
+  rightRadialGradient: {
+    width: 300,
+    height: 400,
+    position: 'absolute',
+    bottom: 0,
+    right: 0
+  },
+  downloadButton: (theme) => ({
+    // backgroundColor: theme.backgroundColor,
+    width: 30 + 16,
+    height: 30 + 16
+  })
 });
 
 export default PostBottomContainer;

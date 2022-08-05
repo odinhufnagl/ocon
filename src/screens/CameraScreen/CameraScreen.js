@@ -1,3 +1,4 @@
+import { CommonActions } from '@react-navigation/native';
 import React, { useEffect, useRef, useState } from 'react';
 import { PermissionsAndroid, StyleSheet, View } from 'react-native';
 import 'react-native-get-random-values';
@@ -5,13 +6,21 @@ import LinearGradient from 'react-native-linear-gradient';
 import { useCameraDevices } from 'react-native-vision-camera';
 import { v4 as uuidv4 } from 'uuid';
 import { getImage, saveImage } from '../../api/firebase';
+import {
+  coordsToAddress,
+  getAddressesFromCoords,
+  getAddressFromCoords,
+  getLocationFromCoords
+} from '../../api/googleMaps';
 import { createPost, getLatestNotification } from '../../api/graphql/requests';
+import Geolocation from '@react-native-community/geolocation';
 import {
   Button,
   ConditionalWrapper,
   Header,
   IconButton,
-  Spacer
+  Spacer,
+  Text
 } from '../../common';
 import {
   Camera,
@@ -19,14 +28,18 @@ import {
   Carousel,
   LoadingContainer
 } from '../../components';
-import { CAMERA_TIMER, DIMENS, SPACING } from '../../constants';
+import { CAMERA_TIMER, DIMENS, PERMISSIONS, SPACING } from '../../constants';
+import { useLocation } from '../../hooks';
 import useTheme from '../../hooks/useTheme';
 import { translate } from '../../i18n';
-import { PROFILE_STACK } from '../../navigation';
+import { HOME_SCREEN, PROFILE_SCREEN, PROFILE_STACK } from '../../navigation';
 import { useAuthContext } from '../../providers/AuthProvider';
 import {
   convertSecondsToMinAndSecs,
-  getSecondsSinceTimestamp
+  getSecondsSinceTimestamp,
+  handleDownloadImage,
+  hasAndroidPermission,
+  hasPermission
 } from '../../utils';
 import { showSnackbar } from '../../utils/showSnackbar';
 
@@ -129,6 +142,7 @@ const PostTypesCarousel = ({ setCurrentType, currentType }) => {
 };
 
 export const CameraScreen = ({ navigation, route }) => {
+  const { theme } = useTheme();
   const translateKey = 'cameraScreen.';
   const devices = useCameraDevices();
   const [device, setDevice] = useState();
@@ -144,9 +158,11 @@ export const CameraScreen = ({ navigation, route }) => {
   const [latestNotificationId, setLatestNotificationId] = useState(
     route?.params?.latestNotification?.id
   );
+  const [location, setLocation] = useState();
 
   useEffect(() => {
     (async () => {
+      await fetchLocation();
       await authorizeCamera();
       await getStartCount();
       setLoading(false);
@@ -161,7 +177,7 @@ export const CameraScreen = ({ navigation, route }) => {
 
   const onTimeIsUp = () => {
     //TODO: navigate to screen where it says like "time is up!"
-    navigation.replace(PROFILE_SCREEN);
+    navigateFurther();
   };
 
   const startTimer = () => {
@@ -182,12 +198,12 @@ export const CameraScreen = ({ navigation, route }) => {
     const latestNotification =
       route?.params?.latestNotification ||
       (await getLatestNotification(currentUser.id));
+
     setLatestNotificationId(latestNotification.id);
     const userHasAlreadyPosted =
-      latestNotification.currentUsersPosts.length > 0;
+      latestNotification?.currentUsersPosts?.length > 0;
     if (userHasAlreadyPosted) {
-      //navigate to screen saying "you have already posted an image today"
-      navigation.replace(PROFILE_SCREEN);
+      navigateFurther();
       return;
     }
     const secondsSinceTimestamp = getSecondsSinceTimestamp(
@@ -201,12 +217,25 @@ export const CameraScreen = ({ navigation, route }) => {
   };
 
   const authorizeCamera = async () => {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.CAMERA
-    );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+    if (await hasPermission(PERMISSIONS.CAMERA)) {
       setCameraIsAuthorized(true);
     }
+  };
+
+  const fetchLocation = async () => {
+    if (!(await hasPermission(PERMISSIONS.LOCATION))) {
+      return;
+    }
+    const config = {
+      enableHighAccuracy: false,
+      timeout: 2000,
+      maximumAge: 3600000
+    };
+    Geolocation.getCurrentPosition(
+      (location) => setLocation(location),
+      (e) => console.log(e),
+      config
+    );
   };
 
   const handleTakePhoto = async () => {
@@ -231,6 +260,7 @@ export const CameraScreen = ({ navigation, route }) => {
   const handleFlashOn = () => {
     setIsFlash((prev) => !prev);
   };
+
   const handlePostPhoto = async () => {
     setLoadingPostPhoto(true);
     //TODO: navigate to loadingScreen? later version perhaps?
@@ -254,11 +284,24 @@ export const CameraScreen = ({ navigation, route }) => {
       return;
     }
 
+    const address = await getAddressFromCoords(location.coords);
+    if (!address) {
+      showSnackbar(translate('snackbar.error'), 'error');
+      setLoadingPostPhoto(false);
+      return;
+    }
+    const formattedAddress = address.formatted_address;
+    const countryCode = address.address_components.find(({ types }) =>
+      types.includes('country')
+    ).short_name;
+
     const res2 = await createPost({
       userId: currentUser.id,
       image: returnedURL,
       notificationId: latestNotificationId,
-      postTypeId: currentType.id
+      postTypeId: currentType.id,
+      location: formattedAddress,
+      countryCode
     });
 
     if (!res2) {
@@ -268,11 +311,29 @@ export const CameraScreen = ({ navigation, route }) => {
     }
 
     showSnackbar(translate('snackbar.imagePosted'), 'success');
-    navigation.replace(PROFILE_STACK);
+    navigateFurther();
     setLoadingPostPhoto(false);
   };
 
-  if (loading || !device) {
+  const navigateFurther = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: HOME_SCREEN },
+          {
+            name: PROFILE_STACK,
+            params: {
+              screen: PROFILE_SCREEN,
+              params: { user: currentUser }
+            }
+          }
+        ]
+      })
+    );
+  };
+
+  if (loading || !device || !location) {
     return <LoadingContainer />;
   }
 
@@ -314,34 +375,47 @@ export const CameraScreen = ({ navigation, route }) => {
             }
           ]
         }
-        rightItems={[
-          { icon: 'explore', variant: 'transparent', color: 'white' },
-          {
-            icon: 'profile',
-            iconSize: 'medium',
-            variant: 'transparent',
-            color: 'white'
-          }
-        ]}
       />
 
-      <View style={styles.bottomContainer}>
+      <View style={styles.bottomContainer(theme, imagePath)}>
         {imagePath ? (
           <>
-            <Button
-              title={translate(translateKey + 'postButton')}
-              onPress={handlePostPhoto}
-              loading={loadingPostPhoto}
-              style={styles.postButton}
-            />
+            <Spacer spacing="medium" />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%'
+              }}
+            >
+              <IconButton
+                icon="download"
+                variant="flatten"
+                onPress={() => handleDownloadImage(imagePath, false)}
+                color="white"
+              />
+              <Spacer spacing="medium" orientation="horizontal" />
+              <View>
+                <Button
+                  title={translate(translateKey + 'postButton')}
+                  onPress={handlePostPhoto}
+                  loading={loadingPostPhoto}
+                  style={styles.postButton}
+                  shadow={false}
+                  icon="chevronRight"
+                />
+              </View>
+            </View>
+
             <Spacer spacing="medium" />
           </>
         ) : (
           <>
-            <PostTypesCarousel
+            {/*<PostTypesCarousel
               setCurrentType={setCurrentType}
               currentType={currentType}
-            />
+        />*/}
             <Spacer spacing="medium" />
             <View style={styles.cameraButtonsContainer}>
               <IconButton
@@ -391,13 +465,14 @@ const styles = StyleSheet.create({
     borderRadius: DIMENS.common.borderRadiusMedium,
     elevation: 20
   },
-  bottomContainer: {
+  bottomContainer: (theme, showBackgroundColor) => ({
     width: '100%',
     alignItems: 'center',
     position: 'absolute',
     bottom: 0,
-    paddingHorizontal: SPACING.medium
-  },
+    paddingHorizontal: SPACING.medium,
+    backgroundColor: showBackgroundColor && 'rgba(0, 0,0, 0.5)'
+  }),
   header: {
     position: 'absolute',
     top: 0
@@ -429,8 +504,11 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   postButton: {
-    width: '50%',
-    alignSelf: 'flex-end'
+    paddingHorizontal: SPACING.medium
+  },
+  downloadButton: {
+    width: 50,
+    height: 50
   }
 });
 

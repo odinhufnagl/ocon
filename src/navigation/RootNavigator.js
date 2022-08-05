@@ -5,13 +5,17 @@ import { useAuthContext } from '../providers/AuthProvider';
 import { ThemeContext } from '../theme';
 import AuthNavigator from './navigators/AuthNavigator';
 import HomeNavigator from './navigators/HomeNavigator';
-const RootNavigator = () => {
+const RootNavigator = ({ navigationRef }) => {
   const { currentUser } = useAuthContext();
   const { theme } = useContext(ThemeContext);
 
   return (
     <View style={styles.root(theme)}>
-      {currentUser === EMPTY ? <AuthNavigator /> : <HomeNavigator />}
+      {currentUser === EMPTY ? (
+        <AuthNavigator />
+      ) : (
+        <HomeNavigator navigationRef={navigationRef} />
+      )}
     </View>
   );
 };

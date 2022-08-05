@@ -10,6 +10,7 @@ import {
   PROFILE_STACK,
   YESTERDAY_STACK
 } from '../routes';
+import { IntroStack } from './IntroStack';
 
 const cardStyleInterpolator = ({ current, layouts }) => {
   return {
@@ -27,6 +28,7 @@ const cardStyleInterpolator = ({ current, layouts }) => {
 };
 
 export const HomeStack = [
+  { name: INTRO_STACK, component: IntroNavigator },
   {
     name: HOME_SCREEN,
     component: HomeScreen,
@@ -34,7 +36,6 @@ export const HomeStack = [
   },
   { name: NOTIFICATION_SCREEN, component: NotificationScreen },
   { name: CAMERA_SCREEN, component: CameraScreen },
-  { name: INTRO_STACK, component: IntroNavigator },
   {
     name: PROFILE_STACK,
     component: ProfileNavigator,

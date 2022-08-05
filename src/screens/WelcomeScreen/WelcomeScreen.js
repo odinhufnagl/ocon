@@ -1,7 +1,14 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, View } from 'react-native';
+import {
+  ImageBackground,
+  StyleSheet,
+  View,
+  Image,
+  TouchableWithoutFeedback
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import image from '../../../assets/images/welcomeScreenImageBackground.jpg';
+import logoImage from '../../../assets/images/logo/logo.png';
 import { Button, Container, Spacer, Text } from '../../common';
 import { translate } from '../../i18n/translate';
 import {
@@ -15,34 +22,31 @@ const WelcomeScreen = ({ navigation }) => {
     <View>
       <ImageBackground source={image} style={styles.imageBackground}>
         <LinearGradient
-          colors={['#000', '#00000000']}
+          colors={['rgba(0, 0, 0, 0.7)', '#00000000']}
           style={styles.linearGradientTop}
         />
         <LinearGradient
-          colors={['#00000000', '#000']}
+          colors={['#00000000', 'rgba(0, 0, 0, 0.7)']}
           style={styles.linearGradientBottom}
         />
         <Container style={styles.contentContainer}>
-          <View>
-            <Spacer spacing="large" />
-            <Text type="heading">{translate(translateKey + 'header')}</Text>
+          <View style={styles.header}>
+            <Spacer spacing="medium" />
+            <Image source={logoImage} style={styles.logoImage} />
           </View>
           <View style={styles.bottomContainer}>
-            <View style={styles.buttonContainer}>
-              <Button
-                title={translate(translateKey + 'button2')}
-                variant="secondary"
-                onPress={() => navigation.navigate(SIGN_UP_SCREEN)}
-                shadow={false}
-              />
-            </View>
-            <Spacer spacing="large" orientation="horizontal" />
-            <View style={styles.buttonContainer}>
-              <Button
-                title={translate(translateKey + 'button1')}
-                onPress={() => navigation.navigate(LOGIN_SCREEN)}
-              />
-            </View>
+            <Button
+              title={translate(translateKey + 'signUp')}
+              onPress={() => navigation.navigate(SIGN_UP_SCREEN)}
+            />
+            <Spacer spacing="large" />
+            <TouchableWithoutFeedback
+              onPress={() => navigation.navigate(LOGIN_SCREEN)}
+            >
+              <Text type="small" bold>
+                {translate(translateKey + 'logIn')}
+              </Text>
+            </TouchableWithoutFeedback>
           </View>
         </Container>
       </ImageBackground>
@@ -73,11 +77,18 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     width: '100%',
-    flexDirection: 'row',
     alignItems: 'center'
   },
   buttonContainer: {
     flex: 1
+  },
+  logoImage: {
+    width: 45,
+    height: 45
+  },
+  header: {
+    display: 'flex',
+    width: '100%'
   }
 });
 export default WelcomeScreen;

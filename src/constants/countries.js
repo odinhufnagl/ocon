@@ -1,4 +1,4 @@
 export default {
-  SWEDEN: 'sweden',
+  SWEDEN: 'SE',
   WORLD: 'world'
 };

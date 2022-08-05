@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   FlatList,
   Image,
@@ -6,82 +6,13 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { getPostsYesterday } from '../../api/graphql/requests';
+import { getCountries, getPostsYesterday } from '../../api/graphql/requests';
 import { Header, Modal, Spacer, Text } from '../../common';
-import { PostsList } from '../../components';
-import { COUNTRIES, IMAGES, SPACING } from '../../constants';
+import { LoadingContainer, PostsList } from '../../components';
+import { COUNTRIES, IMAGES, PAGINATION, SPACING } from '../../constants';
+import { usePagination } from '../../hooks';
 import { translate } from '../../i18n';
 import { useAuthContext } from '../../providers/AuthProvider';
-
-/*const { width: windowWidth } = Dimensions.get('window');
-const LeaderBoardCarousel = ({ header, data }) => {
-  const { theme } = useTheme();
-  return (
-    <>
-      <PostsHeader
-        header={header}
-        button={{ title: 'Show all' }}
-        style={styles.postsHeader}
-      />
-      <Spacer spacing="medium" />
-
-      <PostCardsCarousel data={data} />
-    </>
-  );
-};
-
-const YesterdayScreen = () => {
-  const { currentUser } = useAuthContext();
-  const [posts, setPosts] = useState();
-  useEffect(async () => {
-    const posts = await getPosts({ userId: { _eq: currentUser.id } });
-
-    posts.forEach((item, index) => {
-      console.log(item.postType, index);
-    });
-    setPosts(posts);
-  }, []);
-
-  if (!posts) {
-    return <LoadingContainer />;
-  }
-
-  return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      showsVerticalScrollIndicator={false}
-    >
-      <Spacer spacing="extraLarge" />
-      <LeaderBoardCarousel data={posts} header="Sweden" />
-      <Spacer spacing="extraLarge" />
-      <Spacer spacing="medium" />
-      <PostsHeader
-        header={'Random picks'}
-        button={{ title: 'Show all' }}
-        style={styles.postsHeader}
-      />
-      <Spacer spacing="medium" />
-      <View style={styles.mediumPostCard}>
-        <PostCard type="medium" post={posts[0]} />
-      </View>
-      <Spacer spacing="extraLarge" />
-      <Spacer spacing="medium" />
-      <LeaderBoardCarousel data={posts} header="The world" />
-    </ScrollView>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: { alignItems: 'center' },
-  postsHeader: {
-    paddingHorizontal: SPACING.medium
-  },
-  mediumPostCard: {
-    paddingHorizontal: SPACING.medium,
-    width: '100%'
-  },
-  line: (theme) => ({ width: '100%', height: 1, backgroundColor: theme.dp3 })
-});*/
 
 const CountryModalItem = ({
   image,
@@ -95,48 +26,64 @@ const CountryModalItem = ({
       onPress={onPress}
       style={styles.countryModalItemContainer}
     >
-      <Image source={image} style={styles.countryModalItemImage} />
+      <Image
+        source={getCountryImage(image)}
+        style={styles.countryModalItemImage}
+      />
       <Spacer orientation="horizontal" />
-      <Text type="body" bold={currentCountry === country}>
+      <Text type="body" bold={currentCountry.code === country}>
         {title}
       </Text>
     </TouchableOpacity>
   );
 };
 
-const getCountryImage = (country) => {
-  switch (country) {
-    case COUNTRIES.SWEDEN:
-      return 'sweden';
-    case COUNTRIES.WORLD:
-      return 'world';
-    default:
-      break;
-  }
-};
-
-const modalCountriesData = [
-  { image: IMAGES.sweden, title: 'Sweden', country: COUNTRIES.SWEDEN },
-  { image: IMAGES.world, title: 'The World', country: COUNTRIES.WORLD }
-];
+const getCountryImage = (countryCode) => IMAGES[countryCode];
 
 const YesterdayScreen = ({ navigation }) => {
   const { currentUser } = useAuthContext();
-  const [posts, setPosts] = useState();
+  //const [posts, setPosts] = useState();
   const [modalCountryVisible, setModalCountryVisible] = useState(false);
-  const [currentCountry, setCurrentCountry] = useState(COUNTRIES.SWEDEN);
+  const [countries, setCountries] = useState([]);
+  const [currentCountry, setCurrentCountry] = useState(countries[0]);
+  // const [loadingPosts, setLoadingPosts] = useState(false);
+  const getData = async (limit, offset) =>
+    await getPostsYesterday(currentCountry, currentUser.id, limit, offset);
+  const [posts, fetchNewPosts, loading, refreshPosts] = usePagination(
+    PAGINATION.POST_LIST.LIMIT,
+    PAGINATION.POST_LIST.DEFAULT_OFFSET,
+    getData
+  );
+
+  const listRef = useRef();
 
   useEffect(() => {
     (async () => {
-      setPosts();
-      const posts = await getPostsYesterday(currentCountry, currentUser.id);
-      console.log('posts', posts);
-      posts?.forEach((item, index) => {
-        console.log(item.postType, index);
-      });
-      setPosts(posts);
+      let countries = await getCountries();
+      countries.unshift({ name: 'World', code: 'world' });
+      setCountries(countries);
+      setCurrentCountry(countries[0]);
     })();
+  }, []);
+
+  useEffect(() => {
+    if (!currentCountry) {
+      return;
+    }
+    refreshPosts();
   }, [currentCountry]);
+
+  const handleRefresh = async () => {
+    refreshPosts();
+  };
+
+  const scrollToTop = () => {
+    listRef.current.scrollToOffset({ animated: true, offset: 0 });
+  };
+
+  if (!countries || countries.length === 0) {
+    return <LoadingContainer />;
+  }
 
   return (
     <>
@@ -145,15 +92,15 @@ const YesterdayScreen = ({ navigation }) => {
           <FlatList
             keyExtractor={(item, index) => item.id}
             style={{ flexGrow: 0 }}
-            data={modalCountriesData}
+            data={countries}
             renderItem={({ item, index }) => (
               <CountryModalItem
-                image={item.image}
-                title={item.title}
-                country={item.country}
+                image={item.code}
+                title={item.name}
+                country={item.code}
                 currentCountry={currentCountry}
                 onPress={() => {
-                  setCurrentCountry(item.country);
+                  setCurrentCountry(item);
                   setModalCountryVisible(false);
                 }}
               />
@@ -162,6 +109,8 @@ const YesterdayScreen = ({ navigation }) => {
         </View>
       </Modal>
       <Header
+        showGradient
+        headerOnClick={scrollToTop}
         style={styles.header}
         header={translate('headers.yesterdayScreen')}
         leftItems={[
@@ -175,7 +124,7 @@ const YesterdayScreen = ({ navigation }) => {
         rightItems={[
           {
             icon: 'chevronDown',
-            image: getCountryImage(currentCountry),
+            image: getCountryImage(currentCountry?.code),
             variant: 'transparent',
             imageStyle: { position: 'relative', left: 3 },
             onPress: () => {
@@ -184,19 +133,25 @@ const YesterdayScreen = ({ navigation }) => {
           }
         ]}
       />
-      <PostsList data={posts} showPlace />
+      <PostsList
+        loading={loading}
+        ref={listRef}
+        data={posts}
+        showPlace
+        onRefresh={handleRefresh}
+        onEndReached={fetchNewPosts}
+      />
     </>
   );
 };
 
 const styles = StyleSheet.create({
   header: {
-    position: 'absolute',
-    top: 0,
-    zIndex: 1000
+    position: 'absolute'
   },
   countryModal: {
-    marginHorizontal: 20
+    marginHorizontal: SPACING.extraLarge,
+    marginVertical: SPACING.extraLarge - SPACING.medium
   },
   countryModalItemContainer: {
     flexDirection: 'row',

@@ -7,7 +7,7 @@ const Carousel = (
   {
     renderItem,
     data,
-    itemWidth = windowWidth * 0.2,
+    itemWidth = windowWidth * 0.35,
     sliderWidth = windowWidth,
     inactiveSlideOpacity = 0.5,
     inactiveSlideScale = 0.6,

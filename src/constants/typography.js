@@ -1,62 +1,62 @@
 export const FONT_FAMILY = {
-  PoppinsBold: 'Poppins-Bold',
-  PoppinsSemiBold: 'Poppins-SemiBold',
-  PoppinsRegular: 'Poppins-Regular'
+  bold: 'Poppins-Bold',
+  semiBold: 'Poppins-SemiBold',
+  regular: 'Poppins-Regular'
 };
 
 export default {
   headingText: (theme) => ({
-    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    fontFamily: FONT_FAMILY.semiBold,
     color: theme.textPrimaryColor,
     fontSize: 30
   }),
   bodyText: (theme) => ({
-    fontFamily: FONT_FAMILY.PoppinsRegular,
+    fontFamily: FONT_FAMILY.regular,
     color: theme.textMediumColor,
     fontSize: 15
   }),
   bodyTextBold: (theme) => ({
-    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    fontFamily: FONT_FAMILY.semiBold,
     color: theme.textPrimaryColor,
     fontSize: 15
   }),
   smallText: (theme) => ({
-    fontFamily: FONT_FAMILY.PoppinsRegular,
+    fontFamily: FONT_FAMILY.regular,
     color: theme.textMediumColor,
-    fontSize: 13
+    fontSize: 12
   }),
   smallTextBold: (theme) => ({
-    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    fontFamily: FONT_FAMILY.semiBold,
     color: theme.textMediumColor,
-    fontSize: 13
+    fontSize: 12
   }),
   primaryButtonText: (theme) => ({
-    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    fontFamily: FONT_FAMILY.semiBold,
     color: theme.white,
-    fontSize: 15
+    fontSize: 14
   }),
   secondaryButtonText: (theme) => ({
-    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    fontFamily: FONT_FAMILY.semiBold,
     color: theme.white,
-    fontSize: 15
+    fontSize: 14
   }),
   thirdButtonText: (theme) => ({
-    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    fontFamily: FONT_FAMILY.semiBold,
     color: theme.white,
     fontSize: 11
   }),
   primaryInputText: (theme) => ({
-    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    fontFamily: FONT_FAMILY.semiBold,
     color: theme.primaryInputTextColor,
-    fontSize: 15
+    fontSize: 14
   }),
   headerText: (theme) => ({
-    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    fontFamily: FONT_FAMILY.semiBold,
     color: theme.white,
-    fontSize: 23
+    fontSize: 20
   }),
   largeHeaderText: (theme) => ({
-    fontFamily: FONT_FAMILY.PoppinsRegular,
+    fontFamily: FONT_FAMILY.regular,
     color: theme.textPrimaryColor,
     fontSize: 50
   })

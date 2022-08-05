@@ -5,7 +5,7 @@ export const createUserMutation = (obj) => {
   const input = objectToGraphql(obj);
   return gql`
    mutation {
-    insert_users(objects: ${input}) {returning {id, email, appState}}
+    insert_users(objects: ${input}) {returning {id, email}}
   }
 `;
 };
@@ -23,6 +23,16 @@ export const createReactionMutation = (obj) => {
   return gql`
   mutation {
     insert_reactions(objects: ${input}) {returning {id}}
+  }
+  `;
+};
+
+export const updateUserMutation = (id, set) => {
+  const setInput = objectToGraphql(set);
+
+  return gql`
+  mutation {
+    update_users_by_pk(pk_columns:{id:${id}} _set:${setInput}) {id}
   }
   `;
 };
