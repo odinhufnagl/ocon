@@ -57,6 +57,7 @@ const Header = ({
     <>
       {showGradient && (
         <LinearGradient
+          pointerEvents="none"
           style={styles.gradient}
           colors={['rgba(0, 0, 0, 0.4)', '#00000000']}
         />
@@ -114,7 +115,7 @@ Header.propTypes = {
 
 const styles = StyleSheet.create({
   container: (theme) => ({
-    marginTop: Platform.OS === 'ios' ? SPACING.extraLarge + 20 : 0,
+    marginTop: Platform.OS === 'ios' ? SPACING.medium + 20 : 0,
     paddingHorizontal: SPACING.medium,
     flexDirection: 'row',
     width: '100%',

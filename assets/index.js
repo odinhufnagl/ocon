@@ -14,6 +14,7 @@ import ChevronRightIconSVG from './icons/chevron/ChevronRightIconSVG';
 import LogOutIconSvg from './icons/logOut/LogOut';
 import SendIconSVG from './icons/send/SendIconSVG';
 import DownloadIconSvg from './icons/download/DownloadIconSVG';
+import LocationIconSvg from './icons/location/LocationIconSVG';
 export const icons = {
   back: BackIconSVG,
   close: CloseIconSvg,
@@ -30,5 +31,6 @@ export const icons = {
   chevronRight: ChevronRightIconSVG,
   logOut: LogOutIconSvg,
   send: SendIconSVG,
-  download: DownloadIconSvg
+  download: DownloadIconSvg,
+  location: LocationIconSvg
 };

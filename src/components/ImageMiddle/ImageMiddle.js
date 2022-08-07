@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+//import FastImage from 'react-native-fast-image';
 import { DIMENS } from '../../constants';
 
 const ImageMiddle = ({ imageUri, style }) => {
   return (
     <View style={[styles.container, style]}>
-      <FastImage style={styles.image} source={{ uri: imageUri }} />
+      {/*<FastImage style={styles.image} source={{ uri: imageUri }} />*/}
     </View>
   );
 };

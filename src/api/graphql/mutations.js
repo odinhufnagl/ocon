@@ -29,10 +29,12 @@ export const createReactionMutation = (obj) => {
 
 export const updateUserMutation = (id, set) => {
   const setInput = objectToGraphql(set);
+  const idInput = objectToGraphql(id);
+  console.log('setInput', setInput, id);
 
   return gql`
   mutation {
-    update_users_by_pk(pk_columns:{id:${id}} _set:${setInput}) {id}
+    update_users_by_pk(pk_columns:{id:${idInput}} _set:${setInput}) {id}
   }
   `;
 };

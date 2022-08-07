@@ -1,20 +1,22 @@
 import { PermissionsAndroid } from 'react-native';
 import { translate } from '../i18n';
-import { hasAndroidPermission, hasPermission } from './permission';
+
 import { showSnackbar } from './showSnackbar';
 import RNFetchBlob from 'rn-fetch-blob';
 import { save } from '@react-native-community/cameraroll';
 import { PERMISSIONS } from '../constants';
+import { hasPermission } from './permission';
 
-export const saveImageToCameraRoll = async (url, isRemote = true) => {
+export const saveToCameraRoll = async (url, isRemote = true, isVideo) => {
   if (!(await hasPermission(PERMISSIONS.WRITE_PHOTOS))) {
     return;
   }
+
   let res = { data: url };
   if (isRemote) {
     res = await RNFetchBlob.config({
       fileCache: true,
-      appendExt: 'png'
+      appendExt: isVideo ? 'mp4' : 'png'
     }).fetch('GET', url);
   }
   if (!res) {
@@ -27,11 +29,12 @@ export const saveImageToCameraRoll = async (url, isRemote = true) => {
   return true;
 };
 
-export const handleDownloadImage = async (url, isRemote) => {
-  const res = await saveImageToCameraRoll(url, isRemote);
+export const handleDownloadToCameraRoll = async (url, isRemote, isVideo) => {
+  console.log('url', url);
+  const res = await saveToCameraRoll(url, isRemote, isVideo);
   if (!res) {
     showSnackbar(translate('snackbar.error'), 'error');
     return;
   }
-  showSnackbar(translate('snackbar.imageDownloaded'), 'success');
+  showSnackbar(translate('snackbar.postDownloaded'), 'success');
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import {
   Button,
   Container,
@@ -9,15 +9,20 @@ import {
   Text
 } from '../../common';
 import { DIMENS, SPACING } from '../../constants';
+import { useTheme } from '../../hooks';
 import { translate } from '../../i18n';
 import { useAuthContext } from '../../providers/AuthProvider';
 import { showSnackbar } from '../../utils';
+import CheckBox from 'expo-checkbox';
+import { PRIVACY_POLICY_SCREEN } from '../../navigation';
 
 const SignUpScreen = ({ navigation }) => {
   const translateKey = 'signUpScreen.';
   const { signUp } = useAuthContext();
+  const { theme } = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [privacyPolicyChecked, setPrivacyPolicyChecked] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -29,6 +34,7 @@ const SignUpScreen = ({ navigation }) => {
       setLoading(false);
     }
   };
+
   return (
     <Container style={styles.container}>
       <IconButton
@@ -40,6 +46,7 @@ const SignUpScreen = ({ navigation }) => {
       />
       <View style={styles.centeredContainer}>
         <Text type="heading">{translate(translateKey + 'header')}</Text>
+        <Spacer spacing="small" />
         <Text type="body">{translate(translateKey + 'subheader')}</Text>
         <Spacer spacing="extraLarge" />
         <Input
@@ -67,6 +74,22 @@ const SignUpScreen = ({ navigation }) => {
           secureTextEntry={true}
           autoCapitalize="none"
         />
+        <Spacer spacing="large" />
+        <View style={styles.privacyPolicyContainer}>
+          <Text>I consent to the</Text>
+          <Spacer spacing="tiny" orientation="horizontal" />
+          <TouchableOpacity
+            onPress={() => navigation.navigate(PRIVACY_POLICY_SCREEN)}
+          >
+            <Text style={{ color: theme.primaryColor }}>Privacy Policy</Text>
+          </TouchableOpacity>
+          <Spacer orientation="horizontal" spacing="small" />
+          <CheckBox
+            color={theme.primaryColor}
+            onValueChange={setPrivacyPolicyChecked}
+            value={privacyPolicyChecked}
+          />
+        </View>
         <Spacer spacing="extraLarge" />
         <Spacer spacing="medium" />
         <View style={styles.buttonContainer}>
@@ -75,7 +98,10 @@ const SignUpScreen = ({ navigation }) => {
             onPress={handleSignUp}
             loading={loading}
             disabled={
-              !email.length || !password.length || password !== confirmPassword
+              !email.length ||
+              !password.length ||
+              password !== confirmPassword ||
+              !privacyPolicyChecked
             }
           />
         </View>
@@ -100,6 +126,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: 127,
     alignSelf: 'center'
+  },
+  privacyPolicyContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 });
 

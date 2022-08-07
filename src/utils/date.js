@@ -5,9 +5,11 @@ export const getLastWeekDate = () => {
 };
 
 export const getSecondsSinceTimestamp = (timestamp) => {
-  const now = new Date();
+  const now = new Date(
+    new Date().getTime() - new Date().getTimezoneOffset() * 60000
+  );
+  console.log('now', now, timestamp);
   const secondDate = new Date(timestamp);
-
   return (now - secondDate) / 1000;
 };
 

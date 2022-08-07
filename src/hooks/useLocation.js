@@ -9,14 +9,11 @@ export const useLocation = () => {
   useEffect(() => {
     (async () => {
       if (!(await hasPermission(PERMISSIONS.LOCATION))) {
-        console.log('hello');
         return;
       }
-      console.log('helllloooo');
+
       const config = {
-        enableHighAccuracy: false,
-        timeout: 2000,
-        maximumAge: 3600000
+        enableHighAccuracy: false
       };
       Geolocation.getCurrentPosition(
         (location) => setLocation(location),
@@ -26,8 +23,5 @@ export const useLocation = () => {
     })();
   }, []);
 
-  useEffect(() => {
-    console.log('locationuu', location);
-  }, [location]);
   return [location, setLocation];
 };

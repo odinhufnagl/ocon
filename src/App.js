@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useRef } from 'react';
 import { SafeAreaView, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -11,7 +11,7 @@ import {
 import { useLocation } from './hooks';
 import RootNavigator from './navigation';
 import { AuthProvider } from './providers/AuthProvider';
-import { darkTheme, ThemeProvider } from './theme';
+import { darkTheme, defaultTheme, ThemeProvider } from './theme';
 
 const App = () => {
   const navigationRef = useRef();
@@ -19,7 +19,17 @@ const App = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <AuthProvider>
-        <NavigationContainer ref={navigationRef}>
+        <NavigationContainer
+          ref={navigationRef}
+          theme={{
+            ...DefaultTheme,
+
+            colors: {
+              ...DefaultTheme.colors,
+              background: defaultTheme.backgroundColor
+            }
+          }}
+        >
           <GestureHandlerRootView style={{ flex: 1 }}>
             <RootNavigator navigationRef={navigationRef} />
           </GestureHandlerRootView>

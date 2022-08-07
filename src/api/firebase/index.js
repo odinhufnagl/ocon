@@ -1,6 +1,6 @@
 import storage from '@react-native-firebase/storage';
 
-export const saveImage = async (image) => {
+export const saveFile = async (image) => {
   try {
     const { uri, fileName } = image;
     await storage().ref(fileName).putFile(uri);
@@ -11,7 +11,7 @@ export const saveImage = async (image) => {
   }
 };
 
-export const getImage = async (image) => {
+export const getFile = async (image) => {
   try {
     const { fileName } = image;
     const url = await storage().ref(fileName).getDownloadURL();
