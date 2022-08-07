@@ -10,22 +10,19 @@ import {
   PROFILE_STACK,
   YESTERDAY_STACK
 } from '../routes';
-import { IntroStack } from './IntroStack';
 
-const cardStyleInterpolator = ({ current, layouts }) => {
-  return {
-    cardStyle: {
-      transform: [
-        {
-          translateX: current.progress.interpolate({
-            inputRange: [0, 1],
-            outputRange: [layouts.screen.height, 0]
-          })
-        }
-      ]
-    }
-  };
-};
+const cardStyleInterpolator = ({ current, layouts }) => ({
+  cardStyle: {
+    transform: [
+      {
+        translateX: current.progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [layouts.screen.height, 0]
+        })
+      }
+    ]
+  }
+});
 
 export const HomeStack = [
   { name: INTRO_STACK, component: IntroNavigator },

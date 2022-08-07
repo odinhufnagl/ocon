@@ -1,19 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { TapGestureHandler } from 'react-native-gesture-handler';
 import { Camera as VisionCamera } from 'react-native-vision-camera';
 import { Text } from '../../common';
 import { translate } from '../../i18n';
+import Video from 'react-native-video';
+import { hasPermission } from '../../utils';
+import { PERMISSIONS } from '../../constants';
 
-export const Camera = ({
-  device,
-  cameraRef,
-  cameraIsAuthorized,
-  imagePath,
-  style,
-  noCameraFoundText = translate('camera.noCameraFound'),
-  notAuthenticatedText = translate('camera.notAuthenticated')
-}) => {
+export const Camera = ({ device, cameraRef, imagePath, videoPath, style }) => {
   const onFocus = async (e) => {
     const x = e.nativeEvent.x;
     const y = e.nativeEvent.y;
@@ -23,12 +18,17 @@ export const Camera = ({
     });
   };
 
-  if (!device) {
-    return <Text>{noCameraFoundText}</Text>;
-  }
-
-  if (!cameraIsAuthorized) {
-    return <Text>{notAuthenticatedText}</Text>;
+  if (videoPath) {
+    return (
+      <View style={[styles.container, style]}>
+        <Video
+          source={{ uri: videoPath }}
+          style={styles.image}
+          resizeMode="cover"
+          repeat
+        />
+      </View>
+    );
   }
 
   if (imagePath) {
@@ -48,6 +48,8 @@ export const Camera = ({
           isActive
           ref={cameraRef}
           photo
+          video
+          audio
           enableZoomGesture
         />
       </View>

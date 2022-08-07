@@ -33,6 +33,7 @@ const HomeNavigator = ({ navigationRef }) => {
       firebase
         .messaging()
         .setBackgroundMessageHandler(async (remoteMessage) => {
+          console.log('hello world');
           if (currentUser && remoteMessage.data.type === 'openCamera') {
             setRerender((prev) => prev + 1);
           }
@@ -84,7 +85,7 @@ const HomeNavigator = ({ navigationRef }) => {
         lastNotification?.createdAt
       );
 
-      if (secondsSinceTimestamp > CAMERA_TIMER) {
+      if (secondsSinceTimestamp > CAMERA_TIMER || secondsSinceTimestamp < 0) {
         if (rerender > 0 && navigationRef.current.isReady()) {
           navigationRef.current.dispatch(
             CommonActions.reset({

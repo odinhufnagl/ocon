@@ -79,7 +79,7 @@ export const getLatestNotification = async (currentUserId) => {
       query: latestNotificationQuery,
       variables: { currentUserId }
     });
-    console.log('res', res);
+
     return getNotificationResult(res);
   } catch (e) {
     console.log(e);
@@ -88,14 +88,23 @@ export const getLatestNotification = async (currentUserId) => {
 
 export const getLatestPostsWithoutCurrentUser = async (
   currentUserId,
+  country = COUNTRIES.WORLD,
   limit,
   offset
 ) => {
   try {
-    console.log('fetchedddddddd in request');
     const res = await client.query({
-      query: latestPostsWithoutCurrentUserQuery,
-      variables: { currentUserId, limit, offset }
+      query: latestPostsWithoutCurrentUserQuery(
+        {
+          countryCode:
+            country.code === COUNTRIES.WORLD ? {} : { _eq: country.code },
+          userId: { _neq: currentUserId }
+        },
+        '{ reactions_aggregate: { count: desc } }',
+        currentUserId,
+        limit || 999999,
+        offset || 0
+      )
     });
 
     return getLatestPostsResult(res);
@@ -106,8 +115,8 @@ export const getLatestPostsWithoutCurrentUser = async (
 
 export const getPosts = async (
   where,
-  currentUserId,
   orderBy,
+  currentUserId,
   limit,
   offset
 ) => {
@@ -165,8 +174,8 @@ export const getPostsYesterday = async (
         country.code === COUNTRIES.WORLD ? {} : { _eq: country.code },
       notificationId: { _eq: yesterdaysNotification?.id }
     },
-    currentUserId,
     '{ reactions_aggregate: { count: desc } }',
+    currentUserId,
     limit,
     offset
   );
@@ -176,8 +185,8 @@ export const getPostsYesterday = async (
 export const getPostsLiked = async (currentUserId, limit, offset) => {
   const res = await getPosts(
     { reactions: { userId: { _eq: currentUserId } } },
-    currentUserId,
     undefined,
+    currentUserId,
     limit,
     offset
   );

@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { getLatestPostsWithoutCurrentUser } from '../../api/graphql/requests';
 import { Header, Text } from '../../common';
-import { PostsList } from '../../components';
-import { PAGINATION } from '../../constants';
-import { usePagination } from '../../hooks';
+import { CountriesModal, LoadingContainer, PostsList } from '../../components';
+import { IMAGES, PAGINATION } from '../../constants';
+import { useCountries, usePagination } from '../../hooks';
 import {
   PROFILE_SCREEN,
   PROFILE_STACK,
@@ -16,9 +16,16 @@ import { getTimeFromTimestamp } from '../../utils';
 const HomeScreen = ({ navigation }) => {
   const { currentUser } = useAuthContext();
   const [headerTime, setHeaderTime] = useState();
+  const [countries, currentCountry, setCurrentCountry] = useCountries();
+  const [countryModalVisible, setCountryModalVisible] = useState(false);
 
   const getData = async (limit, offset) =>
-    await getLatestPostsWithoutCurrentUser(currentUser.id, limit, offset);
+    await getLatestPostsWithoutCurrentUser(
+      currentUser.id,
+      currentCountry,
+      limit,
+      offset
+    );
 
   const [posts, fetchNewPosts, loading, refreshPosts, fetchInitialPosts] =
     usePagination(
@@ -28,9 +35,11 @@ const HomeScreen = ({ navigation }) => {
     );
 
   useEffect(() => {
-    console.log('fetchin initial');
-    fetchInitialPosts();
-  }, []);
+    if (!currentCountry) {
+      return;
+    }
+    refreshPosts();
+  }, [currentCountry]);
 
   const onViewableItemsChanged = (item) => {
     if (!posts || posts.length === 0) {
@@ -47,15 +56,32 @@ const HomeScreen = ({ navigation }) => {
     await refreshPosts();
   };
 
+  if (!countries || countries.length === 0 || !currentCountry) {
+    return <LoadingContainer />;
+  }
+
+  console.log(currentCountry, posts, loading);
   return (
     <>
+      <CountriesModal
+        countries={countries}
+        currentCountry={currentCountry}
+        setCurrentCountry={setCurrentCountry}
+        visible={countryModalVisible}
+        setVisible={setCountryModalVisible}
+      />
       <Header
         showGradient
         style={styles.header}
         leftItems={[
           {
-            title: headerTime,
-            type: 'heading'
+            icon: 'chevronDown',
+            image: IMAGES[currentCountry?.code],
+            variant: 'transparent',
+            imageStyle: { position: 'relative', left: 3 },
+            onPress: () => {
+              setCountryModalVisible(true);
+            }
           }
         ]}
         rightItems={[
@@ -81,7 +107,7 @@ const HomeScreen = ({ navigation }) => {
         onRefresh={handleRefresh}
         data={posts}
         onViewableItemsChanged={onViewableItemsChanged}
-        onEndReached={posts.length > 0 && fetchNewPosts}
+        onEndReached={posts?.length > 0 && fetchNewPosts}
       />
     </>
   );

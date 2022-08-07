@@ -10,25 +10,63 @@ import {
 } from 'react-native';
 import { getPosts } from '../../api/graphql/requests';
 import { Header, Icon, Spacer, Text } from '../../common';
-import { LoadingContainer, PostCard } from '../../components';
+import { LoadingContainer, PostCard, PostGrid } from '../../components';
 import { DIMENS, SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 import { translate } from '../../i18n';
 import {
   LIKED_POSTS_SCREEN,
   POSTS_SCREEN,
-  SETTINGS_SCREEN
+  SETTINGS_SCREEN,
+  SETTINGS_STACK
 } from '../../navigation';
 import { useAuthContext } from '../../providers/AuthProvider';
 import { SvgUri } from 'react-native-svg';
 
 const DEFAULT_BACKGROUND_IMAGE =
   'https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80';
-const WINDOW_WIDTH = Dimensions.get('window').width;
+
+const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
+
+const getPostGridData = (posts) => {
+  let data = [];
+  let currentMonthId;
+  let currentYear;
+  let currentPosts = [];
+  posts.forEach((post) => {
+    const d = new Date(post.createdAt);
+    const monthId = d.getMonth();
+    const year = d.getFullYear();
+    if (currentMonthId !== monthId || currentYear !== year) {
+      currentMonthId = monthId;
+      currentYear = year;
+      currentPosts.length > 0 && data.push(currentPosts);
+      data.push(`${translate('months.' + monthId)} ${year}`);
+      currentPosts = [];
+    }
+    currentPosts.push(post);
+  });
+  data.push(currentPosts);
+  return data;
+};
 
 const ProfileScreen = ({ navigation, route }) => {
   const { user } = route.params;
   const { currentUser } = useAuthContext();
+  const translateKey = 'profileScreen.';
 
   const isCurrentUser = user?.id === currentUser?.id;
   const { logOut } = useAuthContext();
@@ -49,8 +87,8 @@ const ProfileScreen = ({ navigation, route }) => {
   useEffect(async () => {
     const posts = await getPosts(
       { userId: { _eq: user.id } },
-      user.id,
       undefined,
+      user.id,
       999999,
       0
     );
@@ -73,7 +111,7 @@ const ProfileScreen = ({ navigation, route }) => {
     <View style={{ flex: 1, height: '100%' }}>
       <Header
         showGradient
-        style={{ position: 'absolute', zIndex: 20000 }}
+        style={{ position: 'absolute' }}
         header={translate('headers.profileScreen')}
         leftItems={[
           {
@@ -92,9 +130,9 @@ const ProfileScreen = ({ navigation, route }) => {
                   onPress: () => navigation.navigate(LIKED_POSTS_SCREEN)
                 },
                 {
-                  icon: 'logOut',
+                  icon: 'settings',
                   variant: 'secondary',
-                  onPress: logOut
+                  onPress: () => navigation.navigate(SETTINGS_STACK)
                 }
               ]
             : []
@@ -107,9 +145,12 @@ const ProfileScreen = ({ navigation, route }) => {
           uri: posts[0]?.image || DEFAULT_BACKGROUND_IMAGE
         }}
         resizeMethod="resize"
-      ></ImageBackground>
+      />
       <ScrollView
-        style={{ height: '100%', flex: 1 }}
+        style={{
+          height: '100%',
+          flex: 1
+        }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={posts.length === 0 && { height: '100%' }}
       >
@@ -126,46 +167,22 @@ const ProfileScreen = ({ navigation, route }) => {
                 {isCurrentUser ? user.email : '*********'}
               </Text>
               <View style={styles.captionContainer}>
-                <Text type="small">{posts.length} images</Text>
+                <Text type="small">
+                  {posts?.length} {translate(translateKey + 'posts')}
+                </Text>
                 <Spacer spacing="tiny" orientation="horizontal" />
                 <View style={styles.bulletin(theme)} />
                 <Spacer spacing="tiny" orientation="horizontal" />
-                <Text type="small">{totalReactions} reactions</Text>
+                <Text type="small">
+                  {totalReactions} {translate(translateKey + 'reactions')}
+                </Text>
               </View>
               <Spacer spacing="large" />
             </View>
-            {posts.length > 0 ? (
-              <FlatList
-                keyExtractor={(item, index) => item.id}
-                data={posts}
-                style={{ marginHorizontal: (SPACING.tiny * 3) / 2 }}
-                showsVerticalScrollIndicator={false}
-                renderItem={({ item, index }) => (
-                  <PostCard
-                    onPress={navigateToPost}
-                    post={item}
-                    type="small"
-                    style={{
-                      marginHorizontal: (SPACING.tiny * 3) / 2,
-                      marginBottom: SPACING.tiny * 3,
-                      // flex: 1
-                      width: WINDOW_WIDTH / 3 - SPACING.tiny * 3
-                    }}
-                  />
-                )}
-                numColumns={3}
-              />
-            ) : (
-              <View style={styles.noImagesContainer}>
-                <View style={styles.noImagesIconContainer}>
-                  <Icon variant="image" size="extraLarge" />
-                </View>
-                <Spacer />
-                <Text style={{ color: 'white' }}>
-                  {translate('profileScreen.emptyImageList')}
-                </Text>
-              </View>
-            )}
+            <PostGrid
+              data={getPostGridData(posts)}
+              onPostPress={navigateToPost}
+            />
           </View>
         </View>
       </ScrollView>

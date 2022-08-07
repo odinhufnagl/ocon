@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import { AnimatedEmoji } from 'react-native-animated-emoji';
+import Video from 'react-native-video';
 
 import LinearGradient from 'react-native-linear-gradient';
 import { ImageMiddle, PostBottomContainer } from '..';
@@ -22,12 +23,15 @@ import { PROFILE_SCREEN, PROFILE_STACK } from '../../navigation';
 import { useAuthContext } from '../../providers/AuthProvider';
 import { POST_POSITIONS } from '../../screens/CameraScreen/CameraScreen';
 import {
-  handleDownloadImage,
+  getTimeFromTimestamp,
+  handleDownloadToCameraRoll,
   saveImageToCameraRoll,
   showSnackbar
 } from '../../utils';
+import { ConditionalWrapper, Text } from '../../common';
 
-const Post = ({ post, index, showPlace }) => {
+const Post = ({ post, index, showPlace, isVisible }) => {
+  const videoRef = useRef();
   const navigation = useNavigation();
   const { currentUser } = useAuthContext();
   const [currentUsersTotalReactionsCount, setCurrentUsersTotalReactionsCount] =
@@ -35,7 +39,7 @@ const Post = ({ post, index, showPlace }) => {
   const [reactionsCount, setReactionsCount] = useState(post.reactionsCount);
   const [backgroundClicks, setBackgroundClicks] = useState();
   const backgroundClicksTimer = useRef();
-  const { postType, image, location } = post;
+  const { image, location, video } = post;
 
   const [emojisMoving, setEmojisMoving] = useState([]);
   const updateReactionsCount = (emojiName, toAdd) => {
@@ -71,7 +75,6 @@ const Post = ({ post, index, showPlace }) => {
   };
 
   useEffect(() => {
-    console.log('hjelllo');
     if (backgroundClicks == 2) {
       clearTimeout(backgroundClicksTimer.current);
       console.log('Clicked twice');
@@ -99,45 +102,61 @@ const Post = ({ post, index, showPlace }) => {
     });
   };
 
-  if (postType.position === POST_POSITIONS.FULL) {
-    return (
-      <TouchableWithoutFeedback
-        onPress={handleBackgroundPress}
-        style={{ backgroundColor: 'blue', height: '100%', width: '100%' }}
-      >
+  return (
+    <TouchableWithoutFeedback
+      onPress={handleBackgroundPress}
+      style={styles.container}
+    >
+      <View style={styles.container}>
         <ImageBackground
           source={{ uri: image }}
           style={styles.imageBackground}
           resizeMethod="resize"
         >
-          {emojisMoving.map((emoji) => emoji())}
-          <PostBottomContainer
-            onDownloadPress={() => handleDownloadImage(post.image)}
-            onAvatarPress={navigateToUser}
-            onContainerPress={handleBackgroundPress}
-            textLeftUpper={showPlace && '#' + parseInt(index + 1)}
-            showGradient
-            emojis={[
-              {
-                name: EMOJI_NAMES.GRINNING,
-                count: reactionsCount[EMOJI_NAMES.GRINNING],
-                onPress: handleEmojiClicked
-              },
-              {
-                count: reactionsCount[EMOJI_NAMES.HEART_EYES],
-                onPress: handleEmojiClicked,
-                name: EMOJI_NAMES.HEART_EYES
+          <View style={styles.imageBackground}>
+            {emojisMoving.map((emoji) => emoji())}
+            <PostBottomContainer
+              textLeftSmall={getTimeFromTimestamp(post.createdAt)}
+              onDownloadPress={() =>
+                handleDownloadToCameraRoll(video || image, true, Boolean(video))
               }
-            ]}
-            textLeft={location}
-            avatarImage={post?.createdBy?.avatar?.image}
-          />
+              onAvatarPress={navigateToUser}
+              onContainerPress={handleBackgroundPress}
+              textLeftUpper={showPlace && '#' + parseInt(index + 1)}
+              showGradient
+              emojis={[
+                {
+                  name: EMOJI_NAMES.GRINNING,
+                  count: reactionsCount[EMOJI_NAMES.GRINNING],
+                  onPress: handleEmojiClicked
+                },
+                {
+                  count: reactionsCount[EMOJI_NAMES.HEART_EYES],
+                  onPress: handleEmojiClicked,
+                  name: EMOJI_NAMES.HEART_EYES
+                }
+              ]}
+              textLeft={location}
+              avatarImage={post?.createdBy?.avatar?.image}
+            />
+          </View>
         </ImageBackground>
-      </TouchableWithoutFeedback>
-    );
-  }
 
-  if (postType.position === POST_POSITIONS.MIDDLE) {
+        {video && (
+          <Video
+            paused={!isVisible}
+            ref={videoRef}
+            source={{ uri: video }}
+            style={styles.video}
+            resizeMode="cover"
+            repeat
+          />
+        )}
+      </View>
+    </TouchableWithoutFeedback>
+  );
+
+  /*if (postType.position === POST_POSITIONS.MIDDLE) {
     return (
       <LinearGradient
         style={styles.linearGradient}
@@ -166,7 +185,7 @@ const Post = ({ post, index, showPlace }) => {
         />
       </LinearGradient>
     );
-  }
+  }*/
 };
 
 const styles = StyleSheet.create({
@@ -174,6 +193,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     justifyContent: 'flex-end'
+  },
+  container: {
+    width: '100%',
+    height: '100%'
   },
   linearGradient: {
     width: '100%',
@@ -189,6 +212,14 @@ const styles = StyleSheet.create({
 
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  video: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: -100
   }
 });
 
