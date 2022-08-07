@@ -26,7 +26,7 @@ const getIconSize = (size) => {
 
 const Icon = (props) => {
   const { theme } = useTheme();
-  const { variant, fill = theme.black, size, style } = props;
+  const { variant, fill = theme.white, size, style } = props;
   const iconSize = getIconSize(size);
 
   const IconView = icons[variant] ? icons[variant] : null;

@@ -28,7 +28,7 @@ const LikedPostsScreen = ({ navigation }) => {
       <Header
         style={styles.header}
         showGradient
-        header={'Photos you enjoy'}
+        header={'Posts you enjoy'}
         leftItems={[
           {
             icon: 'back',

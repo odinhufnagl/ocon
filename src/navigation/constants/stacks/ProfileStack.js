@@ -7,12 +7,15 @@ import {
   ProfileScreen,
   SettingsScreen
 } from '../../../screens';
+import SettingsNavigator from '../../navigators/SettingsNavigator';
 import {
   LIKED_POSTS_SCREEN,
   POSTS_SCREEN,
   PROFILE_SCREEN,
-  SETTINGS_SCREEN
+  SETTINGS_SCREEN,
+  SETTINGS_STACK
 } from '../routes';
+import { SettingsStack } from './SettingsStack';
 
 export const ProfileStack = [
   {
@@ -20,23 +23,8 @@ export const ProfileStack = [
     component: ProfileScreen
   },
   {
-    name: SETTINGS_SCREEN,
-    component: SettingsScreen,
-    options: ({ navigation }) => ({
-      header: () => (
-        <Header
-          header={translate('headers.settingsScreen')}
-          leftItems={[
-            {
-              icon: 'back',
-              iconSize: 'medium',
-              variant: 'secondary',
-              onPress: () => navigation.goBack()
-            }
-          ]}
-        />
-      )
-    })
+    name: SETTINGS_STACK,
+    component: SettingsNavigator
   },
   { name: LIKED_POSTS_SCREEN, component: LikedPostsScreen },
   { name: POSTS_SCREEN, component: PostsScreen }

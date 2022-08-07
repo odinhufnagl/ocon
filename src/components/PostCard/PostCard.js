@@ -35,7 +35,7 @@ const PostCard = ({ post, type, style, onPress = () => {} }) => {
     return <View></View>;
   }
   const { theme } = useTheme();
-  const { image, createdAt } = post;
+  const { image, createdAt, thumbnail } = post;
 
   return (
     <TouchableWithoutFeedback onPress={() => onPress(post)}>
@@ -47,10 +47,11 @@ const PostCard = ({ post, type, style, onPress = () => {} }) => {
         ]}
       >
         <Image
-          source={{ uri: image }}
+          source={{ uri: image || thumbnail }}
           style={styles.imageBackground}
           resizeMethod="resize"
         />
+
         {/* <ImageBackground source={{ uri: image }} style={styles.imageBackground}>
           {
             <PostBottomContainer
@@ -70,7 +71,7 @@ const PostCard = ({ post, type, style, onPress = () => {} }) => {
 
 const styles = StyleSheet.create({
   defaultContainerStyle: (theme) => ({
-    borderRadius: DIMENS.common.borderRadiusMedium,
+    borderRadius: 4,
     overflow: 'hidden'
   }),
   largeContainer: (theme) => ({
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
   }),
   smallContainer: (theme) => ({
     width: '30%',
-    aspectRatio: 0.8
+    aspectRatio: 0.6
   }),
   imageBackground: {
     width: '100%',

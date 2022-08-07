@@ -11,7 +11,13 @@ import LinearGradient from 'react-native-linear-gradient';
 import { SvgUri } from 'react-native-svg';
 import happy from '../../../assets/images/happyEmoji/happyEmoji.png';
 import heartEyes from '../../../assets/images/heartEyesEmoji/heartEyesEmoji.png';
-import { ConditionalWrapper, IconButton, Spacer, Text } from '../../common';
+import {
+  ConditionalWrapper,
+  Icon,
+  IconButton,
+  Spacer,
+  Text
+} from '../../common';
 import { EMOJI_NAMES, SPACING } from '../../constants';
 
 import { useTheme } from '../../hooks';
@@ -34,13 +40,12 @@ const PostBottomContainer = ({
   showGradient,
   textLeftStyle = { color: 'white' },
   textLeftType = 'body',
-  style,
-  textLeftUpper,
-  textLeftUpperStyle,
-  textLeftUpperType = 'largeHeader',
+  textLeftSmall,
   avatarImage,
   onAvatarPress,
-  onDownloadPress
+  onDownloadPress,
+  textLeftUpper,
+  style
 }) => {
   const { theme } = useTheme();
   return (
@@ -49,7 +54,7 @@ const PostBottomContainer = ({
       wrapper={(children) => (
         <LinearGradient
           style={[styles.container, style]}
-          colors={['#00000000', 'rgba(0, 0, 0, 0.2)']}
+          colors={['#00000000', 'rgba(0, 0, 0, 0.4)']}
         >
           {children}
         </LinearGradient>
@@ -61,9 +66,20 @@ const PostBottomContainer = ({
       >
         <View style={styles.bottomContainer}>
           <View style={styles.leftContainer}>
-            <Text type={textLeftType} style={textLeftStyle} bold>
-              {textLeft}
-            </Text>
+            <Text type="heading">{textLeftUpper}</Text>
+            <View style={styles.locationContainer}>
+              <Icon
+                variant="location"
+                fill="white"
+                size="small"
+                style={{ position: 'relative', bottom: 2 }}
+              />
+              <Spacer spacing="small" orientation="horizontal" />
+              <Text type={textLeftType} style={textLeftStyle} bold>
+                {textLeft}
+              </Text>
+            </View>
+            <Text type="small">{textLeftSmall}</Text>
           </View>
 
           <View style={styles.rightContainer}>
@@ -113,7 +129,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: SPACING.medium,
     paddingBottom: SPACING.large,
-
     justifyContent: 'flex-end'
   },
   bottomContainer: {
@@ -134,6 +149,10 @@ const styles = StyleSheet.create({
   leftContainer: {
     alignSelf: 'flex-end',
     width: '65%'
+  },
+  locationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   emoji: {
     width: 30,

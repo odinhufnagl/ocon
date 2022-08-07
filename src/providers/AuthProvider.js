@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { EMPTY } from '../api/graphql/constants';
 import { createUser, getUser, updateUser } from '../api/graphql/requests';
 import { LoadingHeaderContainer } from '../components';
+import * as RNLocalize from 'react-native-localize';
 
 export const ONBOARDING_DATA = Object.freeze({
   SSN: 'ssn',
@@ -29,7 +30,9 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubsribe = firebase.auth().onAuthStateChanged(async (user) => {
+      console.log('user', user);
       if (user && lastUid !== user.uid) {
+        await updateUser(user.uid, { timeZone: RNLocalize.getTimeZone() });
         lastUid = user.uid;
         let userFromDB = await getUser(user.uid);
 
@@ -78,7 +81,9 @@ export const AuthProvider = ({ children }) => {
 
   const forgotPassword = async (email) => {
     try {
-      console.log('hello world');
+      if (email.length === 0) {
+        return;
+      }
       await firebase.auth().sendPasswordResetEmail(email.trim());
       return true;
     } catch (e) {

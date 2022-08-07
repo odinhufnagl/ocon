@@ -15,6 +15,7 @@ import {
   LOGIN_SCREEN,
   SIGN_UP_SCREEN
 } from '../../navigation/constants/routes';
+import { SPACING } from '../../constants';
 
 const WelcomeScreen = ({ navigation }) => {
   const translateKey = 'welcomeScreen.';

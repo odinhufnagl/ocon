@@ -59,12 +59,14 @@ const AvatarScreen = ({ navigation }) => {
       const fetchedAvatars = await getAvatars();
       setAvatars(fetchedAvatars);
       setAvatar(fetchedAvatars[0]);
+      console.log(fetchedAvatars[0]);
       setLoading(false);
     })();
   }, []);
 
   const handleButtonPress = async () => {
     setLoading(true);
+    console.log(avatar, 'huhuhu', currentUser);
     const res = await updateUser(currentUser.id, { avatarId: avatar.id });
 
     if (!res) {
@@ -73,7 +75,7 @@ const AvatarScreen = ({ navigation }) => {
       return;
     }
     await updateCurrentUser();
-    navigation.navigate(INFO_SCREEN, { ...infoScreensData(navigation)[0] });
+    navigation.replace(INFO_SCREEN, { ...infoScreensData(navigation)[0] });
     setLoading(false);
   };
 

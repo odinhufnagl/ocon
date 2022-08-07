@@ -8,8 +8,10 @@ import Post from './Post/Post';
 import PostBottomContainer from './PostBottomContainer/PostBottomContainer';
 import PostCard from './PostCard/PostCard';
 import PostCardsCarousel from './PostCardsCarousel/PostCardsCarousel';
-import PostsHeader from './PostsHeader/PostsHeader';
 import PostsList from './PostsList/PostsList';
+import PostGrid from './PostGrid/PostGrid';
+import CountriesModal from './CountriesModal/CountriesModal';
+import CameraView from './CameraView/CameraView';
 export {
   Camera,
   CameraButton,
@@ -21,6 +23,8 @@ export {
   PostsList,
   PostCard,
   PostBottomContainer,
-  PostsHeader,
-  PostCardsCarousel
+  PostCardsCarousel,
+  PostGrid,
+  CountriesModal,
+  CameraView
 };

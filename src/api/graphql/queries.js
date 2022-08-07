@@ -42,6 +42,8 @@ export const latestNotificationQuery = gql`
       currentUsersPosts: posts(where: { userId: { _eq: $currentUserId } }) {
         id
         image
+        thumbnail
+        video
       }
     }
   }
@@ -56,58 +58,75 @@ export const yesterdaysNotificationQuery = gql`
   }
 `;
 
-export const latestPostsWithoutCurrentUserQuery = gql`
-  query latestPosts($currentUserId: String!, $limit: Int, $offset: Int) {
-    notifications(order_by: { createdAt: desc }, limit: 1) {
-      id
-      posts: posts(
-        where: { userId: { _neq: $currentUserId } }
-        limit: $limit
-        offset: $offset
-      ) {
-        createdAt
+export const latestPostsWithoutCurrentUserQuery = (
+  postWhere,
+  orderBy,
+  currentUserId,
+  limit,
+  offset
+) => {
+  const postWhereInput = objectToGraphql(postWhere);
+  const currentUserIdInput = objectToGraphql(currentUserId);
+  const orderByInput = orderBy || '{ createdAt: desc }';
+
+  return gql`
+    query latestPosts {
+      notifications(order_by: { createdAt: desc }, limit: 1) {
         id
-        image
-        postType {
-          position
-        }
-        location
-        country {
-          name
-        }
-        reactions {
-          reactionType {
+        posts: posts(
+          where: ${postWhereInput}
+          order_by: ${orderByInput}
+          limit: ${limit}
+          offset: ${offset}
+        ) {
+          createdAt
+          id
+          image
+          thumbnail
+          video
+          postType {
+            id
             name
           }
-        }
-        createdBy {
-          email
-          avatar {
-            id
-            image
+          location
+          country {
+            name
           }
-          id
-          postsCount: posts_aggregate {
+          reactions {
+            reactionType {
+              name
+            }
+          }
+          createdBy {
+            email
+            avatar {
+              id
+              image
+            }
+            id
+            postsCount: posts_aggregate {
+              aggregate {
+                count
+              }
+            }
+          }
+          currentUsersTotalReactionsCount: reactions_aggregate(
+            where: { userId: { _eq: ${currentUserIdInput} } }
+          ) {
             aggregate {
               count
             }
           }
         }
-        currentUsersTotalReactionsCount: reactions_aggregate(
-          where: { userId: { _eq: $currentUserId } }
-        ) {
-          aggregate {
-            count
-          }
-        }
       }
     }
-  }
-`;
+  `;
+};
 
 export const postsQuery = (where, orderBy, currentUserId, limit, offset) => {
   const whereInput = objectToGraphql(where || {});
   const orderByInput = orderBy || '{ createdAt: desc }';
+  const currentUserIdInput = objectToGraphql(currentUserId);
 
   return gql`
   query posts {
@@ -115,7 +134,9 @@ export const postsQuery = (where, orderBy, currentUserId, limit, offset) => {
       createdAt,
       id,
       image,
-      postType {position},
+      thumbnail,
+      video
+      postType {name, id},
     location,
     createdBy{
       id
@@ -134,7 +155,7 @@ export const postsQuery = (where, orderBy, currentUserId, limit, offset) => {
       reactions {
         reactionType {name}
       },
-      currentUsersTotalReactionsCount:reactions_aggregate(where:{userId:{_eq:${currentUserId}}}) {
+      currentUsersTotalReactionsCount:reactions_aggregate(where:{userId:{_eq:${currentUserIdInput}}}) {
         aggregate {count}
       },
       

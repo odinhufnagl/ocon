@@ -1,10 +1,11 @@
 package com.captureit;
-
 import com.horcrux.svg.SvgPackage;
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.reactlibrary.createthumbnail.CreateThumbnailPackage;
+import com.brentvatne.react.ReactVideoPackage;
 import com.zoontek.rnlocalize.RNLocalizePackage;
 import com.reactnativecommunity.slider.ReactSliderPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -18,7 +19,6 @@ import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
 import com.facebook.react.bridge.JSIModulePackage; 
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
-
 
 public class MainApplication extends Application implements ReactApplication {
 

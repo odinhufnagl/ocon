@@ -11,6 +11,7 @@ import SignUpScreen from './SignUpScreen/SignUpScreen';
 import WelcomeScreen from './WelcomeScreen/WelcomeScreen';
 import YesterdayScreen from './YesterdayScreen/YesterdayScreen';
 import AvatarScreen from './AvatarScreen/AvatarScreen';
+import PrivacyPolicyScreen from './PrivacyPolicyScreen/PrivacyPolicyScreen';
 export {
   WelcomeScreen,
   ProfileScreen,
@@ -24,5 +25,6 @@ export {
   PostsScreen,
   SettingsScreen,
   LikedPostsScreen,
-  AvatarScreen
+  AvatarScreen,
+  PrivacyPolicyScreen
 };

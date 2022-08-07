@@ -1,4 +1,5 @@
 import { useLocation } from './useLocation';
 import useTheme from './useTheme';
-import { usePagination } from './usePagination';
-export { useLocation, useTheme, usePagination };
+import usePagination from './usePagination';
+import useCountries from './useCountries';
+export { useLocation, useTheme, usePagination, useCountries };
