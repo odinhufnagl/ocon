@@ -18,17 +18,17 @@ export const infoScreensData = (navigation) => [
     image: curiousImage,
     handleButtonClick: () =>
       navigation.navigate(INFO_SCREEN, { ...infoScreensData(navigation)[1] }),
-    handleSecondaryButtonClick: () => navigation.navigate(HOME_SCREEN)
+    handleSecondaryButtonClick: () => navigation.replace(HOME_SCREEN)
   },
   {
     header: 'Capture the moment',
-    body: 'Everyday at a random time, you will get a notification telling you you have 10 minutes to capture what you are doing at the moment.',
+    body: 'Everyday at a random time, you will get a notification telling you you have 10 minutes to capture what you are doing at the moment, either with an image or a 15 second clip',
     secondaryButtonText: 'Skip',
     buttonText: 'Next',
     image: cameraImage,
     handleButtonClick: () =>
       navigation.navigate(INFO_SCREEN, { ...infoScreensData(navigation)[2] }),
-    handleSecondaryButtonClick: () => navigation.navigate(HOME_SCREEN)
+    handleSecondaryButtonClick: () => navigation.replace(HOME_SCREEN)
   },
   {
     header: 'Explore the world',
@@ -38,15 +38,15 @@ export const infoScreensData = (navigation) => [
     image: worldImage,
     handleButtonClick: () =>
       navigation.navigate(INFO_SCREEN, { ...infoScreensData(navigation)[3] }),
-    handleSecondaryButtonClick: () => navigation.navigate(HOME_SCREEN)
+    handleSecondaryButtonClick: () => navigation.replace(HOME_SCREEN)
   },
   {
     header: 'Relive yesterday',
-    body: 'The day after, you can relive all the worlds moments from yesterday, and we also show you which posts have gotten the most reactions! Hopefully you can take place on the scoreboard someday!',
+    body: 'The day after, you can relive all the worlds moments from yesterday, and we also show you which posts have been the most popular. Hopefully you can take place on the scoreboard someday!',
     buttonText: "I'm ready!",
     image: clockImage,
-    handleButtonClick: () => navigation.navigate(HOME_SCREEN),
-    handleSecondaryButtonClick: () => navigation.navigate(HOME_SCREEN)
+    handleButtonClick: () => navigation.replace(HOME_SCREEN),
+    handleSecondaryButtonClick: () => navigation.replace(HOME_SCREEN)
   }
 ];
 

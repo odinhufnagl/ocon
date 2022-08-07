@@ -4,11 +4,24 @@ import { Text } from '../../common';
 import { SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 
-const CameraButton = ({ onPress, text, style }) => {
+const CameraButton = ({
+  onPress,
+  onPressOut,
+  onLongPress,
+  isFilming,
+  text,
+  style
+}) => {
   const { theme } = useTheme();
   return (
-    <View style={[styles.container(theme), style]}>
-      <TouchableOpacity style={styles.button(theme)} onPress={onPress}>
+    <View style={[styles.container(theme, isFilming), style]}>
+      <TouchableOpacity
+        style={styles.button(theme)}
+        onPress={onPress}
+        onLongPress={onLongPress}
+        delayLongPress={300}
+        onPressOut={onPressOut}
+      >
         <Text style={styles.timer(theme)} bold>
           {text}
         </Text>
@@ -18,13 +31,13 @@ const CameraButton = ({ onPress, text, style }) => {
 };
 
 const styles = StyleSheet.create({
-  container: (theme) => ({
+  container: (theme, isFilming) => ({
     width: 75,
     height: 75,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: theme.white,
+    borderColor: isFilming ? theme.errorColor : theme.white,
     borderRadius: 2000,
     paddingHorizontal: SPACING.tiny,
     paddingVertical: SPACING.tiny,

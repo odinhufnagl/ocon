@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
 import { LoadingContainer, Post } from '..';
 import { Text } from '../../common';
@@ -18,13 +18,19 @@ const PostsList = React.forwardRef(
     },
     ref
   ) => {
+    const [currentVisible, setCurrentVisible] = useState();
     const [refreshing, setRefreshing] = useState(false);
     const [layoutHeight, setLayoutHeight] = useState(
       Dimensions.get('window').height
     );
 
     const _onViewableItemsChanged = useRef((item) => {
+      console.log('item', item);
       onViewableItemsChanged(item);
+      const { index, isViewable } = item.changed[0];
+      if (isViewable) {
+        setCurrentVisible(index);
+      }
     });
 
     const getItemLayout = (data, index) => ({
@@ -42,16 +48,16 @@ const PostsList = React.forwardRef(
       setRefreshing(false);
     };
 
-    if (!layoutHeight) {
-      return <View></View>;
-    }
-
-    if (loading) {
+    if (loading || !layoutHeight) {
       return <LoadingContainer />;
     }
 
     if (!data) {
-      <>Something went wrong</>;
+      return (
+        <View style={styles.noImagesContainer}>
+          <Text>{translate('postsList.somethingWentWrong')}</Text>
+        </View>
+      );
     }
 
     if (data?.length === 0) {
@@ -61,6 +67,7 @@ const PostsList = React.forwardRef(
         </View>
       );
     }
+
     return (
       <FlatList
         onEndReached={onEndReached}
@@ -78,7 +85,12 @@ const PostsList = React.forwardRef(
         data={data}
         renderItem={({ item, index }) => (
           <View style={{ height: layoutHeight, width: '100%' }}>
-            <Post post={item} index={index} showPlace={showPlace} />
+            <Post
+              post={item}
+              index={index}
+              showPlace={showPlace}
+              isVisible={currentVisible === index}
+            />
           </View>
         )}
         showsVerticalScrollIndicator={false}

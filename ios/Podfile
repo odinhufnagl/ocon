@@ -26,6 +26,12 @@ target 'captureit' do
  
 
 
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
+
+  pod 'react-native-ffmpeg', :path => '../node_modules/react-native-ffmpeg'
+
+  pod 'react-native-create-thumbnail', :path => '../node_modules/react-native-create-thumbnail'
+
   target 'captureitTests' do
     inherit! :complete
     # Pods for testing

@@ -50,6 +50,7 @@ const LoginScreen = ({ navigation }) => {
       />
       <View style={styles.centeredContainer}>
         <Text type="heading">{translate(translateKey + 'header')}</Text>
+        <Spacer spacing="small" />
         <Text type="body">{translate(translateKey + 'subheader')}</Text>
         <Spacer spacing="extraLarge" />
         <Input

@@ -1,20 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { StyleSheet, ViewPropTypes } from 'react-native';
+import { StyleSheet, ViewPropTypes, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SPACING } from '../../constants';
 
 const Container = ({ children, style }) => {
-  return (
-    <SafeAreaView style={[styles.container, style]}>{children}</SafeAreaView>
-  );
+  return <View style={[styles.container, style]}>{children}</View>;
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: SPACING.medium,
-    paddingBottom: SPACING.extraLarge
+    paddingBottom: SPACING.extraLarge,
+    marginTop: Platform.OS === 'ios' ? SPACING.medium + 20 : 0
   }
 });
 

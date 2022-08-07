@@ -8,35 +8,11 @@ import {
 } from 'react-native';
 import { getCountries, getPostsYesterday } from '../../api/graphql/requests';
 import { Header, Modal, Spacer, Text } from '../../common';
-import { LoadingContainer, PostsList } from '../../components';
+import { CountriesModal, LoadingContainer, PostsList } from '../../components';
 import { COUNTRIES, IMAGES, PAGINATION, SPACING } from '../../constants';
-import { usePagination } from '../../hooks';
+import { useCountries, usePagination } from '../../hooks';
 import { translate } from '../../i18n';
 import { useAuthContext } from '../../providers/AuthProvider';
-
-const CountryModalItem = ({
-  image,
-  title,
-  onPress,
-  currentCountry,
-  country
-}) => {
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={styles.countryModalItemContainer}
-    >
-      <Image
-        source={getCountryImage(image)}
-        style={styles.countryModalItemImage}
-      />
-      <Spacer orientation="horizontal" />
-      <Text type="body" bold={currentCountry.code === country}>
-        {title}
-      </Text>
-    </TouchableOpacity>
-  );
-};
 
 const getCountryImage = (countryCode) => IMAGES[countryCode];
 
@@ -44,8 +20,7 @@ const YesterdayScreen = ({ navigation }) => {
   const { currentUser } = useAuthContext();
   //const [posts, setPosts] = useState();
   const [modalCountryVisible, setModalCountryVisible] = useState(false);
-  const [countries, setCountries] = useState([]);
-  const [currentCountry, setCurrentCountry] = useState(countries[0]);
+  const [countries, currentCountry, setCurrentCountry] = useCountries();
   // const [loadingPosts, setLoadingPosts] = useState(false);
   const getData = async (limit, offset) =>
     await getPostsYesterday(currentCountry, currentUser.id, limit, offset);
@@ -56,15 +31,6 @@ const YesterdayScreen = ({ navigation }) => {
   );
 
   const listRef = useRef();
-
-  useEffect(() => {
-    (async () => {
-      let countries = await getCountries();
-      countries.unshift({ name: 'World', code: 'world' });
-      setCountries(countries);
-      setCurrentCountry(countries[0]);
-    })();
-  }, []);
 
   useEffect(() => {
     if (!currentCountry) {
@@ -81,33 +47,19 @@ const YesterdayScreen = ({ navigation }) => {
     listRef.current.scrollToOffset({ animated: true, offset: 0 });
   };
 
-  if (!countries || countries.length === 0) {
+  if (!countries || countries.length === 0 || !currentCountry) {
     return <LoadingContainer />;
   }
 
   return (
     <>
-      <Modal visible={modalCountryVisible} setVisible={setModalCountryVisible}>
-        <View style={styles.countryModal}>
-          <FlatList
-            keyExtractor={(item, index) => item.id}
-            style={{ flexGrow: 0 }}
-            data={countries}
-            renderItem={({ item, index }) => (
-              <CountryModalItem
-                image={item.code}
-                title={item.name}
-                country={item.code}
-                currentCountry={currentCountry}
-                onPress={() => {
-                  setCurrentCountry(item);
-                  setModalCountryVisible(false);
-                }}
-              />
-            )}
-          />
-        </View>
-      </Modal>
+      <CountriesModal
+        countries={countries}
+        visible={modalCountryVisible}
+        setVisible={setModalCountryVisible}
+        currentCountry={currentCountry}
+        setCurrentCountry={setCurrentCountry}
+      />
       <Header
         showGradient
         headerOnClick={scrollToTop}

@@ -7,6 +7,7 @@ import TYPOGRAPHY from './typography';
 import PAGINATION from './pagination';
 import PERMISSIONS from './permissions';
 const CAMERA_TIMER = '600';
+const VIDEO_MAX_LENGTH = 15;
 const MAX_REACIONS = 10;
 const EMOJI_NAMES = {
   HEART_EYES: 'heart_eyes',
@@ -28,5 +29,6 @@ export {
   COUNTRY_CODES,
   REACTION_TYPE_IDS,
   PAGINATION,
-  PERMISSIONS
+  PERMISSIONS,
+  VIDEO_MAX_LENGTH
 };
