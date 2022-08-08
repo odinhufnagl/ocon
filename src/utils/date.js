@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const getLastWeekDate = () => {
   const date = new Date();
   date.setDate(date.getDate() - 7); // Get date from 7 days before
@@ -5,12 +7,9 @@ export const getLastWeekDate = () => {
 };
 
 export const getSecondsSinceTimestamp = (timestamp) => {
-  const now = new Date(
-    new Date().getTime() - new Date().getTimezoneOffset() * 60000
-  );
-  console.log('now', now, timestamp);
-  const secondDate = new Date(timestamp);
-  return (now - secondDate) / 1000;
+  const now = moment();
+  const secondDate = moment(timestamp);
+  return moment.duration(now.diff(secondDate)).asSeconds();
 };
 
 export const convertSecondsToMinAndSecs = (seconds) => {

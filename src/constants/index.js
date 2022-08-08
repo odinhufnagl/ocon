@@ -7,7 +7,7 @@ import TYPOGRAPHY from './typography';
 import PAGINATION from './pagination';
 import PERMISSIONS from './permissions';
 const CAMERA_TIMER = '600';
-const VIDEO_MAX_LENGTH = 15;
+const VIDEO_MAX_LENGTH = 10;
 const MAX_REACIONS = 10;
 const EMOJI_NAMES = {
   HEART_EYES: 'heart_eyes',
