@@ -52,10 +52,10 @@ import {
   getThumbnailFromVideo,
   handleDownloadToCameraRoll,
   hasAndroidPermission,
-  hasPermission
+  hasPermission,
+  shouldShowCamera
 } from '../../utils';
 import { showSnackbar } from '../../utils/showSnackbar';
-
 export const POST_POSITIONS = {
   FULL: 'full',
   MIDDLE: 'middle'
@@ -223,7 +223,10 @@ export const CameraScreen = ({ navigation, route }) => {
       handleTimeIsUp();
       return;
     }
-    setCount(CAMERA_TIMER - secondsSinceTimestamp);
+    const secondsSinceNotification = getSecondsSinceTimestamp(
+      latestNotification.createdAt
+    );
+    setCount(CAMERA_TIMER - secondsSinceNotification);
   };
 
   const handlePostVideo = async (path) => {
