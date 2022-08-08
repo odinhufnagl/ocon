@@ -218,10 +218,8 @@ export const CameraScreen = ({ navigation, route }) => {
       navigateFurther();
       return;
     }
-    const secondsSinceTimestamp = getSecondsSinceTimestamp(
-      latestNotification.createdAt
-    );
-    if (secondsSinceTimestamp > CAMERA_TIMER || secondsSinceTimestamp < 0) {
+
+    if (!shouldShowCamera(latestNotification.createdAt)) {
       handleTimeIsUp();
       return;
     }
