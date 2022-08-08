@@ -22,7 +22,7 @@ export const infoScreensData = (navigation) => [
   },
   {
     header: 'Capture the moment',
-    body: 'Everyday at a random time, you will get a notification telling you you have 10 minutes to capture what you are doing at the moment, either with an image or a 15 second clip',
+    body: 'Everyday at a random time, you will get a notification telling you you have 10 minutes to capture what you are doing at the moment, either with an image or a 10 second clip',
     secondaryButtonText: 'Skip',
     buttonText: 'Next',
     image: cameraImage,

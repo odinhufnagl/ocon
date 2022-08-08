@@ -8,7 +8,7 @@ import { LoadingHeaderContainer } from '../../components';
 import { CAMERA_TIMER } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 import { useAuthContext } from '../../providers/AuthProvider';
-import { getSecondsSinceTimestamp } from '../../utils';
+import { getSecondsSinceTimestamp, shouldShowCamera } from '../../utils';
 import {
   CAMERA_SCREEN,
   HOME_SCREEN,
@@ -81,11 +81,8 @@ const HomeNavigator = ({ navigationRef }) => {
         setInitialRouteName(HOME_SCREEN);
         return;
       }
-      const secondsSinceTimestamp = getSecondsSinceTimestamp(
-        lastNotification?.createdAt
-      );
 
-      if (secondsSinceTimestamp > CAMERA_TIMER || secondsSinceTimestamp < 0) {
+      if (!shouldShowCamera(latestNotification?.createdAt)) {
         if (rerender > 0 && navigationRef.current.isReady()) {
           navigationRef.current.dispatch(
             CommonActions.reset({
