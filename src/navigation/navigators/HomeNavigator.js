@@ -82,7 +82,7 @@ const HomeNavigator = ({ navigationRef }) => {
         return;
       }
 
-      if (!shouldShowCamera(latestNotification?.createdAt)) {
+      if (!shouldShowCamera(lastNotification?.createdAt)) {
         if (rerender > 0 && navigationRef.current.isReady()) {
           navigationRef.current.dispatch(
             CommonActions.reset({
