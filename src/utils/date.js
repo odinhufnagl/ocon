@@ -12,6 +12,22 @@ export const getSecondsSinceTimestamp = (timestamp) => {
   return moment.duration(now.diff(secondDate)).asSeconds();
 };
 
+export const getCurrentDate = () => {
+  const now = moment();
+  return now.format('YYYY-MM-DD');
+};
+
+export const getTommorowsDate = () => {
+  const now = moment();
+  now.add(24, 'hours');
+  return now.format('YYYY-MM-DD');
+};
+export const getYesterdaysDate = () => {
+  const now = moment();
+  now.subtract(24, 'hours');
+  return now.format('YYYY-MM-DD');
+};
+
 export const convertSecondsToMinAndSecs = (seconds) => {
   const mins = Math.floor((seconds % 3600) / 60);
   const secondsOver = Math.floor(seconds % 60);

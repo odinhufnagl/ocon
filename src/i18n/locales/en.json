@@ -11,7 +11,8 @@
     "maxReactions": "You only have 10 reactions per post",
     "postDownloaded": "Post downloaded",
     "checkEmailInbox": "Check your email inbox",
-    "deleteAccount": "Send an email to odin.hufnagl@gmail.com with the subject 'Delete account' and an explanation"
+    "deleteAccount": "Send an email to odin.hufnagl@gmail.com with the subject 'Delete account' and an explanation",
+    "postReactionTimeExceeded": "Can only react withing 24 hours of posting"
   },
   "welcomeScreen": {
     "header": "CaptureIt",
