@@ -48,6 +48,10 @@ const Post = ({ post, index, showPlace, isVisible }) => {
     setReactionsCount(reactionsCountCopy);
   };
   const handleEmojiClicked = (emojiName) => {
+    if (!post.belongsToTodaysNotifications) {
+      showSnackbar(translate('snackbar.postReactionTimeExceeded'));
+      return;
+    }
     if (currentUsersTotalReactionsCount >= MAX_REACIONS) {
       showSnackbar(translate('snackbar.maxReactions'), null, 600);
       return;

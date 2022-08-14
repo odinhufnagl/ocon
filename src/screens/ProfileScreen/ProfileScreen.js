@@ -8,7 +8,7 @@ import {
   useWindowDimensions,
   View
 } from 'react-native';
-import { getPosts } from '../../api/graphql/requests';
+import { getPosts, getUser } from '../../api/graphql/requests';
 import { Header, Icon, Spacer, Text } from '../../common';
 import { LoadingContainer, PostCard, PostGrid } from '../../components';
 import { DIMENS, SPACING } from '../../constants';
@@ -69,7 +69,6 @@ const ProfileScreen = ({ navigation, route }) => {
   const translateKey = 'profileScreen.';
 
   const isCurrentUser = user?.id === currentUser?.id;
-  const { logOut } = useAuthContext();
   const deviceHeight = useWindowDimensions().height;
   const imageHeight = deviceHeight * 0.3;
   const { theme } = useTheme();
@@ -85,20 +84,23 @@ const ProfileScreen = ({ navigation, route }) => {
     return reactions;
   };
   useEffect(async () => {
-    const posts = await getPosts(
-      { userId: { _eq: user.id } },
-      undefined,
-      user.id,
-      999999,
-      0
-    );
+    await fetchPosts();
     setTotalReactions(getTotalReactions(posts));
-    setPosts(posts);
   }, []);
 
-  const navigateToPost = (item) => {
+  const getUsersPosts = async () =>
+    await getPosts({ userId: { _eq: user.id } }, undefined, user.id, 999999, 0);
+
+  const fetchPosts = async () => {
+    const posts = await getUsersPosts();
+    setPosts(posts);
+  };
+
+  const navigateToPost = async (item) => {
+    const updatedPosts = await getUsersPosts();
+
     navigation.navigate(POSTS_SCREEN, {
-      data: posts,
+      data: updatedPosts,
       initialScrollIndex: posts.indexOf(item)
     });
   };

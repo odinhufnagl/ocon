@@ -56,8 +56,8 @@ export const getLatestPostsResult = (res) => {
   return postsToReturn;
 };
 
-export const getPostsResult = (res) => {
-  if (!res.data || !res.data.posts) {
+export const getPostsResult = (res, todaysNotificationIds) => {
+  if (!res.data || !res.data.posts || !todaysNotificationIds) {
     return;
   }
   const postsToReturn = [];
@@ -72,6 +72,9 @@ export const getPostsResult = (res) => {
     });
     postsToReturn.push({
       ...post,
+      belongsToTodaysNotifications: todaysNotificationIds.includes(
+        post.notification.id
+      ),
       reactionsTotalCount: post.reactions.length,
       reactionsCount,
       currentUsersTotalReactionsCount:
