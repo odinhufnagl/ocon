@@ -103,7 +103,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateCurrentUser = async () => {
-    const res = await getUser(currentUser.id);
+    const res = await getUser(currentUser.id, true);
     if (!res) {
       return;
     }

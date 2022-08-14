@@ -1,4 +1,4 @@
-package com.captureit;
+package com.capture_it;
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 

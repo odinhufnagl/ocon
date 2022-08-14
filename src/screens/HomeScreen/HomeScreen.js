@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { getLatestPostsWithoutCurrentUser } from '../../api/graphql/requests';
+import {
+  getLatestPostsWithoutCurrentUser,
+  getTodaysPostsWithoutCurrentUser
+} from '../../api/graphql/requests';
 import { Header, Text } from '../../common';
 import { CountriesModal, LoadingContainer, PostsList } from '../../components';
 import { IMAGES, PAGINATION } from '../../constants';
@@ -20,7 +23,7 @@ const HomeScreen = ({ navigation }) => {
   const [countryModalVisible, setCountryModalVisible] = useState(false);
 
   const getData = async (limit, offset) =>
-    await getLatestPostsWithoutCurrentUser(
+    await getTodaysPostsWithoutCurrentUser(
       currentUser.id,
       currentCountry,
       limit,
