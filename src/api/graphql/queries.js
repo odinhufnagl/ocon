@@ -25,18 +25,26 @@ export const userQuery = gql`
   }
 `;
 
-export const notificationQuery = gql`
-  query notification($id: Int!) {
-    notifications(where: { id: { _eq: $id } }) {
+export const notificationsQuery = (where) => {
+  const whereInput = objectToGraphql(where);
+  return gql` 
+  query notifications {
+    notifications(where: ${whereInput}) {
       id
       createdAt
+      timeZones {
+        timeZoneName
+      }
     }
   }
 `;
+};
 
-export const latestNotificationQuery = gql`
+export const latestNotificationQuery = (where) => {
+  const whereInput = objectToGraphql(where);
+  return gql`
   query latestNotification($currentUserId: String!) {
-    notifications(order_by: { createdAt: desc }, limit: 1) {
+    notifications(order_by: { createdAt: desc }, where: ${whereInput}, limit: 1) {
       id
       createdAt
       currentUsersPosts: posts(where: { userId: { _eq: $currentUserId } }) {
@@ -48,6 +56,7 @@ export const latestNotificationQuery = gql`
     }
   }
 `;
+};
 
 export const yesterdaysNotificationQuery = gql`
   query yesterdaysNotification {
@@ -152,10 +161,13 @@ export const postsQuery = (where, orderBy, currentUserId, limit, offset) => {
       }
     }
     countryCode
-      reactions {
+    reactions {
         reactionType {name}
-      },
-      currentUsersTotalReactionsCount:reactions_aggregate(where:{userId:{_eq:${currentUserIdInput}}}) {
+    },
+    notification {
+      id
+    }
+    currentUsersTotalReactionsCount:reactions_aggregate(where:{userId:{_eq:${currentUserIdInput}}}) {
         aggregate {count}
       },
       

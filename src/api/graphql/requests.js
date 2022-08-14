@@ -1,4 +1,10 @@
+import moment from 'moment';
 import { COUNTRIES } from '../../constants';
+import {
+  getCurrentDate,
+  getTommorowsDate,
+  getYesterdaysDate
+} from '../../utils';
 import { client } from './client';
 import {
   createPostMutation,
@@ -12,6 +18,7 @@ import {
   latestNotificationQuery,
   latestPostsWithoutCurrentUserQuery,
   notificationQuery,
+  notificationsQuery,
   postsQuery,
   userQuery,
   yesterdaysNotificationQuery
@@ -24,6 +31,7 @@ import {
   getCountriesResult,
   getLatestPostsResult,
   getNotificationResult,
+  getNotificationsResult,
   getPostsResult,
   getUserResult,
   getYesterdaysNotificationResult,
@@ -61,53 +69,87 @@ export const createPost = async (obj) => {
   }
 };
 
-export const getNotification = async (id) => {
+export const getNotifications = async (where) => {
   try {
     const res = await client.query({
-      query: notificationQuery,
-      variables: { id }
+      query: notificationsQuery(where)
     });
-    return getNotificationResult(res);
+    return getNotificationsResult(res);
   } catch (e) {
     console.log(e);
   }
+};
+
+export const getTodaysNotificationIds = async () => {
+  const currentDate = getCurrentDate();
+  const tomorrowsDate = getTommorowsDate();
+  const res = await getNotifications({
+    createdAt: { _gte: currentDate, _lt: tomorrowsDate }
+  });
+  if (!res) {
+    return;
+  }
+  return res.map(({ id }) => id);
+};
+
+export const getYesterdaysNotificationIds = async () => {
+  const yesterdaysDate = getYesterdaysDate();
+  const currentDate = getCurrentDate();
+  const res = await getNotifications({
+    createdAt: { _gte: yesterdaysDate, _lt: currentDate }
+  });
+  if (!res) {
+    return;
+  }
+  return res.map(({ id }) => id);
 };
 
 export const getLatestNotification = async (currentUserId) => {
   try {
+    const currentDate = getCurrentDate();
+    const tomorrowsDate = getTommorowsDate();
+    //TODO: this quering atm is fetching the notification from today, altough what could be used
+    //in the future is to find the latest one where current timezone is in the notifications timeZones
+    //which will allow us to use multiple notifications per day
     const res = await client.query({
-      query: latestNotificationQuery,
+      query: latestNotificationQuery({
+        createdAt: { _gte: currentDate, _lt: tomorrowsDate }
+      }),
       variables: { currentUserId }
     });
-
-    return getNotificationResult(res);
-  } catch (e) {
+    return getNotificationsResult(res)[0];
+  } catch {
     console.log(e);
   }
 };
 
-export const getLatestPostsWithoutCurrentUser = async (
+export const getTodaysPostsWithoutCurrentUser = async (
   currentUserId,
   country = COUNTRIES.WORLD,
   limit,
   offset
 ) => {
   try {
-    const res = await client.query({
-      query: latestPostsWithoutCurrentUserQuery(
-        {
-          countryCode:
-            country.code === COUNTRIES.WORLD ? {} : { _eq: country.code },
-          userId: { _neq: currentUserId }
-        },
-        '{ reactions_aggregate: { count: desc } }',
-        currentUserId,
-        limit || 999999,
-        offset || 0
-      )
-    });
-
-    return getLatestPostsResult(res);
+    const todaysNotificationIds = await getTodaysNotificationIds();
+    if (!todaysNotificationIds) {
+      return;
+    }
+    const res = await getPosts(
+      {
+        countryCode:
+          country.code === COUNTRIES.WORLD ? {} : { _eq: country.code },
+        userId: { _neq: currentUserId },
+        notificationId: { _in: todaysNotificationIds }
+      },
+      '{ reactions_aggregate: { count: desc } }',
+      currentUserId,
+      limit || 999999,
+      offset || 0
+    );
+    if (!res) {
+      return;
+    }
+    return res;
   } catch (e) {
     console.log(e);
   }
@@ -121,6 +163,7 @@ export const getPosts = async (
   offset
 ) => {
   try {
+    const todaysNotificationIds = await getTodaysNotificationIds();
     const res = await client.query({
       query: postsQuery(
         where,
@@ -130,7 +173,7 @@ export const getPosts = async (
         offset || 0
       )
     });
-    return getPostsResult(res);
+    return getPostsResult(res, todaysNotificationIds);
   } catch (e) {
     console.log(e);
   }
@@ -145,34 +188,19 @@ export const createReaction = async (obj) => {
   }
 };
 
-export const getYesterdaysNotification = async () => {
-  try {
-    const res = await client.query({
-      query: yesterdaysNotificationQuery
-    });
-    return getYesterdaysNotificationResult(res);
-  } catch (e) {
-    console.log(e);
-  }
-};
-
 export const getPostsYesterday = async (
   country,
   currentUserId,
   limit,
   offset
 ) => {
-  /* const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const beforeYesterday = new Date();
-  beforeYesterday.setDate(beforeYesterday.getDate() - 2);*/
-  const yesterdaysNotification = await getYesterdaysNotification();
+  const yesterdaysNotificationIds = await getYesterdaysNotificationIds();
 
   const res = await getPosts(
     {
       countryCode:
         country.code === COUNTRIES.WORLD ? {} : { _eq: country.code },
-      notificationId: { _eq: yesterdaysNotification?.id }
+      notificationId: { _in: yesterdaysNotificationIds }
     },
     '{ reactions_aggregate: { count: desc } }',
     currentUserId,
@@ -182,13 +210,19 @@ export const getPostsYesterday = async (
   return res;
 };
 
-export const getPostsLiked = async (currentUserId, limit, offset) => {
+export const getPostsLiked = async (
+  currentUserId,
+  limit,
+  offset,
+  isCurrentUser
+) => {
   const res = await getPosts(
     { reactions: { userId: { _eq: currentUserId } } },
     undefined,
     currentUserId,
     limit,
-    offset
+    offset,
+    isCurrentUser
   );
   return res;
 };
