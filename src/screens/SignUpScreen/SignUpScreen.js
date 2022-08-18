@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  TouchableWithoutFeedback
+} from 'react-native';
 import {
   Button,
   Container,
@@ -76,19 +81,28 @@ const SignUpScreen = ({ navigation }) => {
         />
         <Spacer spacing="large" />
         <View style={styles.privacyPolicyContainer}>
-          <Text>I consent to the</Text>
-          <Spacer spacing="tiny" orientation="horizontal" />
-          <TouchableOpacity
-            onPress={() => navigation.navigate(PRIVACY_POLICY_SCREEN)}
-          >
-            <Text style={{ color: theme.primaryColor }}>Privacy Policy</Text>
-          </TouchableOpacity>
-          <Spacer orientation="horizontal" spacing="small" />
           <CheckBox
             color={theme.primaryColor}
             onValueChange={setPrivacyPolicyChecked}
             value={privacyPolicyChecked}
           />
+          <Spacer spacing="small" orientation="horizontal" />
+          <Text style={{ fontSize: 10 }}>
+            I agree to and have read captureit's{' '}
+            <TouchableWithoutFeedback
+              onPress={() => navigation.navigate(PRIVACY_POLICY_SCREEN)}
+            >
+              <Text
+                style={{
+                  color: theme.primaryColor,
+                  fontSize: 10,
+                  textDecorationLine: 'underline'
+                }}
+              >
+                Privacy Policy
+              </Text>
+            </TouchableWithoutFeedback>
+          </Text>
         </View>
         <Spacer spacing="extraLarge" />
         <Spacer spacing="medium" />
