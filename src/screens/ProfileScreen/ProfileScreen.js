@@ -83,9 +83,14 @@ const ProfileScreen = ({ navigation, route }) => {
     });
     return reactions;
   };
-  useEffect(async () => {
-    await fetchPosts();
+
+  useEffect(() => {
     setTotalReactions(getTotalReactions(posts));
+  }, [posts]);
+  useEffect(() => {
+    (async () => {
+      await fetchPosts();
+    })();
   }, []);
 
   const getUsersPosts = async () =>

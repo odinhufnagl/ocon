@@ -100,7 +100,7 @@ const Post = ({ post, index, showPlace, isVisible }) => {
   };
 
   const navigateToUser = () => {
-    navigation.navigate(PROFILE_STACK, {
+    navigation.push(PROFILE_STACK, {
       screen: PROFILE_SCREEN,
       params: { user: post.createdBy }
     });
