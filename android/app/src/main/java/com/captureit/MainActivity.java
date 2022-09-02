@@ -6,7 +6,7 @@ public class MainActivity extends ReactActivity {
 
   @Override
   protected String getMainComponentName() {
-    return "captureit";
+    return "ocon";
   }
   @Override
   protected void onCreate(Bundle savedInstanceState) {
