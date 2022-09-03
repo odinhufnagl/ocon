@@ -17,6 +17,9 @@ export const getCurrentDate = () => {
   return now.format('YYYY-MM-DD');
 };
 
+export const getCurrentLocaleDate = () =>
+  moment().format('YYYY-MM-DD HH:mm:ss');
+
 export const getTommorowsDate = () => {
   const now = moment();
   now.add(24, 'hours');

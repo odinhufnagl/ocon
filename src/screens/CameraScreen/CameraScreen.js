@@ -46,6 +46,7 @@ import { HOME_SCREEN, PROFILE_SCREEN, PROFILE_STACK } from '../../navigation';
 import { useAuthContext } from '../../providers/AuthProvider';
 import {
   convertSecondsToMinAndSecs,
+  getCurrentLocaleDate,
   getFrameFromVideo,
   getGeoLocation,
   getSecondsSinceTimestamp,
@@ -56,6 +57,7 @@ import {
   shouldShowCamera
 } from '../../utils';
 import { showSnackbar } from '../../utils/showSnackbar';
+import moment from 'moment';
 export const POST_POSITIONS = {
   FULL: 'full',
   MIDDLE: 'middle'
@@ -281,7 +283,8 @@ export const CameraScreen = ({ navigation, route }) => {
       notificationId: latestNotificationId,
       postTypeId: 2,
       location: formattedAddress,
-      countryCode
+      countryCode,
+      createdAtLocale: getCurrentLocaleDate()
     });
 
     if (!res2) {
@@ -334,7 +337,8 @@ export const CameraScreen = ({ navigation, route }) => {
       notificationId: latestNotificationId,
       postTypeId: 1,
       location: formattedAddress,
-      countryCode
+      countryCode,
+      createdAtLocale: getCurrentLocaleDate()
     });
 
     if (!res2) {

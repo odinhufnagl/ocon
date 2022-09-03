@@ -12,7 +12,7 @@ import { HOME_SCREEN, INFO_SCREEN } from '../../navigation';
 export const infoScreensData = (navigation) => [
   {
     header: 'How it works',
-    body: 'Before using CaptureIt, maybe you want to know a little bit of how it works?',
+    body: 'Before using Ocon, maybe you want to know a little bit of how it works?',
     secondaryButtonText: "I'm fine",
     buttonText: 'Tell me!',
     image: curiousImage,

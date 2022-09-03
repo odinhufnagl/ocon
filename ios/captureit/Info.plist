@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>captureit</string>
+	<string>ocon</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -36,13 +36,13 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Captureit would like to have access to your camera</string>
+	<string>ocon would like to have access to your camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Captureit would like to have your location</string>
+	<string>ocon would like to have your location</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Captureit would like to add photos to your photo library</string>
+	<string>ocon would like to add photos to your photo library</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Captureit would like to have access to your photo library</string>
+	<string>ocon would like to have access to your photo library</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Poppins-Bold.ttf</string>

@@ -88,7 +88,7 @@ const SignUpScreen = ({ navigation }) => {
           />
           <Spacer spacing="small" orientation="horizontal" />
           <Text style={{ fontSize: 10 }}>
-            I agree to and have read captureit's{' '}
+            I agree that I have read and accepted the{' '}
             <TouchableWithoutFeedback
               onPress={() => navigation.navigate(PRIVACY_POLICY_SCREEN)}
             >
