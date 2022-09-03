@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "CaptureIt"
+    "appName": "Ocon"
   },
   "snackbar": {
     "loginError": "Login was not succesful",
@@ -12,10 +12,10 @@
     "postDownloaded": "Post downloaded",
     "checkEmailInbox": "Check your email inbox",
     "deleteAccount": "Send an email to odin.hufnagl@gmail.com with the subject 'Delete account' and an explanation",
-    "postReactionTimeExceeded": "Can only react withing 24 hours of posting"
+    "postReactionTimeExceeded": "Can only react within the same day as post is created"
   },
   "welcomeScreen": {
-    "header": "CaptureIt",
+    "header": "Ocon",
     "signUp": "Sign Up",
     "logIn": "Already have an account? Login"
   },

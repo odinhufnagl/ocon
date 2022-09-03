@@ -5,12 +5,12 @@ import { Container, Spacer, Text } from '../../common';
 const paragraphs = [
   {
     header: 'What data do we collect?',
-    body: 'CaptureIt collects the following data:',
+    body: 'Ocon collects the following data:',
     listItems: ['Personal identification information (email address, location)']
   },
   {
     header: 'How do we collect your data?',
-    body: 'You directly provide CaptureIt with your email, however your location is only used by us when you post an image. We collect data from you when you:',
+    body: 'You directly provide Ocon with your email, however your location is only used by us when you post an image. We collect data from you when you:',
     listItems: [
       'Register for an account.',
       'Gives us permission to use your location.'
@@ -18,7 +18,7 @@ const paragraphs = [
   },
   {
     header: 'How will we use your data?',
-    body: 'CaptureIt collects your data so that we can:',
+    body: 'Ocon collects your data so that we can:',
     listItems: [
       'Manage your account.',
       'Give users a better experience inside the app, by showing them your location.',
@@ -27,24 +27,24 @@ const paragraphs = [
   },
   {
     header: 'How do we store your data?',
-    body: 'CaptureIt securely stores your data at Firebase and Heroku. CaptureIt will keep your email address and location until you request an account-deletion.'
+    body: 'Ocon securely stores your data at Firebase and Heroku. Ocon will keep your email address and location until you request an account-deletion.'
   },
   {
     header: 'What are your data protection rights?',
-    body: 'CaptureIt would like to make sure you are fully aware of all of your data protection rights. Every user is entitled to the following:',
+    body: 'Ocon would like to make sure you are fully aware of all of your data protection rights. Every user is entitled to the following:',
     listItems: [
-      'The right to access – You have the right to request CaptureIt for copies of your personal data.',
-      'The right to rectification – You have the right to request that CaptureIt correct any information you believe is inaccurate. You also have the right to request CaptureIt to complete the information you believe is incomplete.',
-      'The right to erasure – You have the right to request that CaptureIt erase your personal data, under certain conditions.',
-      'The right to restrict processing – You have the right to request that CaptureIt restrict the processing of your personal data, under certain conditions.',
-      'The right to object to processing – You have the right to object to CaptureIt’s processing of your personal data, under certain conditions.',
-      'The right to data portability – You have the right to request that CaptureIt transfer the data that we have collected to another organization, or directly to you, under certain conditions.',
+      'The right to access – You have the right to request Ocon for copies of your personal data.',
+      'The right to rectification – You have the right to request that Ocon correct any information you believe is inaccurate. You also have the right to request Ocon to complete the information you believe is incomplete.',
+      'The right to erasure – You have the right to request that Ocon erase your personal data, under certain conditions.',
+      'The right to restrict processing – You have the right to request that Ocon restrict the processing of your personal data, under certain conditions.',
+      'The right to object to processing – You have the right to object to Ocon’s processing of your personal data, under certain conditions.',
+      'The right to data portability – You have the right to request that Ocon transfer the data that we have collected to another organization, or directly to you, under certain conditions.',
       'If you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us at our email: odin.hufnagl@gmail.com'
     ]
   },
   {
     header: 'What is local storage?',
-    body: 'Local storage is a part of your devices storage where CaptureIt can store data and values for usage in the app'
+    body: 'Local storage is a part of your devices storage where Ocon can store data and values for usage in the app'
   },
   {
     header: 'What do we use local storage for?',
@@ -53,11 +53,11 @@ const paragraphs = [
   },
   {
     header: 'Changes to our privacy policy',
-    body: 'CaptureIt keeps its privacy policy under regular review and places any updates on this page. This privacy policy was last updated on 5 August 2022.'
+    body: 'Ocon keeps its privacy policy under regular review and places any updates on this page. This privacy policy was last updated on 5 August 2022.'
   },
   {
     header: 'How to contact us',
-    body: 'If you have any questions about CaptureIt’s privacy policy, the data we hold on you, or you would like to exercise one of your data protection rights, please do not hesitate to contact us.',
+    body: 'If you have any questions about Ocon’s privacy policy, the data we hold on you, or you would like to exercise one of your data protection rights, please do not hesitate to contact us.',
     listItems: ['Email us at: odin.hufnagl@gmail.com', 'Call us: 0737645814']
   }
 ];
@@ -91,7 +91,7 @@ const PrivacyPolicyScreen = () => {
     <ScrollView>
       <Container>
         <Spacer spacing="large" />
-        <Text type="header">CaptureIt Privacy Policy</Text>
+        <Text type="header">Ocon Privacy Policy</Text>
         <Spacer />
         <Text type="body" bold>
           This privacy policy will explain how our organization uses the
