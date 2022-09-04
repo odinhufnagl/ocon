@@ -8,9 +8,18 @@ import {
   useWindowDimensions,
   View
 } from 'react-native';
-import { getPosts, getUser } from '../../api/graphql/requests';
-import { Header, Icon, Spacer, Text } from '../../common';
-import { LoadingContainer, PostCard, PostGrid } from '../../components';
+import {
+  createUserReport,
+  getPosts,
+  getUser
+} from '../../api/graphql/requests';
+import { Button, Header, Icon, Modal, Spacer, Text } from '../../common';
+import {
+  LoadingContainer,
+  PostCard,
+  PostGrid,
+  QuestionModal
+} from '../../components';
 import { DIMENS, SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 import { translate } from '../../i18n';
@@ -22,24 +31,10 @@ import {
 } from '../../navigation';
 import { useAuthContext } from '../../providers/AuthProvider';
 import { SvgUri } from 'react-native-svg';
+import { showSnackbar } from '../../utils';
 
 const DEFAULT_BACKGROUND_IMAGE =
   'https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80';
-
-const monthNames = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-];
 
 const getPostGridData = (posts) => {
   let data = [];
@@ -73,6 +68,7 @@ const ProfileScreen = ({ navigation, route }) => {
   const imageHeight = deviceHeight * 0.3;
   const { theme } = useTheme();
   const [totalReactions, setTotalReactions] = useState(0);
+  const [reportModalVisible, setReportModalVisible] = useState(false);
 
   const [posts, setPosts] = useState();
 
@@ -94,7 +90,13 @@ const ProfileScreen = ({ navigation, route }) => {
   }, []);
 
   const getUsersPosts = async () =>
-    await getPosts({ userId: { _eq: user.id } }, undefined, user.id, 999999, 0);
+    await getPosts(
+      { userId: { _eq: user.id } },
+      undefined,
+      currentUser.id,
+      999999,
+      0
+    );
 
   const fetchPosts = async () => {
     const posts = await getUsersPosts();
@@ -106,8 +108,20 @@ const ProfileScreen = ({ navigation, route }) => {
 
     navigation.navigate(POSTS_SCREEN, {
       data: updatedPosts,
-      initialScrollIndex: posts.indexOf(item)
+      initialScrollIndex: posts.indexOf(item),
+      allowRefresh: false
     });
+  };
+  const handleReportUser = async () => {
+    const res = await createUserReport({
+      reportedByUserId: currentUser.id,
+      reportedUserId: user.id
+    });
+    if (!res) {
+      showSnackbar(translate('snackbar.error'), 'error');
+      return;
+    }
+    showSnackbar(translate('modals.report.success'));
   };
 
   if (!posts) {
@@ -116,6 +130,18 @@ const ProfileScreen = ({ navigation, route }) => {
 
   return (
     <View style={{ flex: 1, height: '100%' }}>
+      <QuestionModal
+        visible={reportModalVisible}
+        setVisible={setReportModalVisible}
+        title={translate('modals.report.title')}
+        buttonClose={{
+          title: translate('modals.report.buttonClose')
+        }}
+        buttonAction={{
+          title: translate('modals.report.buttonAction'),
+          onPress: handleReportUser
+        }}
+      />
       <Header
         showGradient
         style={{ position: 'absolute' }}
@@ -142,14 +168,22 @@ const ProfileScreen = ({ navigation, route }) => {
                   onPress: () => navigation.navigate(SETTINGS_STACK)
                 }
               ]
-            : []
+            : [
+                {
+                  icon: 'warning',
+                  variant: 'secondary',
+                  onPress: () => setReportModalVisible(true),
+                  color: theme.errorColor
+                }
+              ]
         }
       />
       <ImageBackground
         blurRadius={6}
         style={styles.imageBackground(imageHeight)}
         source={{
-          uri: posts[0]?.image || DEFAULT_BACKGROUND_IMAGE
+          uri:
+            posts[0]?.image || posts[0]?.thumbnail || DEFAULT_BACKGROUND_IMAGE
         }}
         resizeMethod="resize"
       />
@@ -170,9 +204,11 @@ const ProfileScreen = ({ navigation, route }) => {
               </View>
               <Spacer spacing="medium" />
 
-              <Text type="body" bold>
-                {isCurrentUser ? user.email : '*********'}
-              </Text>
+              {isCurrentUser && (
+                <Text type="body" bold>
+                  {user.email}
+                </Text>
+              )}
               <View style={styles.captionContainer}>
                 <Text type="small">
                   {posts?.length} {translate(translateKey + 'posts')}

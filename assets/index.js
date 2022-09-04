@@ -15,6 +15,7 @@ import LogOutIconSvg from './icons/logOut/LogOut';
 import SendIconSVG from './icons/send/SendIconSVG';
 import DownloadIconSvg from './icons/download/DownloadIconSVG';
 import LocationIconSvg from './icons/location/LocationIconSVG';
+import WarningIconSVG from './icons/warning/WarningIconSVG';
 export const icons = {
   back: BackIconSVG,
   close: CloseIconSvg,
@@ -32,5 +33,6 @@ export const icons = {
   logOut: LogOutIconSvg,
   send: SendIconSVG,
   download: DownloadIconSvg,
-  location: LocationIconSvg
+  location: LocationIconSvg,
+  warning: WarningIconSVG
 };

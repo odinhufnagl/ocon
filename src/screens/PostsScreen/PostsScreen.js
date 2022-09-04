@@ -5,7 +5,7 @@ import { PostsList } from '../../components';
 import { getDateFromTimestamp } from '../../utils';
 
 const PostsScreen = ({ navigation, route }) => {
-  const { data, initialScrollIndex } = route.params;
+  const { data, initialScrollIndex, allowRefresh = true } = route.params;
   const [headerTime, setHeaderTime] = useState();
 
   const onViewableItemsChanged = (item) => {
@@ -34,6 +34,7 @@ const PostsScreen = ({ navigation, route }) => {
         ]}
       />
       <PostsList
+        allowRefresh={allowRefresh}
         data={data}
         onViewableItemsChanged={onViewableItemsChanged}
         initialScrollIndex={initialScrollIndex}
