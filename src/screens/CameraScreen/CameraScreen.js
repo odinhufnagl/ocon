@@ -46,7 +46,10 @@ import { HOME_SCREEN, PROFILE_SCREEN, PROFILE_STACK } from '../../navigation';
 import { useAuthContext } from '../../providers/AuthProvider';
 import {
   convertSecondsToMinAndSecs,
+  getCountryByAddress,
+  getCountryCodeByAddress,
   getCurrentLocaleDate,
+  getFormattedAddressByAddress,
   getFrameFromVideo,
   getGeoLocation,
   getSecondsSinceTimestamp,
@@ -271,10 +274,8 @@ export const CameraScreen = ({ navigation, route }) => {
       setLoadingPostPhoto(false);
       return;
     }
-    const formattedAddress = address.formatted_address;
-    const countryCode = address.address_components.find(({ types }) =>
-      types.includes('country')
-    ).short_name;
+    const formattedAddress = getFormattedAddressByAddress(address);
+    const countryCode = getCountryCodeByAddress(address);
 
     const res2 = await createPost({
       userId: currentUser.id,
@@ -326,10 +327,8 @@ export const CameraScreen = ({ navigation, route }) => {
       setLoadingPostPhoto(false);
       return;
     }
-    const formattedAddress = address.formatted_address;
-    const countryCode = address.address_components.find(({ types }) =>
-      types.includes('country')
-    ).short_name;
+    const formattedAddress = getFormattedAddressByAddress(address);
+    const countryCode = getCountryCodeByAddress(address);
 
     const res2 = await createPost({
       userId: currentUser.id,
