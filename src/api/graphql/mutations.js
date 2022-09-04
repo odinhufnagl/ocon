@@ -38,3 +38,13 @@ export const updateUserMutation = (id, set) => {
   }
   `;
 };
+
+export const createUserReportMutation = (obj) => {
+  const input = objectToGraphql(obj);
+  console.log('input', input);
+  return gql`
+   mutation {
+        insert_userReports_one (object:${input}) {id}
+     } 
+   `;
+};

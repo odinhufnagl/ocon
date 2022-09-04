@@ -68,10 +68,7 @@ const CountriesModal = ({
 };
 
 const styles = StyleSheet.create({
-  countryModal: {
-    marginHorizontal: SPACING.extraLarge,
-    marginVertical: SPACING.extraLarge - SPACING.medium
-  },
+  countryModal: {},
   countryModalItemContainer: {
     flexDirection: 'row',
     paddingVertical: SPACING.medium,

@@ -78,5 +78,18 @@
     "9": "October",
     "10": "November",
     "11": "December"
+  },
+  "modals": {
+    "report": {
+      "title": "Do you want to report this user?",
+      "buttonAction": "Report",
+      "buttonClose": "No",
+      "success": "User has been reported"
+    },
+    "logOut": {
+      "title": "Are you sure you want to log out?",
+      "buttonAction": "Log out",
+      "buttonClose": "No"
+    }
   }
 }
