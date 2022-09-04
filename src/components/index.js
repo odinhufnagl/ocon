@@ -12,6 +12,7 @@ import PostsList from './PostsList/PostsList';
 import PostGrid from './PostGrid/PostGrid';
 import CountriesModal from './CountriesModal/CountriesModal';
 import CameraView from './CameraView/CameraView';
+import QuestionModal from './QuestionModal/QuestionModal';
 export {
   Camera,
   CameraButton,
@@ -26,5 +27,6 @@ export {
   PostCardsCarousel,
   PostGrid,
   CountriesModal,
-  CameraView
+  CameraView,
+  QuestionModal
 };
