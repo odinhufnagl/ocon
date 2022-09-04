@@ -1,11 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Modal as RNModal, StyleSheet, View } from 'react-native';
+import { getAddressFromCoords } from '../../api/googleMaps';
 import {
   getLatestPostsWithoutCurrentUser,
   getTodaysPostsWithoutCurrentUser
 } from '../../api/graphql/requests';
 import { Header, Text } from '../../common';
-import { CountriesModal, LoadingContainer, PostsList } from '../../components';
+import {
+  CountriesModal,
+  LoadingContainer,
+  MapModal,
+  MapView,
+  PostsList
+} from '../../components';
 import { IMAGES, PAGINATION } from '../../constants';
 import { useCountries, usePagination } from '../../hooks';
 import {
@@ -14,7 +21,7 @@ import {
   YESTERDAY_STACK
 } from '../../navigation';
 import { useAuthContext } from '../../providers/AuthProvider';
-import { getTimeFromTimestamp } from '../../utils';
+import { getCountryCodeByAddress, getTimeFromTimestamp } from '../../utils';
 
 const HomeScreen = ({ navigation }) => {
   const { currentUser } = useAuthContext();
@@ -58,21 +65,26 @@ const HomeScreen = ({ navigation }) => {
     console.log('refreshing');
     await refreshPosts();
   };
-
   if (!countries || countries.length === 0 || !currentCountry) {
     return <LoadingContainer />;
   }
 
-  console.log(currentCountry, posts, loading);
   return (
     <>
-      <CountriesModal
+      <MapModal
+        availableCountries={countries}
+        visible={countryModalVisible}
+        setVisible={setCountryModalVisible}
+        setCurrentCountry={setCurrentCountry}
+        currentCountry={currentCountry}
+      />
+      {/*<CountriesModal
         countries={countries}
         currentCountry={currentCountry}
         setCurrentCountry={setCurrentCountry}
         visible={countryModalVisible}
         setVisible={setCountryModalVisible}
-      />
+  />*/}
       <Header
         showGradient
         style={styles.header}

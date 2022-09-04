@@ -91,5 +91,10 @@
       "buttonAction": "Log out",
       "buttonClose": "No"
     }
+  },
+  "mapModal": {
+    "globeButton": "Pick all",
+    "notValidCountry": "Click on a country",
+    "notAvailableCountry": "Ocon is not available in this country"
   }
 }

@@ -8,7 +8,12 @@ import {
 } from 'react-native';
 import { getCountries, getPostsYesterday } from '../../api/graphql/requests';
 import { Header, Modal, Spacer, Text } from '../../common';
-import { CountriesModal, LoadingContainer, PostsList } from '../../components';
+import {
+  CountriesModal,
+  LoadingContainer,
+  MapModal,
+  PostsList
+} from '../../components';
 import { COUNTRIES, IMAGES, PAGINATION, SPACING } from '../../constants';
 import { useCountries, usePagination } from '../../hooks';
 import { translate } from '../../i18n';
@@ -50,11 +55,10 @@ const YesterdayScreen = ({ navigation }) => {
   if (!countries || countries.length === 0 || !currentCountry) {
     return <LoadingContainer />;
   }
-
   return (
     <>
-      <CountriesModal
-        countries={countries}
+      <MapModal
+        availableCountries={countries}
         visible={modalCountryVisible}
         setVisible={setModalCountryVisible}
         currentCountry={currentCountry}
