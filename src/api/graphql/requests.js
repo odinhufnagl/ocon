@@ -10,6 +10,7 @@ import {
   createPostMutation,
   createReactionMutation,
   createUserMutation,
+  createUserReportMutation,
   updateUserMutation
 } from './mutations';
 import {
@@ -253,6 +254,17 @@ export const getAvatars = async () => {
       query: avatarsQuery
     });
     return getAvatarsResult(res);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const createUserReport = async (obj) => {
+  try {
+    await client.mutate({
+      mutation: createUserReportMutation(obj)
+    });
+    return true;
   } catch (e) {
     console.log(e);
   }

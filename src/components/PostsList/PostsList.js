@@ -14,7 +14,8 @@ const PostsList = React.forwardRef(
       showPlace,
       onRefresh: onRefreshCallback,
       loading,
-      onEndReached
+      onEndReached,
+      allowRefresh = true
     },
     ref
   ) => {
@@ -72,7 +73,7 @@ const PostsList = React.forwardRef(
       <FlatList
         onEndReached={onEndReached}
         ref={ref}
-        onRefresh={onRefresh}
+        onRefresh={allowRefresh && onRefresh}
         refreshing={refreshing}
         keyExtractor={(item, index) => item.id}
         onViewableItemsChanged={_onViewableItemsChanged.current}

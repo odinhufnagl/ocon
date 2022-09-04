@@ -5,7 +5,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native';
-import { DIMENS } from '../../constants';
+import { DIMENS, SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 
 const Modal = ({ visible, setVisible, children }) => {
@@ -37,7 +37,10 @@ const styles = StyleSheet.create({
   }),
   innerContainer: (theme) => ({
     backgroundColor: theme.backgroundColor,
-    borderRadius: DIMENS.common.borderRadiusMedium
+    borderRadius: DIMENS.common.borderRadiusMedium,
+    paddingHorizontal: SPACING.extraLarge,
+    paddingVertical: SPACING.extraLarge - SPACING.medium,
+    justifyContent: 'center'
   })
 });
 export default Modal;

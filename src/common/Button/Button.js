@@ -35,6 +35,8 @@ const Button = ({
         return styles.secondaryButton(theme);
       case 'third':
         return styles.thirdButton(theme);
+      case 'fourth':
+        return styles.fourthButton(theme);
       default:
         return styles.primaryButton(theme);
     }
@@ -124,6 +126,11 @@ const styles = StyleSheet.create({
   thirdButton: (theme) => ({
     backgroundColor: theme.dp3,
     borderRadius: DIMENS.common.borderRadiusLarge
+  }),
+  fourthButton: (theme) => ({
+    backgroundColor: theme.backgroundColor,
+    elevation: 0,
+    borderRadius: DIMENS.common.borderRadiusMedium
   }),
 
   disabledButtonText: (theme) => ({
