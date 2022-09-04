@@ -14,3 +14,12 @@ export const getGeoLocation = async (onSuccess) => {
     config
   );
 };
+
+export const getCountryCodeByAddress = (address) => {
+  const countryCode = address.address_components.find(({ types }) =>
+    types.includes('country')
+  ).short_name;
+  return countryCode;
+};
+export const getFormattedAddressByAddress = (address) =>
+  address.formatted_address;

@@ -26,6 +26,7 @@ const Button = ({
   icon,
   iconFill = 'white',
   iconSize = 'medium',
+  textStyle,
   ...props
 }) => {
   const { theme } = useTheme();
@@ -79,7 +80,8 @@ const Button = ({
             type={getTextType()}
             style={[
               style?.color ? { color: style.color } : {},
-              disabled ? styles.disabledButtonText(theme) : {}
+              disabled ? styles.disabledButtonText(theme) : {},
+              textStyle
             ]}
           >
             {title}

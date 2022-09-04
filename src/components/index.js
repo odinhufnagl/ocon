@@ -13,6 +13,9 @@ import PostGrid from './PostGrid/PostGrid';
 import CountriesModal from './CountriesModal/CountriesModal';
 import CameraView from './CameraView/CameraView';
 import QuestionModal from './QuestionModal/QuestionModal';
+import MapView from './MapView/MapView';
+import MapModal from './MapModal/MapModal';
+
 export {
   Camera,
   CameraButton,
@@ -28,5 +31,7 @@ export {
   PostGrid,
   CountriesModal,
   CameraView,
-  QuestionModal
+  QuestionModal,
+  MapView,
+  MapModal
 };
