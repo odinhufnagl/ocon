@@ -16,6 +16,7 @@ import SendIconSVG from './icons/send/SendIconSVG';
 import DownloadIconSvg from './icons/download/DownloadIconSVG';
 import LocationIconSvg from './icons/location/LocationIconSVG';
 import WarningIconSVG from './icons/warning/WarningIconSVG';
+import GlobeIconSvg from './icons/globe/GlobeIconSVG';
 export const icons = {
   back: BackIconSVG,
   close: CloseIconSvg,
@@ -34,5 +35,6 @@ export const icons = {
   send: SendIconSVG,
   download: DownloadIconSvg,
   location: LocationIconSvg,
-  warning: WarningIconSVG
+  warning: WarningIconSVG,
+  globe: GlobeIconSvg
 };
