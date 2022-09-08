@@ -21,6 +21,7 @@ export const userQuery = gql`
         }
       }
       notificationToken
+      timeZone
     }
   }
 `;
@@ -181,6 +182,7 @@ export const countriesQuery = () => gql`
     countries {
       name
       code
+      image
     }
   }
 `;
