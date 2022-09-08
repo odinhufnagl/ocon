@@ -18,8 +18,7 @@ import { COUNTRIES, IMAGES, PAGINATION, SPACING } from '../../constants';
 import { useCountries, usePagination } from '../../hooks';
 import { translate } from '../../i18n';
 import { useAuthContext } from '../../providers/AuthProvider';
-
-const getCountryImage = (countryCode) => IMAGES[countryCode];
+import { getCountryImage } from '../../utils';
 
 const YesterdayScreen = ({ navigation }) => {
   const { currentUser } = useAuthContext();
@@ -80,7 +79,7 @@ const YesterdayScreen = ({ navigation }) => {
         rightItems={[
           {
             icon: 'chevronDown',
-            image: getCountryImage(currentCountry?.code),
+            image: getCountryImage(currentCountry),
             variant: 'transparent',
             imageStyle: { position: 'relative', left: 3 },
             onPress: () => {
