@@ -285,6 +285,7 @@ export const CameraScreen = ({ navigation, route }) => {
       postTypeId: 2,
       location: formattedAddress,
       countryCode,
+      coordinate: location.coords,
       createdAtLocale: getCurrentLocaleDate()
     });
 
@@ -337,6 +338,7 @@ export const CameraScreen = ({ navigation, route }) => {
       postTypeId: 1,
       location: formattedAddress,
       countryCode,
+      coordinate: location.coords,
       createdAtLocale: getCurrentLocaleDate()
     });
 
