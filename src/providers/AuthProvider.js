@@ -32,10 +32,8 @@ export const AuthProvider = ({ children }) => {
     const unsubsribe = firebase.auth().onAuthStateChanged(async (user) => {
       console.log('user', user);
       if (user && lastUid !== user.uid) {
-        await updateUser(user.uid, { timeZone: RNLocalize.getTimeZone() });
         lastUid = user.uid;
         let userFromDB = await getUser(user.uid);
-
         if (!userFromDB) {
           return;
         }
@@ -47,6 +45,11 @@ export const AuthProvider = ({ children }) => {
           if (!userFromDB) {
             return;
           }
+        }
+        const currentTimeZone = RNLocalize.getTimeZone();
+        console.log('timezone', currentTimeZone);
+        if (userFromDB.timeZone !== currentTimeZone) {
+          updateUser(user.uid, { timeZone: currentTimeZone });
         }
         const fcmToken = await firebase.messaging().getToken();
         if (userFromDB.notificationToken !== fcmToken) {

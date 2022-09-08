@@ -31,7 +31,9 @@ const MapModal = ({
       setLoading(false);
       return;
     }
-    setCurrentCountry({ code: countryCode });
+    setCurrentCountry(
+      availableCountries.find((country) => country.code === countryCode)
+    );
     setVisible(false);
     setLoading(false);
     console.log(countryCode);
