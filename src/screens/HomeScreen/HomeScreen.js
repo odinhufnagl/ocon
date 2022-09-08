@@ -21,7 +21,11 @@ import {
   YESTERDAY_STACK
 } from '../../navigation';
 import { useAuthContext } from '../../providers/AuthProvider';
-import { getCountryCodeByAddress, getTimeFromTimestamp } from '../../utils';
+import {
+  getCountryCodeByAddress,
+  getCountryImage,
+  getTimeFromTimestamp
+} from '../../utils';
 
 const HomeScreen = ({ navigation }) => {
   const { currentUser } = useAuthContext();
@@ -45,6 +49,7 @@ const HomeScreen = ({ navigation }) => {
     );
 
   useEffect(() => {
+    console.log('currentCountry', currentCountry);
     if (!currentCountry) {
       return;
     }
@@ -91,7 +96,7 @@ const HomeScreen = ({ navigation }) => {
         leftItems={[
           {
             icon: 'chevronDown',
-            image: IMAGES[currentCountry?.code],
+            image: getCountryImage(currentCountry),
             variant: 'transparent',
             imageStyle: { position: 'relative', left: 3 },
             onPress: () => {
