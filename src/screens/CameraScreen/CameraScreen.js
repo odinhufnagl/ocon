@@ -234,6 +234,8 @@ export const CameraScreen = ({ navigation, route }) => {
     setCount(CAMERA_TIMER - secondsSinceNotification);
   };
 
+  const getCoordinate = ({ longitude, latitude }) => ({ longitude, latitude });
+
   const handlePostVideo = async (path) => {
     setLoadingPostPhoto(true);
     const thumbnail = await getThumbnailFromVideo(path);
@@ -285,7 +287,7 @@ export const CameraScreen = ({ navigation, route }) => {
       postTypeId: 2,
       location: formattedAddress,
       countryCode,
-      coordinate: location.coords,
+      coordinate: { data: getCoordinate(location.coords) },
       createdAtLocale: getCurrentLocaleDate()
     });
 
@@ -330,7 +332,6 @@ export const CameraScreen = ({ navigation, route }) => {
     }
     const formattedAddress = getFormattedAddressByAddress(address);
     const countryCode = getCountryCodeByAddress(address);
-
     const res2 = await createPost({
       userId: currentUser.id,
       image: returnedURL,
@@ -338,7 +339,7 @@ export const CameraScreen = ({ navigation, route }) => {
       postTypeId: 1,
       location: formattedAddress,
       countryCode,
-      coordinate: location.coords,
+      coordinate: { data: getCoordinate(location.coords) },
       createdAtLocale: getCurrentLocaleDate()
     });
 
