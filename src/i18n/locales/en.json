@@ -12,7 +12,8 @@
     "postDownloaded": "Post downloaded",
     "checkEmailInbox": "Check your email inbox",
     "deleteAccount": "Send an email to odin.hufnagl@gmail.com with the subject 'Delete account' and an explanation",
-    "postReactionTimeExceeded": "Can only react within the same day as post is created"
+    "postReactionTimeExceeded": "Can only react within the same day as post is created",
+    "usernameInUse": "Username is already in use"
   },
   "welcomeScreen": {
     "header": "Ocon",
@@ -30,9 +31,10 @@
   "signUpScreen": {
     "header": "Sign up",
     "subheader": "Please sign up to get started",
-    "input1Placeholder": "Email",
-    "input2Placeholder": "Password",
-    "input3Placeholder": "Confirm password",
+    "emailPlaceholder": "Email",
+    "usernamePlaceholder": "username",
+    "passwordPlaceholder": "Password",
+    "confirmPasswordPlaceholder": "Confirm password",
     "button": "Sign up"
   },
   "cameraScreen": {
@@ -46,7 +48,9 @@
     "yesterdayScreen": "Yesterday",
     "profileScreen": "Profile",
     "settingsScreen": "Settings",
-    "privacyPolicyScreen": "Privacy policy"
+    "privacyPolicyScreen": "Privacy policy",
+    "followers": "Followers",
+    "following": "Following"
   },
   "settingsScreen": {
     "logOut": "Log out",
@@ -60,10 +64,15 @@
   "profileScreen": {
     "emptyImageList": "No posts yet",
     "reactions": "Reactions",
-    "posts": "Posts"
+    "posts": "Posts",
+    "followers": "Followers",
+    "following": "Following"
   },
   "avatarScreen": {
     "header": "Choose your avatar"
+  },
+  "profileImageScreen": {
+    "header": "Choose your profile"
   },
   "months": {
     "0": "January",
@@ -96,5 +105,16 @@
     "globeButton": "Pick all",
     "notValidCountry": "Click on a country",
     "notAvailableCountry": "Ocon is not available in this country"
+  },
+  "homeScreen": {
+    "tabs": {
+      "following": "Following",
+      "popular": "Popular"
+    }
+  },
+  "tabs": {
+    "following": "Following",
+    "popular": "Popular",
+    "scoreboard": "Scoreboard"
   }
 }

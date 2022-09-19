@@ -12,6 +12,9 @@ import WelcomeScreen from './WelcomeScreen/WelcomeScreen';
 import YesterdayScreen from './YesterdayScreen/YesterdayScreen';
 import AvatarScreen from './AvatarScreen/AvatarScreen';
 import PrivacyPolicyScreen from './PrivacyPolicyScreen/PrivacyPolicyScreen';
+import SearchScreen from './SearchScreen/SearchScreen';
+import UsersListScreen from './UsersListScreen/UsersListScreen';
+import ProfileImageScreen from './ProfileImageScreen/ProfileImageScreen';
 export {
   WelcomeScreen,
   ProfileScreen,
@@ -26,5 +29,8 @@ export {
   SettingsScreen,
   LikedPostsScreen,
   AvatarScreen,
-  PrivacyPolicyScreen
+  PrivacyPolicyScreen,
+  SearchScreen,
+  UsersListScreen,
+  ProfileImageScreen
 };

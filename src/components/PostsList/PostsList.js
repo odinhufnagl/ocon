@@ -19,7 +19,7 @@ const PostsList = React.forwardRef(
     },
     ref
   ) => {
-    const [currentVisible, setCurrentVisible] = useState();
+    const [currentVisible, setCurrentVisible] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
     const [layoutHeight, setLayoutHeight] = useState(
       Dimensions.get('window').height

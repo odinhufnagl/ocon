@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import { ConditionalWrapper, IconButton, Spacer, Text } from '../';
+import { ConditionalWrapper, IconButton, Spacer, Text, Tabs } from '../';
 import { SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 
@@ -20,7 +20,10 @@ const Header = ({
   style,
   headerTextStyle,
   showGradient,
-  headerOnClick
+  headerOnClick,
+  tabs,
+  tabValue,
+  onTabPress
 }) => {
   const { theme } = useTheme();
   const renderAllItems = (directionOfItems) =>
@@ -53,31 +56,56 @@ const Header = ({
       }
     });
 
+  const getGradientColors = () =>
+    tabs
+      ? ['rgba(0, 0, 0, 0.8)', '#00000000']
+      : ['rgba(0, 0, 0, 0.4)', '#00000000'];
+
   return (
     <>
       {showGradient && (
         <LinearGradient
           pointerEvents="none"
-          style={styles.gradient}
-          colors={['rgba(0, 0, 0, 0.4)', '#00000000']}
+          style={styles.gradient(tabs)}
+          colors={getGradientColors()}
         />
       )}
 
       <View style={[styles.container(theme), style]}>
-        <View style={styles.centerContainer}>
-          <View style={styles.leftContainer}>{renderAllItems(leftItems)}</View>
-          {header && (
-            <>
-              <Spacer spacing="medium" orientation="horizontal" />
-              <TouchableWithoutFeedback onPress={headerOnClick}>
-                <Text type="header" style={[styles.header, headerTextStyle]}>
-                  {header}
-                </Text>
-              </TouchableWithoutFeedback>
-            </>
-          )}
+        <View style={styles.upperContainer}>
+          <View style={styles.centerContainer}>
+            <View style={styles.leftContainer}>
+              {renderAllItems(leftItems)}
+            </View>
+            {header && (
+              <>
+                <Spacer spacing="medium" orientation="horizontal" />
+                <View style={styles.headerContainer}>
+                  <TouchableWithoutFeedback onPress={headerOnClick}>
+                    <Text
+                      type="header"
+                      style={[styles.header, headerTextStyle]}
+                      numberOfLines={1}
+                    >
+                      {header}
+                    </Text>
+                    <View style={styles.header}></View>
+                  </TouchableWithoutFeedback>
+                </View>
+                <Spacer spacing="medium" orientation="horizontal" />
+              </>
+            )}
+          </View>
+          <View style={styles.rightContainer}>
+            {renderAllItems(rightItems)}
+          </View>
         </View>
-        <View style={styles.rightContainer}>{renderAllItems(rightItems)}</View>
+        {tabs && (
+          <>
+            <Spacer spacing="medium" />
+            <Tabs tabs={tabs} value={tabValue} onTabPress={onTabPress} />
+          </>
+        )}
       </View>
     </>
   );
@@ -114,20 +142,23 @@ Header.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  upperContainer: {
+    flexDirection: 'row'
+  },
   container: (theme) => ({
     marginTop: Platform.OS === 'ios' ? SPACING.medium + 20 : 0,
     paddingHorizontal: SPACING.medium,
-    flexDirection: 'row',
     width: '100%',
-    zIndex: 1000
+    zIndex: 1000,
+    flexDirection: 'column'
   }),
-  gradient: {
+  gradient: (tabsVisible) => ({
     position: 'absolute',
     top: 0,
     width: '100%',
-    height: 300,
+    height: tabsVisible ? 340 : 300,
     zIndex: 101
-  },
+  }),
   centerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -143,8 +174,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   header: {
+    width: '100%',
     position: 'relative',
     top: 2
+  },
+  headerContainer: {
+    flex: 1
   },
 
   iconButton: {
