@@ -105,7 +105,7 @@ const PostBottomContainer = ({
             >
               <Image
                 source={{ uri: avatarImage }}
-                style={{ width: 65, height: 65, borderRadius: 100 }}
+                style={{ width: 60, height: 60, borderRadius: 100 }}
                 resizeMethod="resize"
               />
             </TouchableOpacity>
