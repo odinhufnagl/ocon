@@ -102,7 +102,7 @@ const Header = ({
         </View>
         {tabs && (
           <>
-            <Spacer spacing="medium" />
+            <Spacer spacing={12} />
             <Tabs tabs={tabs} value={tabValue} onTabPress={onTabPress} />
           </>
         )}
