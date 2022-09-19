@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   FlatList,
-  Image,
   ImageBackground,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   useWindowDimensions,
-  View
+  View,
+  Image
 } from 'react-native';
 import {
   createUserReport,
@@ -16,6 +16,7 @@ import {
   getPostsByUserId,
   getUser
 } from '../../api/graphql/requests';
+
 import { Button, ConditionalWrapper, Header, Spacer, Text } from '../../common';
 import {
   FollowButton,
@@ -236,6 +237,7 @@ const ProfileScreen = ({ navigation, route }) => {
               >
                 <View style={styles.profileImageContainer(theme)}>
                   <Image
+                    resizeMethod="resize"
                     source={{ uri: user.profileImage }}
                     style={styles.profileImage}
                   />
