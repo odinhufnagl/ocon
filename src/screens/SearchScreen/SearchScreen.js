@@ -81,6 +81,7 @@ const SearchScreen = ({ navigation }) => {
         ) : (
           <View style={styles.resultsContainer}>
             <FlatList
+              keyExtractor={(item, index) => item.id}
               onEndReached={fetchNewResults}
               showsVerticalScrollIndicator={false}
               data={results}
