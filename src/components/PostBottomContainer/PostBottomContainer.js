@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
-  Image,
   StyleSheet,
   TouchableOpacity,
   View,
   TouchableWithoutFeedback,
-  ActivityIndicator
+  ActivityIndicator,
+  Image
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { SvgUri } from 'react-native-svg';
@@ -106,6 +106,7 @@ const PostBottomContainer = ({
               <Image
                 source={{ uri: avatarImage }}
                 style={{ width: 65, height: 65, borderRadius: 100 }}
+                resizeMethod="resize"
               />
             </TouchableOpacity>
             <Spacer spacing={25} />
@@ -128,6 +129,7 @@ const PostBottomContainer = ({
                       <Image
                         source={getEmojiImageSource(name)}
                         style={[styles.emoji, style]}
+                        resizeMethod="resize"
                       />
                     </TouchableOpacity>
                     <Text type="body" bold>

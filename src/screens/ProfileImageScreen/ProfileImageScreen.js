@@ -20,7 +20,13 @@ const getDefaultSource = (name) =>
   `https://ui-avatars.com/api/?size=512&name=${name}&length=1&background=random&format=jpg`;
 
 const ProfileImage = ({ source }) => {
-  return <Image source={{ uri: source }} style={styles.profileImage} />;
+  return (
+    <Image
+      source={{ uri: source }}
+      style={styles.profileImage}
+      resizeMethod="resize"
+    />
+  );
 };
 
 const ProfileImageScreen = ({ navigation, route }) => {
