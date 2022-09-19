@@ -12,10 +12,10 @@ import { SPACING } from '../../constants';
 import { usePagination, useTheme } from '../../hooks';
 import { PROFILE_SCREEN, PROFILE_STACK } from '../../navigation';
 
-const UserListItem = ({ title, image, onPress }) => {
+const UserListItem = ({ title, image, onPress, key }) => {
   const { theme } = useTheme();
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} key={key}>
       <View style={styles.resultContainer(theme)}>
         <View style={styles.imageContainer}>
           <Image
