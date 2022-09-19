@@ -43,14 +43,14 @@ const SettingsScreen = ({ navigation }) => {
         <Spacer />
         <Button
           title={translate(translateKey + 'logOut')}
-          style={{ backgroundColor: theme.dp3 }}
+          variant="third"
           shadow={false}
           onPress={() => setLogoutModalVisible(true)}
         />
         <Spacer />
         <Button
           title={translate(translateKey + 'deleteAccount')}
-          style={{ backgroundColor: theme.dp3 }}
+          variant="third"
           shadow={false}
           onPress={handleDeleteAccount}
         />

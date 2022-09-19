@@ -17,6 +17,9 @@ import DownloadIconSvg from './icons/download/DownloadIconSVG';
 import LocationIconSvg from './icons/location/LocationIconSVG';
 import WarningIconSVG from './icons/warning/WarningIconSVG';
 import GlobeIconSvg from './icons/globe/GlobeIconSVG';
+import UserAddIconSVG from './icons/userAdd/UserAddIconSVG';
+import UserCheckIconSVG from './icons/userCheck/UserCheckIconSVG';
+import SearchIconSVG from './icons/search/SearchIconSVG';
 export const icons = {
   back: BackIconSVG,
   close: CloseIconSvg,
@@ -36,5 +39,8 @@ export const icons = {
   download: DownloadIconSvg,
   location: LocationIconSvg,
   warning: WarningIconSVG,
-  globe: GlobeIconSvg
+  globe: GlobeIconSvg,
+  userAdd: UserAddIconSVG,
+  userCheck: UserCheckIconSVG,
+  search: SearchIconSVG
 };

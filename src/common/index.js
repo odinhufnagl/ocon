@@ -9,6 +9,7 @@ import Modal from './Modal/Modal';
 import Slider from './Slider/Slider';
 import Spacer from './Spacer/Spacer';
 import Text from './Text/Text';
+import Tabs from './Tabs/Tabs';
 export {
   Text,
   Button,
@@ -20,5 +21,6 @@ export {
   Header,
   ConditionalWrapper,
   Slider,
-  Modal
+  Modal,
+  Tabs
 };

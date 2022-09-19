@@ -48,3 +48,23 @@ export const createUserReportMutation = (obj) => {
      } 
    `;
 };
+
+export const createFollowingMutation = (obj) => {
+  const input = objectToGraphql(obj);
+  console.log('input', input);
+  return gql`
+   mutation {
+        insert_followings_one (object:${input}) {id}
+     } 
+   `;
+};
+
+export const deleteFollowingsMutation = (where) => {
+  const input = objectToGraphql(where);
+  console.log('input', input);
+  return gql`
+   mutation {
+        delete_followings (where:${input}) {returning {id}}
+     } 
+   `;
+};

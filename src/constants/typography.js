@@ -43,7 +43,7 @@ export default {
   thirdButtonText: (theme) => ({
     fontFamily: FONT_FAMILY.semiBold,
     color: theme.white,
-    fontSize: 11
+    fontSize: 14
   }),
   primaryInputText: (theme) => ({
     fontFamily: FONT_FAMILY.semiBold,

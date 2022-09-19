@@ -2,32 +2,37 @@ import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   FlatList,
+  Image,
   ImageBackground,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
   useWindowDimensions,
   View
 } from 'react-native';
 import {
   createUserReport,
   getPosts,
+  getPostsByUserId,
   getUser
 } from '../../api/graphql/requests';
-import { Button, Header, Icon, Modal, Spacer, Text } from '../../common';
+import { Button, ConditionalWrapper, Header, Spacer, Text } from '../../common';
 import {
+  FollowButton,
   LoadingContainer,
-  PostCard,
   PostGrid,
   QuestionModal
 } from '../../components';
+import { useIsFocused } from '@react-navigation/native';
 import { DIMENS, SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 import { translate } from '../../i18n';
 import {
   LIKED_POSTS_SCREEN,
   POSTS_SCREEN,
-  SETTINGS_SCREEN,
-  SETTINGS_STACK
+  PROFILE_IMAGE_SCREEN,
+  SETTINGS_STACK,
+  USERS_LIST_SCREEN
 } from '../../navigation';
 import { useAuthContext } from '../../providers/AuthProvider';
 import { SvgUri } from 'react-native-svg';
@@ -59,16 +64,18 @@ const getPostGridData = (posts) => {
 };
 
 const ProfileScreen = ({ navigation, route }) => {
-  const { user } = route.params;
+  const isFocused = useIsFocused();
+  const { userId } = route.params;
+  const [user, setUser] = useState();
   const { currentUser } = useAuthContext();
   const translateKey = 'profileScreen.';
-
-  const isCurrentUser = user?.id === currentUser?.id;
+  const isCurrentUser = userId === currentUser?.id;
   const deviceHeight = useWindowDimensions().height;
   const imageHeight = deviceHeight * 0.3;
   const { theme } = useTheme();
   const [totalReactions, setTotalReactions] = useState(0);
   const [reportModalVisible, setReportModalVisible] = useState(false);
+  const [followersCount, setFollowersCount] = useState();
 
   const [posts, setPosts] = useState();
 
@@ -83,20 +90,29 @@ const ProfileScreen = ({ navigation, route }) => {
   useEffect(() => {
     setTotalReactions(getTotalReactions(posts));
   }, [posts]);
+
   useEffect(() => {
     (async () => {
-      await fetchPosts();
+      if (isFocused) {
+        await fetchUser();
+        await fetchPosts();
+      }
     })();
-  }, []);
+  }, [isFocused]);
+
+  const fetchUser = async () => {
+    const res = await getUser({ id: userId, currentUserId: currentUser.id });
+    if (res) {
+      setUser(res);
+      setFollowersCount(res.followersCount);
+    }
+  };
 
   const getUsersPosts = async () =>
-    await getPosts(
-      { userId: { _eq: user.id } },
-      undefined,
-      currentUser.id,
-      999999,
-      0
-    );
+    await getPostsByUserId({
+      userId,
+      currentUserId: currentUser.id
+    });
 
   const fetchPosts = async () => {
     const posts = await getUsersPosts();
@@ -124,9 +140,20 @@ const ProfileScreen = ({ navigation, route }) => {
     showSnackbar(translate('modals.report.success'));
   };
 
-  if (!posts) {
+  const handleChangeProfileImage = () => {
+    navigation.navigate(PROFILE_IMAGE_SCREEN, { isUpdating: true });
+  };
+
+  if (!posts || !user) {
     return <LoadingContainer />;
   }
+
+  const getHeader = () => {
+    if (isCurrentUser) {
+      return 'You';
+    }
+    return user.username;
+  };
 
   return (
     <View style={{ flex: 1, height: '100%' }}>
@@ -145,7 +172,7 @@ const ProfileScreen = ({ navigation, route }) => {
       <Header
         showGradient
         style={{ position: 'absolute' }}
-        header={translate('headers.profileScreen')}
+        header={getHeader()}
         leftItems={[
           {
             icon: 'back',
@@ -199,27 +226,70 @@ const ProfileScreen = ({ navigation, route }) => {
         <View style={styles.scrollContainer(theme)}>
           <View style={styles.contentContainer}>
             <View style={styles.scrollUpperContainer}>
-              <View style={styles.avatarContainer(theme)}>
-                <SvgUri uri={user.avatar.image} width="100%" height="100%" />
-              </View>
+              <ConditionalWrapper
+                condition={isCurrentUser}
+                wrapper={(children) => (
+                  <TouchableOpacity onPress={handleChangeProfileImage}>
+                    {children}
+                  </TouchableOpacity>
+                )}
+              >
+                <View style={styles.profileImageContainer(theme)}>
+                  <Image
+                    source={{ uri: user.profileImage }}
+                    style={styles.profileImage}
+                  />
+                </View>
+              </ConditionalWrapper>
+
               <Spacer spacing="medium" />
 
-              {isCurrentUser && (
-                <Text type="body" bold>
-                  {user.email}
-                </Text>
-              )}
+              <Text type="body" bold>
+                {user.username}
+              </Text>
               <View style={styles.captionContainer}>
-                <Text type="small">
-                  {posts?.length} {translate(translateKey + 'posts')}
-                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate(USERS_LIST_SCREEN, {
+                      header: translate('headers.followers'),
+                      where: { following: { followedId: { _eq: user.id } } }
+                    })
+                  }
+                >
+                  <Text type="small">
+                    {followersCount} {translate(translateKey + 'followers')}
+                  </Text>
+                </TouchableOpacity>
                 <Spacer spacing="tiny" orientation="horizontal" />
                 <View style={styles.bulletin(theme)} />
                 <Spacer spacing="tiny" orientation="horizontal" />
-                <Text type="small">
+                {/*<Text type="small">
                   {totalReactions} {translate(translateKey + 'reactions')}
-                </Text>
+      </Text>*/}
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate(USERS_LIST_SCREEN, {
+                      header: translate('headers.following'),
+                      where: { followers: { followerId: { _eq: user.id } } }
+                    })
+                  }
+                >
+                  <Text type="small">
+                    {translate(translateKey + 'following')}{' '}
+                    {user.followingCount}
+                  </Text>
+                </TouchableOpacity>
               </View>
+              <Spacer />
+              {!isCurrentUser && (
+                <FollowButton
+                  setFollowersCount={setFollowersCount}
+                  isAlreadyFollowing={user.isAlreadyFollowing}
+                  followedUserId={user.id}
+                  followerId={currentUser.id}
+                />
+              )}
+
               <Spacer spacing="large" />
             </View>
             <PostGrid
@@ -234,7 +304,7 @@ const ProfileScreen = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
-  avatarContainer: (theme) => ({
+  profileImageContainer: (theme) => ({
     borderRadius: 100,
     backgroundColor: theme.backgroundColor,
     width: 100,
@@ -244,6 +314,11 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderStyle: 'solid'
   }),
+  profileImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 200
+  },
   imageBackground: (height) => ({
     position: 'absolute',
     left: 0,

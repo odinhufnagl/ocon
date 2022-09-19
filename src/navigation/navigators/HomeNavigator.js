@@ -2,18 +2,17 @@ import { firebase } from '@react-native-firebase/messaging';
 import { CommonActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
+import { EMPTY } from '../../api/graphql/constants';
 import { getLatestNotification } from '../../api/graphql/requests';
-import { Text } from '../../common';
 import { LoadingHeaderContainer } from '../../components';
-import { CAMERA_TIMER } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 import { useAuthContext } from '../../providers/AuthProvider';
-import { getSecondsSinceTimestamp, shouldShowCamera } from '../../utils';
+import { hasTimestampHappened, shouldShowCamera } from '../../utils';
 import {
   CAMERA_SCREEN,
   HOME_SCREEN,
   INTRO_STACK,
-  PROFILE_STACK
+  YESTERDAY_STACK
 } from '../constants/routes';
 import { HomeStack } from '../constants/stacks/HomeStack';
 
@@ -33,7 +32,6 @@ const HomeNavigator = ({ navigationRef }) => {
       firebase
         .messaging()
         .setBackgroundMessageHandler(async (remoteMessage) => {
-          console.log('hello world');
           if (currentUser && remoteMessage.data.type === 'openCamera') {
             setRerender((prev) => prev + 1);
           }
@@ -63,19 +61,17 @@ const HomeNavigator = ({ navigationRef }) => {
 
       if (!lastNotification) {
         setInitialRouteName(HOME_SCREEN);
-        setLatestNotification({});
+        setLatestNotification(EMPTY);
         return;
       }
-
       setLatestNotification(lastNotification);
-
-      const hasUserAlreadyPosted =
-        lastNotification?.currentUsersPosts?.length > 0;
-
-      if (!currentUser.avatar?.id) {
+      if (!currentUser.profileImage) {
         setInitialRouteName(INTRO_STACK);
         return;
       }
+
+      const hasUserAlreadyPosted =
+        lastNotification?.currentUsersPosts?.length > 0;
 
       if (hasUserAlreadyPosted) {
         setInitialRouteName(HOME_SCREEN);
@@ -83,8 +79,8 @@ const HomeNavigator = ({ navigationRef }) => {
       }
 
       if (!shouldShowCamera(lastNotification?.createdAt)) {
-        if (rerender > 0 && navigationRef.current.isReady()) {
-          navigationRef.current.dispatch(
+        if (rerender > 0 && navigationRef?.isReady()) {
+          navigationRef?.dispatch(
             CommonActions.reset({
               index: 1,
               routes: [{ name: HOME_SCREEN }]
@@ -95,9 +91,8 @@ const HomeNavigator = ({ navigationRef }) => {
         setInitialRouteName(HOME_SCREEN);
         return;
       }
-      console.log('2');
-      if (rerender > 0 && navigationRef.current.isReady()) {
-        navigationRef.current.dispatch(
+      if (rerender > 0 && navigationRef?.isReady()) {
+        navigationRef?.dispatch(
           CommonActions.reset({
             index: 1,
             routes: [{ name: CAMERA_SCREEN }]
@@ -109,6 +104,20 @@ const HomeNavigator = ({ navigationRef }) => {
     })();
   }, [rerender]);
 
+  /*useEffect(() => {
+    if (!navigationRef?.isReady() || !initialRouteName || !latestNotification) {
+      return;
+    }
+    if (latestNotification === EMPTY) {
+      navigationRef?.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: HOME_SCREEN }, { name: YESTERDAY_STACK }]
+        })
+      );
+    }
+  }, [navigationRef, initialRouteName, latestNotification]);*/
+
   const requestUserPermission = async () => {
     const authStatus = await firebase.messaging().requestPermission();
     const enabled =
@@ -117,6 +126,18 @@ const HomeNavigator = ({ navigationRef }) => {
 
     if (enabled) {
       console.log('Authorization status:', authStatus);
+    }
+  };
+
+  const getInitialParams = () => {
+    switch (initialRouteName) {
+      case HOME_SCREEN:
+        if (!hasTimestampHappened(latestNotification.createdAt)) {
+          return { navigateTo: YESTERDAY_STACK };
+        }
+        break;
+      default:
+        break;
     }
   };
 
@@ -135,11 +156,7 @@ const HomeNavigator = ({ navigationRef }) => {
     >
       {HomeStack.map((screen) => (
         <Stack.Screen
-          initialParams={
-            initialRouteName === CAMERA_SCREEN && {
-              latestNotification
-            }
-          }
+          initialParams={getInitialParams()}
           key={screen.name}
           name={screen.name}
           component={screen.component}
