@@ -50,7 +50,8 @@
     "settingsScreen": "Settings",
     "privacyPolicyScreen": "Privacy policy",
     "followers": "Followers",
-    "following": "Following"
+    "following": "Following",
+    "mapModal": "Choose country"
   },
   "settingsScreen": {
     "logOut": "Log out",

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal as RNModal, StyleSheet, View } from 'react-native';
 import { Geojson } from 'react-native-maps';
 import { getAddressFromCoords } from '../../api/googleMaps';
-import { Button, Container, IconButton, Text } from '../../common';
+import { Button, Container, Header, IconButton, Text } from '../../common';
 import { COUNTRIES, SPACING } from '../../constants';
 import { translate } from '../../i18n';
 import { getCountryCodeByAddress, showSnackbar } from '../../utils';
@@ -46,13 +46,20 @@ const MapModal = ({
 
   return (
     <RNModal visible={visible} setVisible={setVisible}>
-      <IconButton
-        variant="secondary"
-        iconSize="medium"
-        icon="back"
-        onPress={() => setVisible(false)}
-        style={styles.backButton}
+      <Header
+        style={{ position: 'absolute' }}
+        leftItems={[
+          {
+            icon: 'back',
+            onPress: () => setVisible(false),
+            variant: 'secondary',
+            iconSize: 'medium'
+          }
+        ]}
+        header={translate('headers.mapModal')}
+        showGradient
       />
+
       {loading ? <LoadingContainer /> : <MapView onMapPress={handleMapPress} />}
       <Button
         textStyle={styles.globeButtonTextStyle}
