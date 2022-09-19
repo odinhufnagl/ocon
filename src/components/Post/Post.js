@@ -9,7 +9,6 @@ import {
 import { AnimatedEmoji } from 'react-native-animated-emoji';
 import Video from 'react-native-video';
 
-import LinearGradient from 'react-native-linear-gradient';
 import { ImageMiddle, PostBottomContainer } from '..';
 import { createReaction } from '../../api/graphql/requests';
 import {
@@ -21,14 +20,11 @@ import {
 import { translate } from '../../i18n';
 import { PROFILE_SCREEN, PROFILE_STACK } from '../../navigation';
 import { useAuthContext } from '../../providers/AuthProvider';
-import { POST_POSITIONS } from '../../screens/CameraScreen/CameraScreen';
 import {
   getTimeFromTimestamp,
   handleDownloadToCameraRoll,
-  saveImageToCameraRoll,
   showSnackbar
 } from '../../utils';
-import { ConditionalWrapper, Text } from '../../common';
 
 const Post = ({ post, index, showPlace, isVisible }) => {
   const videoRef = useRef();
@@ -39,7 +35,7 @@ const Post = ({ post, index, showPlace, isVisible }) => {
   const [reactionsCount, setReactionsCount] = useState(post.reactionsCount);
   const [backgroundClicks, setBackgroundClicks] = useState();
   const backgroundClicksTimer = useRef();
-  const { image, location, video } = post;
+  const { image, location, video, createdBy } = post;
 
   const [emojisMoving, setEmojisMoving] = useState([]);
   const updateReactionsCount = (emojiName, toAdd) => {
@@ -102,7 +98,7 @@ const Post = ({ post, index, showPlace, isVisible }) => {
   const navigateToUser = () => {
     navigation.push(PROFILE_STACK, {
       screen: PROFILE_SCREEN,
-      params: { user: post.createdBy }
+      params: { userId: post.userId }
     });
   };
 
@@ -124,6 +120,7 @@ const Post = ({ post, index, showPlace, isVisible }) => {
               onDownloadPress={() =>
                 handleDownloadToCameraRoll(video || image, true, Boolean(video))
               }
+              onusernamePress={navigateToUser}
               onAvatarPress={navigateToUser}
               onContainerPress={handleBackgroundPress}
               textLeftUpper={showPlace && '#' + parseInt(index + 1)}
@@ -141,7 +138,8 @@ const Post = ({ post, index, showPlace, isVisible }) => {
                 }
               ]}
               textLeft={location}
-              avatarImage={post?.createdBy?.avatar?.image}
+              username={createdBy.username}
+              avatarImage={post?.createdBy?.profileImage}
             />
           </View>
         </ImageBackground>

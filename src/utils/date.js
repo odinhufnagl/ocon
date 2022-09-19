@@ -17,6 +17,9 @@ export const getCurrentDate = () => {
   return now.format('YYYY-MM-DD');
 };
 
+export const hasTimestampHappened = (timestamp) =>
+  getSecondsSinceTimestamp(timestamp) >= 0;
+
 export const getCurrentLocaleDate = () =>
   moment().format('YYYY-MM-DD HH:mm:ss');
 

@@ -2,7 +2,19 @@ import { EMOJI_NAMES } from '../../constants';
 import { EMPTY } from './constants';
 
 export const getUserResult = (res) =>
-  res.data && res.data.users.length > 0 ? res.data.users[0] : EMPTY;
+  res.data && res.data.users.length > 0
+    ? {
+        ...res.data.users[0],
+        followersCount: res.data.users[0].followersCount.aggregate.count,
+        followingCount: res.data.users[0].followingCount.aggregate.count,
+        isAlreadyFollowing:
+          res.data.users[0].isAlreadyFollowing.aggregate.count > 0
+      }
+    : EMPTY;
+
+export const getUsersResult = (res) => res.data && res.data.users;
+
+export const getSearchUsersResult = (res) => res.data && res.data.search_users;
 
 export const createUserResult = (res) =>
   res.data &&
