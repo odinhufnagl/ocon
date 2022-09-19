@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {
   FlatList,
-  Image,
   StyleSheet,
   TouchableOpacity,
-  View
+  View,
+  Image
 } from 'react-native';
 import { Spacer, Text } from '../../common';
 import { LoadingContainer } from '../../components';
@@ -18,7 +18,11 @@ const UserListItem = ({ title, image, onPress }) => {
     <TouchableOpacity onPress={onPress}>
       <View style={styles.resultContainer(theme)}>
         <View style={styles.imageContainer}>
-          <Image source={{ uri: image }} style={styles.image} />
+          <Image
+            source={{ uri: image }}
+            style={styles.image}
+            resizeMethod="resize"
+          />
         </View>
         <Spacer orientation="horizontal" spacing="medium" />
         <Text bold>{title}</Text>
