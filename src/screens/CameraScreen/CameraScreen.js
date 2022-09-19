@@ -152,13 +152,11 @@ const PostTypesCarousel = ({ setCurrentType, currentType }) => {
 export const CameraScreen = ({ navigation, route }) => {
   const intervalRef = useRef();
   const translateKey = 'cameraScreen.';
-  const [count, setCount] = useState(route?.params?.count);
+  const [count, setCount] = useState();
   const [loadingPostPhoto, setLoadingPostPhoto] = useState(false);
   const { currentUser } = useAuthContext();
   const [loading, setLoading] = useState(true);
-  const [latestNotificationId, setLatestNotificationId] = useState(
-    route?.params?.latestNotification?.id
-  );
+  const [latestNotificationId, setLatestNotificationId] = useState();
   const [appState, setAppState] = useState();
   const [location, setLocation] = useLocation();
 
@@ -212,13 +210,13 @@ export const CameraScreen = ({ navigation, route }) => {
   };
 
   const getStartCount = async () => {
-    const latestNotification =
-      route?.params?.latestNotification ||
-      (await getLatestNotification(currentUser.id));
+    const latestNotification = await getLatestNotification(currentUser.id);
 
     setLatestNotificationId(latestNotification.id);
     const userHasAlreadyPosted =
       latestNotification?.currentUsersPosts?.length > 0;
+
+    //this is already checked when we handle the notification, but we can always do it one mote time to be clear
     if (userHasAlreadyPosted) {
       navigateFurther();
       return;
@@ -361,7 +359,7 @@ export const CameraScreen = ({ navigation, route }) => {
             name: PROFILE_STACK,
             params: {
               screen: PROFILE_SCREEN,
-              params: { user: currentUser }
+              params: { userId: currentUser.id }
             }
           }
         ]

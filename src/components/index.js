@@ -15,6 +15,8 @@ import CameraView from './CameraView/CameraView';
 import QuestionModal from './QuestionModal/QuestionModal';
 import MapView from './MapView/MapView';
 import MapModal from './MapModal/MapModal';
+import UserListItem from './UserListItem/UserListItem';
+import FollowButton from './FollowButton/FollowButton';
 
 export {
   Camera,
@@ -33,5 +35,7 @@ export {
   CameraView,
   QuestionModal,
   MapView,
-  MapModal
+  MapModal,
+  FollowButton,
+  UserListItem
 };

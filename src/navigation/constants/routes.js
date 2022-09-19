@@ -18,3 +18,6 @@ export const INTRO_STACK = 'IntroStack';
 export const PROFILE_STACK = 'ProfileStack';
 export const YESTERDAY_STACK = 'YesterdayStack';
 export const SETTINGS_STACK = 'SettingsStack';
+export const SEARCH_SCREEN = 'SearchScreen';
+export const USERS_LIST_SCREEN = 'UsersListScreen';
+export const PROFILE_IMAGE_SCREEN = 'ProfileImageScreen';

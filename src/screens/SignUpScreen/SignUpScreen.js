@@ -26,6 +26,7 @@ const SignUpScreen = ({ navigation }) => {
   const { signUp } = useAuthContext();
   const { theme } = useTheme();
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [privacyPolicyChecked, setPrivacyPolicyChecked] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -33,7 +34,12 @@ const SignUpScreen = ({ navigation }) => {
 
   const handleSignUp = async () => {
     setLoading(true);
-    const res = await signUp(email, password);
+    const res = await signUp(email, username, password);
+    if (typeof res === 'object' && res.error) {
+      showSnackbar(res.error, 'error');
+      setLoading(false);
+      return;
+    }
     if (!res) {
       showSnackbar(translate('snackbar.signUpError'), 'error');
       setLoading(false);
@@ -57,16 +63,24 @@ const SignUpScreen = ({ navigation }) => {
         <Input
           value={email}
           onChangeText={setEmail}
-          title={translate(translateKey + 'input1Placeholder')}
-          placeholder={translate(translateKey + 'input1Placeholder')}
+          title={translate(translateKey + 'emailPlaceholder')}
+          placeholder={translate(translateKey + 'emailPlaceholder')}
+          autoCapitalize="none"
+        />
+        <Spacer spacing="large" />
+        <Input
+          value={username}
+          onChangeText={setUsername}
+          title={translate(translateKey + 'usernamePlaceholder')}
+          placeholder={translate(translateKey + 'usernamePlaceholder')}
           autoCapitalize="none"
         />
         <Spacer spacing="large" />
         <Input
           value={password}
           onChangeText={setPassword}
-          title={translate(translateKey + 'input2Placeholder')}
-          placeholder={translate(translateKey + 'input2Placeholder')}
+          title={translate(translateKey + 'passwordPlaceholder')}
+          placeholder={translate(translateKey + 'passwordPlaceholder')}
           secureTextEntry={true}
           autoCapitalize="none"
         />
@@ -74,8 +88,8 @@ const SignUpScreen = ({ navigation }) => {
         <Input
           value={confirmPassword}
           onChangeText={setConfirmPassword}
-          title={translate(translateKey + 'input3Placeholder')}
-          placeholder={translate(translateKey + 'input3Placeholder')}
+          title={translate(translateKey + 'confirmPasswordPlaceholder')}
+          placeholder={translate(translateKey + 'confirmPasswordPlaceholder')}
           secureTextEntry={true}
           autoCapitalize="none"
         />

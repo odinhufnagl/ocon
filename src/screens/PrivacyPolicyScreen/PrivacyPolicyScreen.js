@@ -6,11 +6,13 @@ const paragraphs = [
   {
     header: 'What data do we collect?',
     body: 'Ocon collects the following data:',
-    listItems: ['Personal identification information (email address, location)']
+    listItems: [
+      'Personal identification information (email address, username, location)'
+    ]
   },
   {
     header: 'How do we collect your data?',
-    body: 'You directly provide Ocon with your email, however your location is only used by us when you post an image. We collect data from you when you:',
+    body: 'You directly provide Ocon with your email and username, however your location is only used by us when you post an image. We collect data from you when you:',
     listItems: [
       'Register for an account.',
       'Gives us permission to use your location.'
@@ -21,13 +23,13 @@ const paragraphs = [
     body: 'Ocon collects your data so that we can:',
     listItems: [
       'Manage your account.',
-      'Give users a better experience inside the app, by showing them your location.',
+      'Give users a better experience inside the app, by showing them your location and username.',
       'Give you the possibility to create a new password.'
     ]
   },
   {
     header: 'How do we store your data?',
-    body: 'Ocon securely stores your data at Firebase and Heroku. Ocon will keep your email address and location until you request an account-deletion.'
+    body: 'Ocon securely stores your data at Firebase and Heroku. Ocon will keep your email address, username and location until you request an account-deletion.'
   },
   {
     header: 'What are your data protection rights?',
@@ -53,7 +55,7 @@ const paragraphs = [
   },
   {
     header: 'Changes to our privacy policy',
-    body: 'Ocon keeps its privacy policy under regular review and places any updates on this page. This privacy policy was last updated on 5 August 2022.'
+    body: 'Ocon keeps its privacy policy under regular review and places any updates on this page. This privacy policy was last updated on 19 September 2022.'
   },
   {
     header: 'How to contact us',

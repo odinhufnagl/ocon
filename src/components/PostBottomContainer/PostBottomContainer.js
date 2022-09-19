@@ -45,6 +45,8 @@ const PostBottomContainer = ({
   onAvatarPress,
   onDownloadPress,
   textLeftUpper,
+  username,
+  onusernamePress,
   style
 }) => {
   const { theme } = useTheme();
@@ -54,7 +56,7 @@ const PostBottomContainer = ({
       wrapper={(children) => (
         <LinearGradient
           style={[styles.container, style]}
-          colors={['#00000000', 'rgba(0, 0, 0, 0.4)']}
+          colors={['#00000000', 'rgba(0, 0, 0, 0.6)']}
         >
           {children}
         </LinearGradient>
@@ -67,18 +69,32 @@ const PostBottomContainer = ({
         <View style={styles.bottomContainer}>
           <View style={styles.leftContainer}>
             <Text type="heading">{textLeftUpper}</Text>
-            <View style={styles.locationContainer}>
+            <View style={styles.usernameContainer}>
               <Icon
-                variant="location"
+                variant="profile"
                 fill="white"
                 size="small"
                 style={{ position: 'relative', bottom: 2 }}
               />
               <Spacer spacing="small" orientation="horizontal" />
-              <Text type={textLeftType} style={textLeftStyle} bold>
+              <TouchableOpacity onPress={onusernamePress}>
+                <Text bold>{username}</Text>
+              </TouchableOpacity>
+            </View>
+            <Spacer spacing="tiny" />
+            <View style={styles.locationContainer}>
+              {/*<Icon
+                variant="location"
+                fill="white"
+                size="small"
+                style={{ position: 'relative', bottom: 2 }}
+              />
+      <Spacer spacing="small" orientation="horizontal" />*/}
+              <Text type={textLeftType} style={textLeftStyle}>
                 {textLeft}
               </Text>
             </View>
+            <Spacer spacing="tiny" />
             <Text type="small">{textLeftSmall}</Text>
           </View>
 
@@ -87,7 +103,10 @@ const PostBottomContainer = ({
               onPress={onAvatarPress}
               style={styles.avatar(theme)}
             >
-              <SvgUri uri={avatarImage} width={65} height={65} />
+              <Image
+                source={{ uri: avatarImage }}
+                style={{ width: 65, height: 65, borderRadius: 100 }}
+              />
             </TouchableOpacity>
             <Spacer spacing={25} />
             <IconButton
@@ -151,6 +170,11 @@ const styles = StyleSheet.create({
     width: '65%'
   },
   locationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '80%'
+  },
+  usernameContainer: {
     flexDirection: 'row',
     alignItems: 'center'
   },

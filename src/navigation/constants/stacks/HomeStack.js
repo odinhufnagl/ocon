@@ -1,4 +1,9 @@
-import { CameraScreen, HomeScreen, NotificationScreen } from '../../../screens';
+import {
+  CameraScreen,
+  HomeScreen,
+  NotificationScreen,
+  SearchScreen
+} from '../../../screens';
 import IntroNavigator from '../../navigators/IntroNavigator';
 import ProfileNavigator from '../../navigators/ProfileNavigator';
 import YesterdayNavigator from '../../navigators/YesterdayNavigator';
@@ -8,6 +13,7 @@ import {
   INTRO_STACK,
   NOTIFICATION_SCREEN,
   PROFILE_STACK,
+  SEARCH_SCREEN,
   YESTERDAY_STACK
 } from '../routes';
 
@@ -41,6 +47,11 @@ export const HomeStack = [
   {
     name: YESTERDAY_STACK,
     component: YesterdayNavigator,
+    options: { cardStyleInterpolator }
+  },
+  {
+    name: SEARCH_SCREEN,
+    component: SearchScreen,
     options: { cardStyleInterpolator }
   }
 ];

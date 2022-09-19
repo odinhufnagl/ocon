@@ -3,9 +3,15 @@ import '@react-native-firebase/auth';
 import '@react-native-firebase/messaging';
 import React, { useContext, useEffect, useState } from 'react';
 import { EMPTY } from '../api/graphql/constants';
-import { createUser, getUser, updateUser } from '../api/graphql/requests';
+import {
+  createUser,
+  getUser,
+  getUserByUsername,
+  updateUser
+} from '../api/graphql/requests';
 import { LoadingHeaderContainer } from '../components';
 import * as RNLocalize from 'react-native-localize';
+import { translate } from '../i18n';
 
 export const ONBOARDING_DATA = Object.freeze({
   SSN: 'ssn',
@@ -28,40 +34,36 @@ export const AuthProvider = ({ children }) => {
   //are run at the same time
   let lastUid;
 
+  const handleAuthStateChanged = async (user, dbUserNewlyCreated) => {
+    if (user && lastUid !== user.uid) {
+      lastUid = user.uid;
+      let userFromDB =
+        dbUserNewlyCreated ||
+        (await getUser({ id: user.uid, currentUserId: user.uid }));
+      console.log(userFromDB);
+      if (!userFromDB) {
+        return;
+      }
+      const currentTimeZone = RNLocalize.getTimeZone();
+      if (userFromDB.timeZone !== currentTimeZone) {
+        updateUser(user.uid, { timeZone: currentTimeZone });
+      }
+      const fcmToken = await firebase.messaging().getToken();
+      if (userFromDB.notificationToken !== fcmToken) {
+        updateUser(user.uid, { notificationToken: fcmToken });
+      }
+      setCurrentUser(userFromDB);
+      lastUid = null;
+    }
+    if (!user) {
+      setCurrentUser(EMPTY);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     const unsubsribe = firebase.auth().onAuthStateChanged(async (user) => {
-      console.log('user', user);
-      if (user && lastUid !== user.uid) {
-        lastUid = user.uid;
-        let userFromDB = await getUser(user.uid);
-        if (!userFromDB) {
-          return;
-        }
-        if (userFromDB === EMPTY) {
-          userFromDB = await createUser({
-            email: user.email,
-            id: user.uid
-          });
-          if (!userFromDB) {
-            return;
-          }
-        }
-        const currentTimeZone = RNLocalize.getTimeZone();
-        console.log('timezone', currentTimeZone);
-        if (userFromDB.timeZone !== currentTimeZone) {
-          updateUser(user.uid, { timeZone: currentTimeZone });
-        }
-        const fcmToken = await firebase.messaging().getToken();
-        if (userFromDB.notificationToken !== fcmToken) {
-          updateUser(user.uid, { notificationToken: fcmToken });
-        }
-        setCurrentUser(userFromDB);
-        lastUid = null;
-      }
-      if (!user) {
-        setCurrentUser(EMPTY);
-      }
-      setLoading(false);
+      handleAuthStateChanged(user);
     });
     return unsubsribe;
   }, []);
@@ -94,11 +96,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signUp = async (email, password) => {
+  const signUp = async (email, username, password) => {
     try {
-      await firebase
+      const userWithusername = await getUserByUsername(username);
+      if (userWithusername !== EMPTY) {
+        return { error: translate('snackbar.usernameInUse') };
+      }
+      const res = await firebase
         .auth()
         .createUserWithEmailAndPassword(email.trim(), password);
+      if (!res) {
+        return;
+      }
+      const userFromDB = await createUser({
+        username,
+        email,
+        id: res.user.uid
+      });
+      if (!userFromDB) {
+        return;
+      }
+      handleAuthStateChanged(res.user, userFromDB);
       return true;
     } catch (e) {
       console.log(e);
@@ -106,7 +124,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateCurrentUser = async () => {
-    const res = await getUser(currentUser.id, true);
+    const res = await getUser({
+      id: currentUser.id,
+      currentUserId: currentUser.id
+    });
     if (!res) {
       return;
     }

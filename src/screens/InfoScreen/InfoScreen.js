@@ -32,7 +32,7 @@ export const infoScreensData = (navigation) => [
   },
   {
     header: 'Explore the world',
-    body: 'After posting your image, you can see what other people around the world has been up to, right at this moment',
+    body: 'After posting your image, you can see what other people around the world, or the people you are following has been up to, right at this moment',
     secondaryButtonText: 'Skip',
     buttonText: 'Next',
     image: worldImage,
