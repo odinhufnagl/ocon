@@ -1,6 +1,10 @@
 # OSX
 #
 .DS_Store
+.eslintrc
+.prettierrc
+.prettierrc.js
+.vscode
 
 # Xcode
 #
@@ -35,8 +39,9 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
-.eslintrc
-.vscode/
+
+
+
 
 
 
