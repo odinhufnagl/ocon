@@ -1,10 +1,10 @@
 # OSX
 #
 .DS_Store
-.eslintrc
-.prettierrc
-.prettierrc.js
-.vscode
+/.eslintrc
+/.prettierrc
+/.prettierrc.js
+/.vscode
 
 # Xcode
 #
