@@ -1,8 +1,8 @@
-import Geolocation from '@react-native-community/geolocation';
 import { useEffect, useState } from 'react';
+
 const usePagination = (limit = 5, defaultOffset = 0, getDataCallback) => {
   const [offset, setOffset] = useState(defaultOffset);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const fetchNewData = async () => {
     if (offset > data.length) {
@@ -30,9 +30,9 @@ const usePagination = (limit = 5, defaultOffset = 0, getDataCallback) => {
   };
 
   const refreshData = async () => {
-    console.log('refreshing', limit, defaultOffset);
     setLoading(true);
-    setData(await getDataCallback(limit, defaultOffset));
+    const newData = await getDataCallback(limit, defaultOffset);
+    setData(newData);
     setOffset(defaultOffset + limit);
     setLoading(false);
   };
