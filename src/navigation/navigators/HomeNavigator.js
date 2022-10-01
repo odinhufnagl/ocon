@@ -1,20 +1,20 @@
-import { firebase } from '@react-native-firebase/messaging';
-import { CommonActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
-import { EMPTY } from '../../api/graphql/constants';
-import { getLatestNotification } from '../../api/graphql/requests';
-import { LoadingHeaderContainer } from '../../components';
-import useTheme from '../../hooks/useTheme';
-import { useAuthContext } from '../../providers/AuthProvider';
-import { hasTimestampHappened, shouldShowCamera } from '../../utils';
+import { firebase } from "@react-native-firebase/messaging";
+import { CommonActions } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import React, { useEffect, useState } from "react";
+import { EMPTY } from "../../api/graphql/constants";
+import { getLatestNotification } from "../../api/graphql/requests";
+import { LoadingHeaderContainer } from "../../components";
+import useTheme from "../../hooks/useTheme";
+import { useAuthContext } from "../../providers/AuthProvider";
+import { hasTimestampHappened, shouldShowCamera } from "../../utils";
 import {
   CAMERA_SCREEN,
   HOME_SCREEN,
   INTRO_STACK,
-  YESTERDAY_STACK
-} from '../constants/routes';
-import { HomeStack } from '../constants/stacks/HomeStack';
+  YESTERDAY_STACK,
+} from "../constants/routes";
+import { HomeStack } from "../constants/stacks/HomeStack";
 
 const Stack = createStackNavigator();
 
@@ -32,20 +32,20 @@ const HomeNavigator = ({ navigationRef }) => {
       firebase
         .messaging()
         .setBackgroundMessageHandler(async (remoteMessage) => {
-          if (currentUser && remoteMessage.data.type === 'openCamera') {
+          if (currentUser && remoteMessage.data.type === "openCamera") {
             setRerender((prev) => prev + 1);
           }
-          console.log('Message handled in the background!', remoteMessage);
+          console.log("Message handled in the background!", remoteMessage);
         });
 
       const unsubscribe = firebase
         .messaging()
         .onMessage(async (remoteMessage) => {
-          if (currentUser && remoteMessage.data.type === 'openCamera') {
+          if (currentUser && remoteMessage.data.type === "openCamera") {
             setRerender((prev) => prev + 1);
           }
           console.log(
-            'A new FCM message arrived!',
+            "A new FCM message arrived!",
             JSON.stringify(remoteMessage),
             remoteMessage.data
           );
@@ -58,15 +58,14 @@ const HomeNavigator = ({ navigationRef }) => {
     (async () => {
       //here we find out if we should go to homescreen or to camerascreen
       const lastNotification = await getLatestNotification(currentUser.id);
+      setLatestNotification(lastNotification || EMPTY);
 
-      if (!lastNotification) {
-        setInitialRouteName(HOME_SCREEN);
-        setLatestNotification(EMPTY);
-        return;
-      }
-      setLatestNotification(lastNotification);
       if (!currentUser.profileImage) {
         setInitialRouteName(INTRO_STACK);
+        return;
+      }
+      if (!lastNotification) {
+        setInitialRouteName(HOME_SCREEN);
         return;
       }
 
@@ -83,7 +82,7 @@ const HomeNavigator = ({ navigationRef }) => {
           navigationRef?.dispatch(
             CommonActions.reset({
               index: 1,
-              routes: [{ name: HOME_SCREEN }]
+              routes: [{ name: HOME_SCREEN }],
             })
           );
           return;
@@ -95,7 +94,7 @@ const HomeNavigator = ({ navigationRef }) => {
         navigationRef?.dispatch(
           CommonActions.reset({
             index: 1,
-            routes: [{ name: CAMERA_SCREEN }]
+            routes: [{ name: CAMERA_SCREEN }],
           })
         );
         return;
@@ -125,7 +124,7 @@ const HomeNavigator = ({ navigationRef }) => {
       authStatus === firebase.messaging.AuthorizationStatus.PROVISIONAL;
 
     if (enabled) {
-      console.log('Authorization status:', authStatus);
+      console.log("Authorization status:", authStatus);
     }
   };
 
@@ -150,8 +149,8 @@ const HomeNavigator = ({ navigationRef }) => {
       initialRouteName={initialRouteName}
       screenOptions={{
         header: () => {},
-        headerMode: 'float',
-        cardStyle: { backgroundColor: theme.backgroundColor }
+        headerMode: "float",
+        cardStyle: { backgroundColor: theme.backgroundColor },
       }}
     >
       {HomeStack.map((screen) => (
