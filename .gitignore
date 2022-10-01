@@ -1,11 +1,11 @@
 # OSX
 #
 .DS_Store
+.env
 /.eslintrc
 /.prettierrc
 /.prettierrc.js
 /.vscode
-.env
 # Xcode
 #
 build/
