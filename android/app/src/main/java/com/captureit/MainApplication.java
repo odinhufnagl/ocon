@@ -19,6 +19,7 @@ import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
 import com.facebook.react.bridge.JSIModulePackage; 
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
