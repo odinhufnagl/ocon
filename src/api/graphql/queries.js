@@ -1,9 +1,10 @@
-import gql from 'graphql-tag';
-import { objectToGraphql } from './helpers';
+import gql from "graphql-tag";
+import { objectToGraphql } from "./helpers";
 
-export const usersQuery = (where, currentUserId = 'h', limit, offset) => {
-  console.log('cur', currentUserId);
+export const usersQuery = (where, currentUserId = "h", limit, offset) => {
+  const userIdInput = objectToGraphql(currentUserId);
   const whereInput = objectToGraphql(where);
+  console.log(whereInput, limit, offset);
   return gql`
     query user {
       users(
@@ -29,7 +30,7 @@ export const usersQuery = (where, currentUserId = 'h', limit, offset) => {
             count
           }
         },
-        isAlreadyFollowing: followers_aggregate(where:{followerId: {_eq: ${currentUserId}}}) {aggregate {count}}
+        isAlreadyFollowing: followers_aggregate(where:{followerId: {_eq: ${userIdInput}}}) {aggregate {count}}
         followersCount: followers_aggregate {
           aggregate {
             count
@@ -140,7 +141,7 @@ export const latestPostsWithoutCurrentUserQuery = (
 ) => {
   const postWhereInput = objectToGraphql(postWhere);
   const currentUserIdInput = objectToGraphql(currentUserId);
-  const orderByInput = orderBy || '{ createdAt: desc }';
+  const orderByInput = orderBy || "{ createdAt: desc }";
 
   return gql`
     query latestPosts {
@@ -204,7 +205,7 @@ export const latestPostsWithoutCurrentUserQuery = (
 
 export const postsQuery = (where, orderBy, currentUserId, limit, offset) => {
   const whereInput = objectToGraphql(where || {});
-  const orderByInput = orderBy || '{ createdAt: desc }';
+  const orderByInput = orderBy || "{ createdAt: desc }";
   const currentUserIdInput = objectToGraphql(currentUserId);
 
   return gql`
