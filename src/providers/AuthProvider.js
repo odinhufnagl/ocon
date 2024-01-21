@@ -1,25 +1,17 @@
-import firebase from '@react-native-firebase/app';
-import '@react-native-firebase/auth';
-import '@react-native-firebase/messaging';
-import React, { useContext, useEffect, useState } from 'react';
-import { EMPTY } from '../api/graphql/constants';
+import firebase from "@react-native-firebase/app";
+import "@react-native-firebase/auth";
+import "@react-native-firebase/messaging";
+import React, { useContext, useEffect, useState } from "react";
+import { EMPTY } from "../api/graphql/constants";
 import {
   createUser,
   getUser,
   getUserByUsername,
-  updateUser
-} from '../api/graphql/requests';
-import { LoadingHeaderContainer } from '../components';
-import * as RNLocalize from 'react-native-localize';
-import { translate } from '../i18n';
-
-export const ONBOARDING_DATA = Object.freeze({
-  SSN: 'ssn',
-  NAME: 'name',
-  PHONE_NUMBER: 'phoneNumber',
-  USER_DETAILS: 'userDetails',
-  EMAIL: 'email'
-});
+  updateUser,
+} from "../api/graphql/requests";
+import { LoadingHeaderContainer } from "../components";
+import * as RNLocalize from "react-native-localize";
+import { translate } from "../i18n";
 
 const AuthContext = React.createContext();
 
@@ -100,7 +92,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const userWithusername = await getUserByUsername(username);
       if (userWithusername !== EMPTY) {
-        return { error: translate('snackbar.usernameInUse') };
+        return { error: translate("snackbar.usernameInUse") };
       }
       const res = await firebase
         .auth()
@@ -111,7 +103,7 @@ export const AuthProvider = ({ children }) => {
       const userFromDB = await createUser({
         username,
         email,
-        id: res.user.uid
+        id: res.user.uid,
       });
       if (!userFromDB) {
         return;
@@ -126,7 +118,7 @@ export const AuthProvider = ({ children }) => {
   const updateCurrentUser = async () => {
     const res = await getUser({
       id: currentUser.id,
-      currentUserId: currentUser.id
+      currentUserId: currentUser.id,
     });
     if (!res) {
       return;
@@ -142,7 +134,7 @@ export const AuthProvider = ({ children }) => {
     signUp,
     logOut,
     updateCurrentUser,
-    forgotPassword
+    forgotPassword,
   };
 
   if (loading || !currentUser || !animationDone) {

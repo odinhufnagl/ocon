@@ -15,7 +15,7 @@ export const getGeoLocation = async (onSuccess) => {
   );
 };
 
-export const getCountryCodeByAddress = (address) => {
+export const  getCountryCodeByAddress = (address) => {
   const countryCode = address.address_components.find(({ types }) =>
     types.includes('country')
   ).short_name;
