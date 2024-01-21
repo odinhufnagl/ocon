@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 const usePagination = (limit = 5, defaultOffset = 0, getDataCallback) => {
   const [offset, setOffset] = useState(defaultOffset);
@@ -9,7 +9,7 @@ const usePagination = (limit = 5, defaultOffset = 0, getDataCallback) => {
       return;
     }
     const newData = await getDataCallback(limit, offset);
-    console.log('fetchedNewData');
+    console.log("fetchedNewData");
     setData((prev) => [...prev, ...newData]);
     setOffset((prev) => prev + limit);
   };

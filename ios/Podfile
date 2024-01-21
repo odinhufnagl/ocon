@@ -5,7 +5,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '11.0'
 
-target 'captureit' do
+target 'ocon' do
   config = use_native_modules!
   #use_frameworks!
 
@@ -32,7 +32,7 @@ target 'captureit' do
 
   pod 'react-native-create-thumbnail', :path => '../node_modules/react-native-create-thumbnail'
 
-  target 'captureitTests' do
+  target 'oconTests' do
     inherit! :complete
     # Pods for testing
   end

@@ -1,7 +1,7 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
-import useTheme from '../../hooks/useTheme';
-import { AuthStack } from '../constants/stacks/AuthStack';
+import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
+import useTheme from "../../hooks/useTheme";
+import { AuthStack } from "../constants/stacks/AuthStack";
 
 const Stack = createStackNavigator();
 
@@ -11,8 +11,8 @@ const AuthNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         header: () => {},
-        headerMode: 'float',
-        cardStyle: { backgroundColor: theme.backgroundColor }
+        headerMode: "float",
+        cardStyle: { backgroundColor: theme.backgroundColor },
       }}
     >
       {AuthStack.map((screen) => (
@@ -20,7 +20,6 @@ const AuthNavigator = () => {
           key={screen.name}
           name={screen.name}
           component={screen.component}
-          options={screen.options}
         />
       ))}
     </Stack.Navigator>
