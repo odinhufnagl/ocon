@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   FlatList,
@@ -8,68 +8,46 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   View,
-  Image
-} from 'react-native';
+  Image,
+} from "react-native";
 import {
   createUserReport,
   getPosts,
   getPostsByUserId,
-  getUser
-} from '../../api/graphql/requests';
+  getUser,
+} from "../../api/graphql/requests";
 
-import { Button, ConditionalWrapper, Header, Spacer, Text } from '../../common';
+import { Button, ConditionalWrapper, Header, Spacer, Text } from "../../common";
 import {
   FollowButton,
   LoadingContainer,
   PostGrid,
-  QuestionModal
-} from '../../components';
-import { useIsFocused } from '@react-navigation/native';
-import { DIMENS, SPACING } from '../../constants';
-import useTheme from '../../hooks/useTheme';
-import { translate } from '../../i18n';
+  QuestionModal,
+} from "../../components";
+import { useIsFocused } from "@react-navigation/native";
+import { DIMENS, SPACING } from "../../constants";
+import useTheme from "../../hooks/useTheme";
+import { translate } from "../../i18n";
 import {
   LIKED_POSTS_SCREEN,
   POSTS_SCREEN,
   PROFILE_IMAGE_SCREEN,
   SETTINGS_STACK,
-  USERS_LIST_SCREEN
-} from '../../navigation';
-import { useAuthContext } from '../../providers/AuthProvider';
-import { SvgUri } from 'react-native-svg';
-import { showSnackbar } from '../../utils';
+  USERS_LIST_SCREEN,
+} from "../../navigation";
+import { useAuthContext } from "../../providers/AuthProvider";
+import { SvgUri } from "react-native-svg";
+import { showSnackbar } from "../../utils";
 
 const DEFAULT_BACKGROUND_IMAGE =
-  'https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80';
-
-const getPostGridData = (posts) => {
-  let data = [];
-  let currentMonthId;
-  let currentYear;
-  let currentPosts = [];
-  posts.forEach((post) => {
-    const d = new Date(post.createdAt);
-    const monthId = d.getMonth();
-    const year = d.getFullYear();
-    if (currentMonthId !== monthId || currentYear !== year) {
-      currentMonthId = monthId;
-      currentYear = year;
-      currentPosts.length > 0 && data.push(currentPosts);
-      data.push(`${translate('months.' + monthId)} ${year}`);
-      currentPosts = [];
-    }
-    currentPosts.push(post);
-  });
-  data.push(currentPosts);
-  return data;
-};
+  "https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80";
 
 const ProfileScreen = ({ navigation, route }) => {
   const isFocused = useIsFocused();
   const { userId } = route.params;
   const [user, setUser] = useState();
   const { currentUser } = useAuthContext();
-  const translateKey = 'profileScreen.';
+  const translateKey = "profileScreen.";
   const isCurrentUser = userId === currentUser?.id;
   const deviceHeight = useWindowDimensions().height;
   const imageHeight = deviceHeight * 0.3;
@@ -112,7 +90,7 @@ const ProfileScreen = ({ navigation, route }) => {
   const getUsersPosts = async () =>
     await getPostsByUserId({
       userId,
-      currentUserId: currentUser.id
+      currentUserId: currentUser.id,
     });
 
   const fetchPosts = async () => {
@@ -126,19 +104,19 @@ const ProfileScreen = ({ navigation, route }) => {
     navigation.navigate(POSTS_SCREEN, {
       data: updatedPosts,
       initialScrollIndex: posts.indexOf(item),
-      allowRefresh: false
+      allowRefresh: false,
     });
   };
   const handleReportUser = async () => {
     const res = await createUserReport({
       reportedByUserId: currentUser.id,
-      reportedUserId: user.id
+      reportedUserId: user.id,
     });
     if (!res) {
-      showSnackbar(translate('snackbar.error'), 'error');
+      showSnackbar(translate("snackbar.error"), "error");
       return;
     }
-    showSnackbar(translate('modals.report.success'));
+    showSnackbar(translate("modals.report.success"));
   };
 
   const handleChangeProfileImage = () => {
@@ -151,58 +129,58 @@ const ProfileScreen = ({ navigation, route }) => {
 
   const getHeader = () => {
     if (isCurrentUser) {
-      return 'You';
+      return "You";
     }
     return user.username;
   };
 
   return (
-    <View style={{ flex: 1, height: '100%' }}>
+    <View style={{ flex: 1, height: "100%" }}>
       <QuestionModal
         visible={reportModalVisible}
         setVisible={setReportModalVisible}
-        title={translate('modals.report.title')}
+        title={translate("modals.report.title")}
         buttonClose={{
-          title: translate('modals.report.buttonClose')
+          title: translate("modals.report.buttonClose"),
         }}
         buttonAction={{
-          title: translate('modals.report.buttonAction'),
-          onPress: handleReportUser
+          title: translate("modals.report.buttonAction"),
+          onPress: handleReportUser,
         }}
       />
       <Header
         showGradient
-        style={{ position: 'absolute' }}
+        style={{ position: "absolute" }}
         header={getHeader()}
         leftItems={[
           {
-            icon: 'back',
-            iconSize: 'medium',
-            variant: 'secondary',
-            onPress: () => navigation.goBack()
-          }
+            icon: "back",
+            iconSize: "medium",
+            variant: "secondary",
+            onPress: () => navigation.goBack(),
+          },
         ]}
         rightItems={
           isCurrentUser
             ? [
                 {
-                  icon: 'heart',
-                  variant: 'secondary',
-                  onPress: () => navigation.navigate(LIKED_POSTS_SCREEN)
+                  icon: "heart",
+                  variant: "secondary",
+                  onPress: () => navigation.navigate(LIKED_POSTS_SCREEN),
                 },
                 {
-                  icon: 'settings',
-                  variant: 'secondary',
-                  onPress: () => navigation.navigate(SETTINGS_STACK)
-                }
+                  icon: "settings",
+                  variant: "secondary",
+                  onPress: () => navigation.navigate(SETTINGS_STACK),
+                },
               ]
             : [
                 {
-                  icon: 'warning',
-                  variant: 'secondary',
+                  icon: "warning",
+                  variant: "secondary",
                   onPress: () => setReportModalVisible(true),
-                  color: theme.errorColor
-                }
+                  color: theme.errorColor,
+                },
               ]
         }
       />
@@ -211,17 +189,17 @@ const ProfileScreen = ({ navigation, route }) => {
         style={styles.imageBackground(imageHeight)}
         source={{
           uri:
-            posts[0]?.image || posts[0]?.thumbnail || DEFAULT_BACKGROUND_IMAGE
+            posts[0]?.image || posts[0]?.thumbnail || DEFAULT_BACKGROUND_IMAGE,
         }}
         resizeMethod="resize"
       />
       <ScrollView
         style={{
-          height: '100%',
-          flex: 1
+          height: "100%",
+          flex: 1,
         }}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={posts.length === 0 && { height: '100%' }}
+        contentContainerStyle={posts.length === 0 && { height: "100%" }}
       >
         <View style={{ height: imageHeight - 20 }}></View>
         <View style={styles.scrollContainer(theme)}>
@@ -253,13 +231,13 @@ const ProfileScreen = ({ navigation, route }) => {
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate(USERS_LIST_SCREEN, {
-                      header: translate('headers.followers'),
-                      where: { following: { followedId: { _eq: user.id } } }
+                      header: translate("headers.followers"),
+                      where: { following: { followedId: { _eq: user.id } } },
                     })
                   }
                 >
                   <Text type="small">
-                    {followersCount} {translate(translateKey + 'followers')}
+                    {followersCount} {translate(translateKey + "followers")}
                   </Text>
                 </TouchableOpacity>
                 <Spacer spacing="tiny" orientation="horizontal" />
@@ -271,13 +249,13 @@ const ProfileScreen = ({ navigation, route }) => {
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate(USERS_LIST_SCREEN, {
-                      header: translate('headers.following'),
-                      where: { followers: { followerId: { _eq: user.id } } }
+                      header: translate("headers.following"),
+                      where: { followers: { followerId: { _eq: user.id } } },
                     })
                   }
                 >
                   <Text type="small">
-                    {translate(translateKey + 'following')}{' '}
+                    {translate(translateKey + "following")}{" "}
                     {user.followingCount}
                   </Text>
                 </TouchableOpacity>
@@ -313,65 +291,65 @@ const styles = StyleSheet.create({
     height: 100,
     elevation: 10,
     borderWidth: 2,
-    borderColor: 'white',
-    borderStyle: 'solid'
+    borderColor: "white",
+    borderStyle: "solid",
   }),
   profileImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 200
+    width: "100%",
+    height: "100%",
+    borderRadius: 200,
   },
   imageBackground: (height) => ({
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     right: 0,
     bottom: 0,
     top: 0,
     opacity: 0.5,
-    height
+    height,
   }),
   scrollContainer: (theme) => ({
     backgroundColor: theme.backgroundColor,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     elevation: 10,
-    alignItems: 'center',
-    height: '100%',
-    width: '100%',
-    flex: 1
+    alignItems: "center",
+    height: "100%",
+    width: "100%",
+    flex: 1,
   }),
   scrollUpperContainer: {
-    alignItems: 'center'
+    alignItems: "center",
   },
   contentContainer: {
-    position: 'relative',
+    position: "relative",
     top: -50,
-    height: '100%',
-    width: '100%'
+    height: "100%",
+    width: "100%",
   },
   bulletin: (theme) => ({
     backgroundColor: theme.textMediumColor,
     width: 4,
     height: 4,
-    borderRadius: 20
+    borderRadius: 20,
   }),
   noImagesContainer: {
     ...DIMENS.common.centering,
     flex: 1,
-    width: '100%'
+    width: "100%",
   },
   noImagesIconContainer: {
     borderRadius: 200,
     padding: SPACING.medium,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 2,
-    borderColor: 'white'
+    borderColor: "white",
   },
   captionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'center'
-  }
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center",
+  },
 });
 
 export default ProfileScreen;

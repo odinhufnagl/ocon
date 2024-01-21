@@ -1,11 +1,11 @@
-import moment from 'moment';
-import { COUNTRIES } from '../../constants';
+import moment from "moment";
+import { COUNTRIES } from "../../constants";
 import {
   getCurrentDate,
   getTommorowsDate,
-  getYesterdaysDate
-} from '../../utils';
-import { client } from './client';
+  getYesterdaysDate,
+} from "../../utils";
+import { client } from "./client";
 import {
   createFollowingMutation,
   createPostMutation,
@@ -13,8 +13,8 @@ import {
   createUserMutation,
   createUserReportMutation,
   deleteFollowingsMutation,
-  updateUserMutation
-} from './mutations';
+  updateUserMutation,
+} from "./mutations";
 import {
   avatarsQuery,
   countriesQuery,
@@ -22,8 +22,8 @@ import {
   notificationsQuery,
   postsQuery,
   searchUsersQuery,
-  usersQuery
-} from './queries';
+  usersQuery,
+} from "./queries";
 import {
   createPostResult,
   createReactionResult,
@@ -36,8 +36,8 @@ import {
   getsearchUsersResult,
   getUserResult,
   getUsersResult,
-  updateUserResult
-} from './responeParsers';
+  updateUserResult,
+} from "./responeParsers";
 
 export const getUser = async ({ id, where, currentUserId }) => {
   try {
@@ -47,9 +47,9 @@ export const getUser = async ({ id, where, currentUserId }) => {
         currentUserId,
         999999,
         0
-      )
+      ),
     });
-    console.log('res', res);
+    console.log("res", res);
 
     return getUserResult(res);
   } catch (e) {
@@ -70,11 +70,11 @@ export const getUsers = async ({
   where = {},
   limit,
   offset,
-  currentUserId
+  currentUserId,
 }) => {
   try {
     const res = await client.query({
-      query: usersQuery(where, currentUserId, limit || 999999, offset || 0)
+      query: usersQuery(where, currentUserId, limit || 999999, offset || 0),
     });
     return getUsersResult(res);
   } catch (e) {
@@ -89,7 +89,7 @@ export const getUsersBySearch = async ({ searchPhrase, limit, offset }) => {
         { search: searchPhrase },
         limit || 99999,
         offset || 0
-      )
+      ),
     });
 
     console.log(res);
@@ -120,7 +120,7 @@ export const createPost = async (obj) => {
 export const getNotifications = async (where) => {
   try {
     const res = await client.query({
-      query: notificationsQuery(where)
+      query: notificationsQuery(where),
     });
     return getNotificationsResult(res);
   } catch (e) {
@@ -138,7 +138,7 @@ export const getTodaysNotificationIds = async () => {
   const currentDate = getCurrentDate();
   const tomorrowsDate = getTommorowsDate();
   const res = await getNotifications({
-    createdAt: { _gte: currentDate, _lt: tomorrowsDate }
+    createdAt: { _gte: currentDate, _lt: tomorrowsDate },
   });
   if (!res) {
     return;
@@ -150,7 +150,7 @@ export const getYesterdaysNotificationIds = async () => {
   const yesterdaysDate = getYesterdaysDate();
   const currentDate = getCurrentDate();
   const res = await getNotifications({
-    createdAt: { _gte: yesterdaysDate, _lt: currentDate }
+    createdAt: { _gte: yesterdaysDate, _lt: currentDate },
   });
   if (!res) {
     return;
@@ -166,9 +166,9 @@ export const getLatestNotification = async (currentUserId) => {
     //in the future is to find the latest one where current timezone is in the notifications timeZones
     const res = await client.query({
       query: latestNotificationQuery({
-        createdAt: { _gte: currentDate, _lt: tomorrowsDate }
+        createdAt: { _gte: currentDate, _lt: tomorrowsDate },
       }),
-      variables: { currentUserId }
+      variables: { currentUserId },
     });
     return getNotificationsResult(res)[0];
   } catch {
@@ -181,7 +181,7 @@ export const getPopularPosts = async ({
   country = COUNTRIES.WORLD,
   limit,
   offset,
-  following
+  following,
 }) => {
   try {
     const todaysNotificationIds = await getTodaysNotificationIds();
@@ -196,11 +196,11 @@ export const getPopularPosts = async ({
         notificationId: { _in: todaysNotificationIds },
         createdBy: following
           ? {
-              followers: { followerId: { _eq: currentUserId } }
+              followers: { followerId: { _eq: currentUserId } },
             }
-          : {}
+          : {},
       },
-      '{ reactions_aggregate: { count: desc } }',
+      "{ reactions_aggregate: { count: desc } }",
       currentUserId,
       limit || 999999,
       offset || 0
@@ -219,7 +219,7 @@ export const getScoreboardPosts = async ({
   currentUserId,
   limit,
   offset,
-  following
+  following,
 }) => {
   const yesterdaysNotificationIds = await getYesterdaysNotificationIds();
 
@@ -230,11 +230,11 @@ export const getScoreboardPosts = async ({
       notificationId: { _in: yesterdaysNotificationIds },
       createdBy: following
         ? {
-            followers: { followerId: { _eq: currentUserId } }
+            followers: { followerId: { _eq: currentUserId } },
           }
-        : {}
+        : {},
     },
-    '{ reactions_aggregate: { count: desc } }',
+    "{ reactions_aggregate: { count: desc } }",
     currentUserId,
     limit,
     offset
@@ -258,7 +258,7 @@ export const getPosts = async (
         currentUserId,
         limit || 9999999,
         offset || 0
-      )
+      ),
     });
     return getPostsResult(res, todaysNotificationIds);
   } catch (e) {
@@ -270,9 +270,9 @@ export const getPostsByUserId = async ({
   userId,
   limit,
   offset,
-  currentUserId
+  currentUserId,
 }) => {
-  console.log('limit', limit);
+  console.log("limit", limit, userId);
   try {
     const res = await getPosts(
       { userId: { _eq: userId } },
@@ -325,7 +325,7 @@ export const updateUser = async (id, set) => {
 export const getCountries = async () => {
   try {
     const res = await client.query({
-      query: countriesQuery()
+      query: countriesQuery(),
     });
     return getCountriesResult(res);
   } catch (e) {
@@ -336,9 +336,9 @@ export const getCountries = async () => {
 export const getAvatars = async () => {
   try {
     const res = await client.query({
-      query: avatarsQuery
+      query: avatarsQuery,
     });
-    console.log('avatars', res);
+    console.log("avatars", res);
     return getAvatarsResult(res);
   } catch (e) {
     console.log(e);
@@ -348,7 +348,7 @@ export const getAvatars = async () => {
 export const createUserReport = async (obj) => {
   try {
     await client.mutate({
-      mutation: createUserReportMutation(obj)
+      mutation: createUserReportMutation(obj),
     });
     return true;
   } catch (e) {
@@ -359,7 +359,7 @@ export const createUserReport = async (obj) => {
 export const createFollowing = async (obj) => {
   try {
     await client.mutate({
-      mutation: createFollowingMutation(obj)
+      mutation: createFollowingMutation(obj),
     });
     return true;
   } catch (e) {
@@ -372,8 +372,8 @@ export const deleteFollowings = async (followedId, followerId) => {
     await client.mutate({
       mutation: deleteFollowingsMutation({
         followedId: { _eq: followedId },
-        followerId: { _eq: followerId }
-      })
+        followerId: { _eq: followerId },
+      }),
     });
     return true;
   } catch (e) {
